@@ -1,0 +1,8 @@
+src
+node_modules
+demo
+.angular-cli.json
+.editorconfig
+karma.conf.js
+protractor.conf.js
+tslint.json

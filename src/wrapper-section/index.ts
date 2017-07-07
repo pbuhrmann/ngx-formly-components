@@ -1,0 +1,1 @@
+export { FormlyWrapperSectionModule } from "./wrapper-section.module";
