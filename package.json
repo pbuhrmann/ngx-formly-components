@@ -1,8 +1,8 @@
 {
   "name": "ngx-formly-components",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
-  "main": "lib/dist/bundles/ngx-formly-components.js",
+  "main": "lib/dist/index.js",
   "scripts": {
     "transpile": "ngc -p src/tsconfig-aot.json",
     "package": "rollup -c",

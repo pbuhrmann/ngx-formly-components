@@ -6,3 +6,6 @@ demo
 karma.conf.js
 protractor.conf.js
 tslint.json
+rollup.config.js
+tslint.js
+.npmignore
