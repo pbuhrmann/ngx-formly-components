@@ -2,8 +2,12 @@
   "name": "ngx-formly-components",
   "version": "0.0.5",
   "license": "MIT",
-  "main": "lib/dist/index.js",
-  "typings": "lib/dist/index.d.ts",
+  "main": "lib/dist/bundles/ngx-formly-components.js",
+  "scripts": {
+    "transpile": "ngc -p src/tsconfig-aot.json",
+    "package": "rollup -c",
+    "build": "npm run transpile && npm run package"
+  },
   "dependencies": {
     "@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
@@ -20,7 +24,7 @@
     "font-awesome": "^4.7.0",
     "moment": "^2.18.1",
     "ng-formly": "^1.0.0-rc.10",
-    "ng-select": "^1.0.0-beta.6",
+    "ng2-select": "^1.2.0",
     "ngx-bootstrap": "^1.7.1",
     "primeng": "^4.1.0-rc.3",
     "rxjs": "^5.1.0",
@@ -32,7 +36,7 @@
     "@angular/language-service": "^4.0.0",
     "@angular/platform-server": "^4.2.6",
     "@types/jasmine": "2.5.45",
-    "@types/node": "~6.0.60",
+    "@types/node": "^6.0.80",
     "angular2-template-loader": "^0.6.2",
     "awesome-typescript-loader": "^3.2.1",
     "codelyzer": "~3.0.1",

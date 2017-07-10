@@ -1,0 +1,1 @@
+export { FormlySelectAsyncModule } from './select-async.module';

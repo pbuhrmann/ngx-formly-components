@@ -9,8 +9,22 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  model: any;
+  JSON: any;
+  model: any = {
+    fecha1: null
+  };
   form: FormGroup = new FormGroup({});
+
+  constructor() {
+    this.JSON = (<any>window).JSON;
+    this.model = {
+      fecha1: new Date(),
+      fecha2: new Date().setFullYear(2018),
+      select1: 3,
+      fecha3: null
+    }
+  }
+
   formlyFields: FormlyFieldConfig[] = [
     {
       className: 'row',
@@ -33,10 +47,14 @@ export class AppComponent {
           templateOptions: {
             label: 'Fecha'
           }
-        },
+        }
+      ],
+    },
+    {
+      fieldGroup: [
         {
           key: 'select1',
-          type: 'select',
+          type: 'select-async',
           className: 'col-sm-3',
           templateOptions: {
             label: 'Lista',
@@ -45,27 +63,15 @@ export class AppComponent {
                 { id: 1, name: 'one' },
                 { id: 2, name: 'two' },
                 { id: 3, name: 'three' },
+                { id: 4, name: 'four' },
               ])
             })
           }
-        }
-      ],
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'fecha5',
-          type: 'datetime-mask',
-          className: 'col-sm-6',
-          templateOptions: {
-            type: 'text',
-            label: 'Fecha'
-          }
         },
         {
-          key: 'fecha6',
+          key: 'fecha3',
           type: 'datetime-mask',
-          className: 'col-sm-6',
+          className: 'col-sm-3',
           templateOptions: {
             type: 'text',
             label: 'Fecha'

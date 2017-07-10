@@ -1,7 +1,8 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { Field } from 'ng-formly';
 import createAutoCorrectedDateTimePipe from './createAutoCorrectedDateTimePipe';
-import * as moment from 'moment';
+declare var require: any;
+var moment = require('moment');
 import { Validators, FormControl } from '@angular/forms';
 
 @Component({

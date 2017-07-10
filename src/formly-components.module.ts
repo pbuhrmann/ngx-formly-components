@@ -5,8 +5,8 @@ import { FormlyModule, FormlyBootstrapModule } from 'ng-formly';
 
 import { FormlyDatetimeMaskModule } from './datetime-mask/datetime-mask.module';
 import { FormlyDateTimeMaskComponent } from './datetime-mask/datetime-mask.component';
-import { FormlySelectModule } from './select/select.module';
-import { FormlySelectComponent } from './select/select.component';
+import { FormlySelectAsyncModule } from './select-async/select-async.module';
+import { FormlySelectAsyncComponent } from './select-async/select-async.component';
 
 
 /* EXPORTS */
@@ -14,7 +14,7 @@ const MODULES = [
 	FormlyBootstrapModule,
 	FormlyModule,
 	FormlyDatetimeMaskModule,
-	FormlySelectModule
+	FormlySelectAsyncModule
 ];
 @NgModule({
 	imports: [
@@ -23,11 +23,11 @@ const MODULES = [
 		ReactiveFormsModule,
 		FormlyBootstrapModule,
 		FormlyDatetimeMaskModule.forRoot(),
-		FormlySelectModule.forRoot(),
+		FormlySelectAsyncModule.forRoot(),
 		FormlyModule.forRoot({
 			types: [
 				{ name: 'datetime-mask', component: FormlyDateTimeMaskComponent },
-				{ name: 'select', component: FormlySelectComponent },
+				{ name: 'select-async', component: FormlySelectAsyncComponent },
 			],
 			/*wrappers: [
 			  { name: 'section', component: FormlySectionWrapper },
