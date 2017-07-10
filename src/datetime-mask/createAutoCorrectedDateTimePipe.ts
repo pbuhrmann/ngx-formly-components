@@ -1,13 +1,13 @@
-export default function createAutoCorrectedDateTimePipe(dateFormat = 'dd-mm-yyyy HH:MM:SS') {
-  return (conformedValue) => {
-    const indexesOfPipedChars = [];
-    const dateFormatArray = dateFormat.split(/[^dmyHMS]+/);
-    const maxValue = {'dd': 31, 'mm': 12, 'yy': 99, 'yyyy': 9999, 'HH': 23, 'MM': 59, 'SS': 59};
-    const minValue = {'dd': 1, 'mm': 1, 'yy': 0, 'yyyy': 1, 'HH': 0, 'MM': 0, 'SS': 0};
-    const conformedValueArr = conformedValue.split('');
+export default function createAutoCorrectedDateTimePipe(dateFormat = 'DD-MM-yyyy HH:mm:ss') {
+  return (conformedValue: any) => {
+    const indexesOfPipedChars: any[] = [];
+    const dateFormatArray: any = dateFormat.split(/[^DMYHms]+/);
+    const maxValue: any = { 'DD': 31, 'MM': 12, 'YY': 99, 'YYYY': 9999, 'HH': 23, 'mm': 59, 'ss': 59 };
+    const minValue: any = { 'DD': 1, 'MM': 1, 'YY': 0, 'YYYY': 1, 'HH': 0, 'mm': 0, 'ss': 0 };
+    const conformedValueArr: any = conformedValue.split('');
 
     // Check first digit
-    dateFormatArray.forEach((format) => {
+    dateFormatArray.forEach((format: any) => {
       const position = dateFormat.indexOf(format);
       const maxFirstDigit = parseInt(maxValue[format].toString().substr(0, 1), 10);
 
@@ -19,11 +19,11 @@ export default function createAutoCorrectedDateTimePipe(dateFormat = 'dd-mm-yyyy
     });
 
     // Check for invalid date
-    const isInvalid = dateFormatArray.some((format) => {
-      const position = dateFormat.indexOf(format);
-      const length = format.length;
-      const textValue = conformedValue.substr(position, length).replace(/\D/g, '');
-      const value = parseInt(textValue, 10);
+    const isInvalid = dateFormatArray.some((format: any) => {
+      const position: any = dateFormat.indexOf(format);
+      const length: any = format.length;
+      const textValue: any = conformedValue.substr(position, length).replace(/\D/g, '');
+      const value: any = parseInt(textValue, 10);
 
       return value > maxValue[format] || (textValue.length === length && value < minValue[format]);
     });

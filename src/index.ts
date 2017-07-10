@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule, FormlyBootstrapModule } from 'ng-formly';
 
 import { FormlyDateTimeMaskComponent } from './datetime-mask/datetime-mask.component';
-
-export { FormlyDateTimeMaskComponent } from './datetime-mask/datetime-mask.component';
+import { FormlyDatetimeMaskModule } from './datetime-mask/datetime-mask.module';
 
 @NgModule({
   imports: [
@@ -13,6 +12,7 @@ export { FormlyDateTimeMaskComponent } from './datetime-mask/datetime-mask.compo
     FormsModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
+    FormlyDatetimeMaskModule.forRoot(),
     FormlyModule.forRoot({
       types: [
         { name: 'datetime-mask', component: FormlyDateTimeMaskComponent }
@@ -24,10 +24,12 @@ export { FormlyDateTimeMaskComponent } from './datetime-mask/datetime-mask.compo
     }),
   ],
   declarations: [
-    FormlyDateTimeMaskComponent
+    //FormlyDateTimeMaskComponent
   ],
   exports: [
-    FormlyDateTimeMaskComponent
+    FormlyBootstrapModule,
+    FormlyModule,
+    FormlyDatetimeMaskModule
   ]
 })
 export class FormlyComponentsModule {

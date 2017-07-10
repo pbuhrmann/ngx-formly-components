@@ -1,0 +1,8 @@
+<form class="formly" role="form" novalidate [formGroup]="form">
+    <formly-form [model]="modelo" [fields]="formlyFields" [options]="options" [form]="form">
+    </formly-form>
+    <div class="col-sm-12">
+        <button type="button" (click)="submit(modelo)" class="btn btn-primary" [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+        <button type="button" (click)="cancelar()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
+    </div>
+</form>

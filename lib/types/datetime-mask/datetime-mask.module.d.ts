@@ -1,4 +1,4 @@
 import { ModuleWithProviders } from '@angular/core';
-export declare class DatetimeMaskModule {
+export declare class FormlyDatetimeMaskModule {
     static forRoot(): ModuleWithProviders;
 }

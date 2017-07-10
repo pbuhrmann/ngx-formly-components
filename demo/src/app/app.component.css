@@ -1,0 +1,9 @@
+/*:host>>>formly-form {
+    display: flex;
+    flex-flow: column;
+}
+
+:host>>>formly-group>formly-form {
+    display: flex;
+    flex-flow: row;
+}*/

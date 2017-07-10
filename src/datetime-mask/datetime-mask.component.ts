@@ -37,9 +37,9 @@ import { Validators, FormControl } from '@angular/forms';
     `],
     template: `
     <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':''}" [title]="errors">{{ to.label }}</label>
-        <div class="relative">
-            <input class="form-control" placeholder="DD-MM-YYYY hh:mm" type="text" [(ngModel)]="fecha" [textMask]="{mask: mascara, keepCharPositions: true, pipe: autoCorrectedDatePipe }"
+        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':''}">{{ to.label }}</label>
+        <div style="position: relative">
+        <input class="form-control" placeholder="{{this.format}}" type="text" [(ngModel)]="model" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"
             (ngModelChange)="onChange($event)" />
             <i class="fa fa-calendar-check-o today" title="Fecha de Hoy" (click)="today()"></i>
         </div>
@@ -47,33 +47,37 @@ import { Validators, FormControl } from '@angular/forms';
     `
 })
 export class FormlyDateTimeMaskComponent extends Field implements OnInit {
-    public fecha: string = null;
-    public autoCorrectedDatePipe = createAutoCorrectedDateTimePipe('dd-mm-yyyy HH:MM');
-    public mascara = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/];
-    public errors: string;
+    model: any;
+    format: string = 'DD-MM-YYYY HH:mm';
+    autoCorrectedDatePipe: any;
+    mask = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/];
+    errors: string;
 
-    public ngOnInit() {
+    ngOnInit() {
+        this.format = this.to.format ? this.to.format : this.format;
+        this.autoCorrectedDatePipe = createAutoCorrectedDateTimePipe(this.format);
+        this.mask = this.to.mask ? this.to.mask : this.mask;
         if (this.formControl.value) {
-            this.fecha = moment(this.formControl.value).format('DD-MM-YYYY HH:mm');
+            this.model = moment(this.formControl.value).format(this.format);
         }
         else {
-            this.fecha = null;
+            this.model = null;
         }
         let validators = [];
-        validators.push((e) => { return this.isValid() ? null : { 'date': 'Fecha inválida' } });
+        validators.push((e: any) => { return this.isValid() ? null : { 'date': 'Invalid date' } });
         if (this.to.required) {
-            validators.push((e) => { return !!e.value ? null : { 'required': 'Campo requerido' } });
+            validators.push((e: any) => { return !!e.value ? null : { 'required': 'Required field' } });
         }
         this.formControl.setValidators(Validators.compose(validators));
     }
 
     isValid() {
-        if (this.fecha) {
-            if (this.fecha.indexOf('_') >= 0) {
+        if (this.model) {
+            if (this.model.indexOf('_') >= 0) {
                 return false;
             }
             else {
-                if (moment(this.fecha, 'DD-MM-YYYY HH:mm').isValid()) {
+                if (moment(this.model, this.format).isValid()) {
                     return true;
                 }
             }
@@ -83,21 +87,23 @@ export class FormlyDateTimeMaskComponent extends Field implements OnInit {
     }
 
     today() {
-        this.fecha = moment().format('DD-MM-YYYY HH:mm');
-        this.formControl.setValue(moment(this.fecha, 'DD-MM-YYYY HH:mm').toDate());
+        this.model = moment().format(this.format);
+        this.formControl.setValue(moment(this.model, this.format).toDate());
     }
 
-    onChange(e) {
+    onChange(e: any) {
         if (e) {
-            this.formControl.setValue(moment(e, 'DD-MM-YYYY HH:mm').toDate());
+            this.formControl.setValue(moment(e, this.format).toDate());
         }
         else {
             this.formControl.setValue(null);
         }
         this.errors = "";
-        for (var key in this.formControl.errors) {
-            if (this.formControl.errors.hasOwnProperty(key)) {
-                this.errors += this.formControl.errors[key] + '. ';
+        if (this.formControl.errors) {
+            for (var key in this.formControl.errors) {
+                if (this.formControl.errors.hasOwnProperty(key)) {
+                    this.errors += this.formControl.errors[key] + '. ';
+                }
             }
         }
     }

@@ -1,0 +1,7 @@
+<div [formGroup]="form">
+    <label for="key" style="display: inline-block;">{{ to.label }}</label>
+    <div class="header-search">
+        <ng-select #mySelect [allowClear]="true" [disabled]="disabled" [options]="items" (selected)="selected($event)" [placeholder]="placeholder" [ngClass]="{'form-control-danger': valid}">
+        </ng-select>
+    </div>
+</div>

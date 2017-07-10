@@ -1,21 +1,27 @@
 {
-  "compilerOptions": {
-    "outDir": "../lib/dist",
-    "declarationDir": "../lib/types",
-    "declaration": true,
-    "moduleResolution": "node",
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": false,
-    "noImplicitAny": false,
-    "target": "es5",
-    "lib": [
-      "dom",
-      "es6"
-    ]
-  },
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "outDir": "../lib/dist",
+        "declarationDir": "../lib/types",
+        "declaration": true,
+        "moduleResolution": "node",
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": false,
+        "noImplicitAny": false,
+        "target": "es5",
+        "lib": [
+            "dom",
+            "es6"
+        ],
+        "module": "es2015"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "angularCompilerOptions": {
+        "genDir": "../temp/factories",
+        "strictMetadataEmit": true,
+        "skipTemplateCodegen": true
+    }
 }
