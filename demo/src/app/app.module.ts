@@ -18,7 +18,7 @@ import { FormlyComponentsModule } from 'ngx-formly-components';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    FormlyComponentsModule
+    FormlyComponentsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

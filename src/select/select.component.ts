@@ -7,10 +7,34 @@ import { SelectComponent } from 'ng-select';
 
 @Component({
   selector: 'formly-select',
-  templateUrl: 'select.component.html',
-  styleUrls: ['select.component.css', 'ng2-select.css']
+  styles: [`
+  .input-group {
+        margin-bottom: 15px;
+  }
+
+  :host /deep/ .ui-select-choices {
+      display: block !important;
+  }
+
+  :host /deep/ .ui-select-toggle .dropdown-toggle {
+      float: right;
+  }
+
+  :host /deep/ .ui-select-toggle.caret-hidden .dropdown-toggle {
+      display: none;
+  }
+  `],
+  template: `
+  <div [formGroup]="form">
+    <label for="key" style="display: inline-block;">{{ to.label }}</label>
+    <div class="header-search">
+        <ng-select #mySelect [allowClear]="true" [disabled]="disabled" [options]="items" (selected)="selected($event)" [placeholder]="placeholder" [ngClass]="{'form-control-danger': valid}">
+        </ng-select>
+    </div>
+  </div>
+  `
 })
-export class FormlySelectAsyncComponent extends Field implements OnInit, OnDestroy, AfterViewInit {
+export class FormlySelectComponent extends Field implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('mySelect') mySelect: SelectComponent;
 
   items: any[] = [];
@@ -19,8 +43,8 @@ export class FormlySelectAsyncComponent extends Field implements OnInit, OnDestr
   disabled: boolean = false;
 
   ngOnInit() {
-    this.sub_items = (<any>this.to).options.filter(x => x != null).subscribe(x => {
-      this.items = x.map(x => {
+    this.sub_items = (<any>this.to).options.filter((x: any) => x != null).subscribe((x: any) => {
+      this.items = x.map((x: any) => {
         return {
           label: x.name,
           value: x.id

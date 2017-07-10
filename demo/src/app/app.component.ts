@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Validators, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from 'ng-formly';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -30,17 +31,22 @@ export class AppComponent {
           type: 'datetime-mask',
           className: 'col-sm-6',
           templateOptions: {
-            type: 'text',
             label: 'Fecha'
           }
         },
         {
-          key: 'fecha3',
-          type: 'datetime-mask',
+          key: 'select1',
+          type: 'select',
           className: 'col-sm-3',
           templateOptions: {
-            type: 'text',
-            label: 'Fecha'
+            label: 'Lista',
+            options: <any>new Observable<any>(o => {
+              o.next([
+                { id: 1, name: 'one' },
+                { id: 2, name: 'two' },
+                { id: 3, name: 'three' },
+              ])
+            })
           }
         }
       ],

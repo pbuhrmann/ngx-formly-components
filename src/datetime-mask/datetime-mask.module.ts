@@ -10,9 +10,11 @@ import { TextMaskModule } from 'angular2-text-mask';
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		TextMaskModule],
+		TextMaskModule
+	],
 	declarations: [FormlyDateTimeMaskComponent],
-	exports: [FormlyDateTimeMaskComponent]
+	exports: [FormlyDateTimeMaskComponent],
+	entryComponents: [FormlyDateTimeMaskComponent]
 })
 export class FormlyDatetimeMaskModule {
 	public static forRoot(): ModuleWithProviders {

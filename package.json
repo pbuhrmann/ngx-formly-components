@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "license": "MIT",
   "main": "lib/dist/index.js",
-  "types": "lib/types/index.d.ts",
+  "typings": "lib/dist/index.d.ts",
   "dependencies": {
     "@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
