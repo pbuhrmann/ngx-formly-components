@@ -4,10 +4,11 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormlyComponentsModule } from '../../../src/index';
+
 //import { FormlyBootstrapModule, FormlyModule } from 'ng-formly';
 //import { FormlyDateTimeMaskComponent } from '../../../src/datetime-mask/datetime-mask.component';
-//import { FormlyComponentsModule } from 'ngx-formly-components';
+//import { FormlyComponentsModule } from '../../../src/index';
+import { FormlyComponentsModule } from 'ngx-formly-components';
 
 @NgModule({
   declarations: [

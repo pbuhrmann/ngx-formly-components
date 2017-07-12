@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { SelectModule } from 'ng2-select';
+import { SelectModule } from 'ng2-select/select/select.module';
 import { FormlySelectAsyncComponent } from './select-async.component';
 
 @NgModule({
