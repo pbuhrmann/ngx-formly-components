@@ -19,7 +19,7 @@ export class AppComponent {
     this.JSON = (<any>window).JSON;
     this.model = {
       fecha1: new Date(),
-      fecha2: new Date().setFullYear(2018),
+      fecha2: new Date(new Date().setFullYear(2018)),
       select1: 3,
       fecha3: null
     }
