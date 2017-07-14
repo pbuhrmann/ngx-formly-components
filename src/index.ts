@@ -1,1 +1,1 @@
-export { FormlyComponentsModule } from './formly-components.module'
+export * from './formly-components.module';

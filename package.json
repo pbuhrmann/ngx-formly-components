@@ -5,11 +5,11 @@
     "main": "./lib/dist/index.js",
     "types": "./lib/dist/types",
     "scripts": {
-        "build": "npm run tsc && npm run ngc && npm run package",
+        "build": "npm run tsc && npm run ngc",
         "package": "rollup -c",
-        "cleanLib": "rimraf lib ",
+        "cleanLib": "rimraf lib",
         "cleanSrc": "rimraf -r src/**/*.js src/**/*.js.map src/**/*.metadata.json src/**/*.d.ts",
-        "prepublish": "npm run cleanLib && npm run build && npm run cleanSrc",
+        "prepublish": "npm run cleanLib && npm run build",
         "ngc": "ngc -p tsconfig-aot.json",
         "tsc": "tsc -p tsconfig.json"
     },
@@ -46,6 +46,7 @@
         "angular2-template-loader": "^0.6.2",
         "awesome-typescript-loader": "^3.2.1",
         "codelyzer": "~3.0.1",
+        "copy": "^0.3.0",
         "jasmine-core": "~2.6.2",
         "jasmine-spec-reporter": "~4.1.0",
         "karma": "~1.7.0",

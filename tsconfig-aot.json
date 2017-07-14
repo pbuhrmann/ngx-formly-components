@@ -37,9 +37,7 @@
         "./src/index.ts"
     ],
     "angularCompilerOptions": {
-        "entryModule": "./src/formly-components.module#FormlyComponentsModule",
         "genDir": "factories",
-        "strictMetadataEmit": true,
-        "skipTemplateCodegen": true
+        "strictMetadataEmit": true
     }
 }

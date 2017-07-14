@@ -1,7 +1,7 @@
 export default {
     entry: 'src/index.js',
-    dest: 'lib/dist/index.js',
-    sourceMap: false,
+    dest: 'lib/dist/bundle/index.js',
+    sourceMap: true,
     format: 'umd',
     moduleName: 'ngx.formly.components',
     globals: {
