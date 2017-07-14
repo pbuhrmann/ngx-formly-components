@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 //import { FormlyComponentsModule } from '../../../src/index';
-import { FormlyComponentsRootModule } from 'ngx-formly-components';
+import { VentanaFlotanteModule } from 'ngx-formly-components';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { FormlyComponentsRootModule } from 'ngx-formly-components';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    FormlyComponentsRootModule
+    VentanaFlotanteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

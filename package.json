@@ -5,13 +5,15 @@
     "main": "./lib/dist/index.js",
     "types": "./lib/dist/types",
     "scripts": {
-        "build": "npm run tsc && npm run ngc",
+        "build": "npm run clean && npm run tsc && npm run ngc && npm run gulp",
         "package": "rollup -c",
-        "cleanLib": "rimraf lib",
-        "cleanSrc": "rimraf -r src/**/*.js src/**/*.js.map src/**/*.metadata.json src/**/*.d.ts",
-        "prepublish": "npm run cleanLib && npm run build",
-        "ngc": "ngc -p tsconfig-aot.json",
-        "tsc": "tsc -p tsconfig.json"
+        "clean": "npm run cleanlib && npm run cleansrc",
+        "cleanlib": "rimraf lib && rimraf node_modules/ngx-formly-components/lib",
+        "cleansrc": "rimraf src/**/*.js src/**/*.js.map src/**/*.metadata.json src/**/*.d.ts",
+        "prepublish": "npm run cleanlib && npm run build",
+        "ngc": "ngc -p tsconfig.build.json",
+        "tsc": "tsc -p tsconfig.json",
+        "gulp": "gulp"
     },
     "dependencies": {
         "@angular/animations": "^4.0.0",
@@ -46,7 +48,8 @@
         "angular2-template-loader": "^0.6.2",
         "awesome-typescript-loader": "^3.2.1",
         "codelyzer": "~3.0.1",
-        "copy": "^0.3.0",
+        "gulp": "^3.9.1",
+        "gulp-util": "^3.0.8",
         "jasmine-core": "~2.6.2",
         "jasmine-spec-reporter": "~4.1.0",
         "karma": "~1.7.0",

@@ -1,1 +1,1 @@
-export * from './formly-components.module';
+export * from './modules';
