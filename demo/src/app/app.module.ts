@@ -1,14 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-//import { FormlyBootstrapModule, FormlyModule } from 'ng-formly';
-//import { FormlyDateTimeMaskComponent } from '../../../src/datetime-mask/datetime-mask.component';
-//import { FormlyComponentsModule } from '../../../src/index';
-import { FormlyComponentsModule } from 'ngx-formly-components';
+import { FormlyComponentsModule } from '../../../src/index';
+//import { FormlyComponentsModule } from 'ngx-formly-components';
 
 @NgModule({
   declarations: [
@@ -19,6 +18,7 @@ import { FormlyComponentsModule } from 'ngx-formly-components';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     FormlyComponentsModule.forRoot()
   ],
   providers: [],

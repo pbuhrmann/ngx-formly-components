@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "../lib/dist",
+        "outDir": "./lib/dist",
         "target": "es5",
         "module": "es2015",
         "moduleResolution": "node",
@@ -16,17 +16,17 @@
         "allowSyntheticDefaultImports": true,
         "noUnusedLocals": false,
         "noUnusedParameters": false,
-        "typeRoots": [ "../node_modules/@types" ],
+        "typeRoots": [ "./node_modules/@types" ],
         "lib": [
             "dom",
             "es6"
         ]
     },
     "files": [
-        "./index.ts"
+        "./src/index.ts"
     ],
     "angularCompilerOptions": {
-        "genDir": "../lib/dist",
+        "genDir": "./lib/dist",
         "strictMetadataEmit": true,
         "skipTemplateCodegen": true
     }

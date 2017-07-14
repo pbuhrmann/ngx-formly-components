@@ -34,31 +34,18 @@ export class AppComponent {
           type: 'datetime-mask',
           className: 'col-sm-3',
           templateOptions: {
-            type: 'text',
-            label: 'Fecha',
+            label: 'Datetime Mask',
             format: 'DD-MM-YYYY HH:mm',
             mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
           }
         },
         {
-          key: 'fecha2',
-          type: 'datetime-mask',
-          className: 'col-sm-6',
-          templateOptions: {
-            label: 'Fecha'
-          }
-        }
-      ],
-    },
-    {
-      fieldGroup: [
-        {
           key: 'select1',
           type: 'select-async',
           className: 'col-sm-3',
           templateOptions: {
-            label: 'Lista',
-            options: <any>new Observable<any>(o => {
+            label: 'Select',
+            options: Observable.create(o => {
               o.next([
                 { id: 1, name: 'one' },
                 { id: 2, name: 'two' },
@@ -69,14 +56,25 @@ export class AppComponent {
           }
         },
         {
-          key: 'fecha3',
-          type: 'datetime-mask',
           className: 'col-sm-3',
+          key: 'chips1',
+          type: 'chips',
           templateOptions: {
-            type: 'text',
-            label: 'Fecha'
+            label: 'Chips',
+            joinString: '|',
+            source: Observable.create(o => {
+              o.next(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain'])
+            }),
+            onlyFromAutocomplete: true,
+            maxItems: 15
           }
         }
+      ],
+    },
+    {
+      className: 'row',
+      fieldGroup: [
+
       ]
     }
   ]
