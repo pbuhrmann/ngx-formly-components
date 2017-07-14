@@ -1,1 +1,1 @@
-export { FormlyChipsModule } from './chips.module';
+export * from './chips.module';

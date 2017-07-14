@@ -1,1 +1,1 @@
-export { FormlyDatetimeMaskModule } from './datetime-mask.module';
+export * from './datetime-mask.module';
