@@ -1,0 +1,45 @@
+{
+    "compilerOptions": {
+        "removeComments": true,
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "strictNullChecks": false,
+        "declarationDir": "./lib/dist/types",
+        "module": "es2015",
+        "target": "es5",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "stripInternal": true,
+        "declaration": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "skipLibCheck": true,
+        "moduleResolution": "node",
+        "rootDir": "./src",
+        "baseUrl": "./src",
+        "types": [
+            "node"
+        ],
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "paths": {
+            "chips": ["./chips"],
+            "datetime-mask": ["./datetime-mask"],
+            "select-async": ["./select-async"]
+        },
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "angularCompilerOptions": {
+        "strictMetadataEmit": true
+    },
+    "files": [
+        "./src/index.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*-ngfactory.ts",
+        "**/*.spec.ts"
+    ]
+}

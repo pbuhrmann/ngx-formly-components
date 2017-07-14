@@ -9,3 +9,5 @@ tslint.json
 rollup.config.js
 tslint.js
 .npmignore
+tsconfig.json
+tsconfig-aot.json

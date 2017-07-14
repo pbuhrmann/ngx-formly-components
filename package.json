@@ -3,11 +3,15 @@
     "version": "0.0.6",
     "license": "MIT",
     "main": "./lib/dist/index.js",
-    "types": "./lib/dist/index.d.ts",
+    "types": "./lib/dist/types",
     "scripts": {
-        "transpile": "node_modules/.bin/ngc -p src/tsconfig-aot.json",
+        "build": "npm run tsc && npm run ngc && npm run package",
         "package": "rollup -c",
-        "build": "npm run transpile && npm run package"
+        "cleanLib": "rimraf lib ",
+        "cleanSrc": "rimraf -r src/**/*.js src/**/*.js.map src/**/*.metadata.json src/**/*.d.ts",
+        "prepublish": "npm run cleanLib && npm run build && npm run cleanSrc",
+        "ngc": "ngc -p tsconfig-aot.json",
+        "tsc": "tsc -p tsconfig.json"
     },
     "dependencies": {
         "@angular/animations": "^4.0.0",
@@ -52,9 +56,12 @@
         "karma-jasmine-html-reporter": "^0.2.2",
         "protractor": "~5.1.2",
         "raw-loader": "^0.5.1",
+        "rimraf": "^2.6.1",
+        "rollup": "^0.45.2",
         "ts-node": "~3.0.4",
         "tslint": "~5.3.2",
         "typescript": "~2.3.3",
+        "uglify-js": "^3.0.24",
         "uglifyjs-webpack-plugin": "^0.4.6",
         "webpack": "^3.1.0"
     }

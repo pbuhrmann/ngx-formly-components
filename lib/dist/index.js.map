@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,sBAAsB,EAAE,MAAM,4BAA4B,CAAA","file":"index.js","sourceRoot":"","sourcesContent":["export { FormlyComponentsModule } from './formly-components.module'"]}

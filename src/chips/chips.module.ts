@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-//import { TagInputModule } from 'ngx-chips';
+import { TagInputModule } from 'ngx-chips';
 import { FormlyChipsComponent } from './chips.component';
 
 @NgModule({
@@ -10,7 +10,7 @@ import { FormlyChipsComponent } from './chips.component';
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		//chips
+		TagInputModule
 	],
 	declarations: [FormlyChipsComponent],
 	exports: [FormlyChipsComponent]
