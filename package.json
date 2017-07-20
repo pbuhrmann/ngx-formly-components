@@ -16,27 +16,30 @@
         "gulp": "gulp"
     },
     "dependencies": {
-        "@angular/animations": "^4.0.0",
-        "@angular/common": "^4.0.0",
-        "@angular/compiler": "^4.0.0",
-        "@angular/core": "^4.0.0",
-        "@angular/forms": "^4.0.0",
-        "@angular/http": "^4.0.0",
-        "@angular/platform-browser": "^4.0.0",
-        "@angular/platform-browser-dynamic": "^4.0.0",
-        "@angular/router": "^4.0.0",
+        "@angular/animations": "^4.3.1",
+        "@angular/cdk": "^2.0.0-beta.8",
+        "@angular/common": "^4.3.1",
+        "@angular/compiler": "^4.3.1",
+        "@angular/core": "^4.3.1",
+        "@angular/forms": "^4.3.1",
+        "@angular/http": "^4.3.1",
+        "@angular/material": "^2.0.0-beta.8",
+        "@angular/platform-browser": "^4.3.1",
+        "@angular/platform-browser-dynamic": "^4.3.1",
+        "@angular/router": "^4.3.1",
         "angular2-text-mask": "^8.0.2",
         "bootstrap": "^3.3.7",
         "core-js": "^2.4.1",
         "font-awesome": "^4.7.0",
+        "jquery": "^3.2.1",
         "moment": "^2.18.1",
         "ng-formly": "^1.0.0-rc.10",
         "ng2-select": "^1.2.0",
-        "ngx-bootstrap": "^1.7.1",
-        "ngx-chips": "^1.4.5",
-        "primeng": "^4.1.0-rc.3",
+        "ngx-bootstrap": "^1.8.0",
+        "ngx-chips": "^1.4.6",
+        "primeng": "^4.1.1",
         "rxjs": "^5.1.0",
-        "zone.js": "^0.8.4"
+        "zone.js": "^0.8.14"
     },
     "devDependencies": {
         "@angular/cli": "1.1.1",
@@ -67,6 +70,6 @@
         "typescript": "~2.3.3",
         "uglify-js": "^3.0.24",
         "uglifyjs-webpack-plugin": "^0.4.6",
-        "webpack": "^3.1.0"
+        "webpack": "^3.3.0"
     }
 }

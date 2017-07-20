@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-//import { FormlyComponentsModule } from '../../../src/index';
-import { FormlyComponentsModule } from 'ngx-formly-components';
+import { FormlyComponentsModule } from '../../../src/index';
+//import { FormlyComponentsModule } from 'ngx-formly-components';
+import { NgxMaterialChipsModule } from '../../../src/externals/ngx-material-chips/ngx-material-chips.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormlyComponentsModule } from 'ngx-formly-components';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    FormlyComponentsModule
+    FormlyComponentsModule,
+    NgxMaterialChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

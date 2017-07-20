@@ -7,8 +7,12 @@
         <button type="button" (click)="cancelar()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button>
     </div>
 </form>
-Model:
-<br>
+<div class="row">
+    <div class="col-md-3">
+        <ngx-material-chips [options]="['Prueba1','Prueba2','Anana','Naranja',1,2,3]"></ngx-material-chips>
+    </div>
+</div>
+<br> Model:
 <textarea rows="20" cols="5" style="width: 100%">
 {{JSON.stringify(model, null, 2)}}
 </textarea>

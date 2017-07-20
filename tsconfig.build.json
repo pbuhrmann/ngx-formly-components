@@ -10,7 +10,7 @@
     "removeComments": false,
     "baseUrl": "src",
     "outDir": "lib/src",
-    "paths": [],
+    "paths": {},
     "lib": ["dom", "es6"],
     "typeRoots": [
       "./node_modules/@types"
