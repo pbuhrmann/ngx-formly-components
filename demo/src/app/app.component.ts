@@ -1,19 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from 'ng-formly';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   JSON: any;
-  model: any = {
-    fecha1: null
+  model: {
+    fecha1: Date,
+    select1: number,
+    chips1: string
   };
   form: FormGroup = new FormGroup({});
+  chipsCollection: BehaviorSubject<any> = new BehaviorSubject<any>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
+  selectCollection: BehaviorSubject<any> = new BehaviorSubject<any>([
+    { name: 'ARG', value: 1 },
+    { name: 'BR', value: 2 },
+    { name: 'CH', value: 3 },
+    { name: 'CL', value: 4 },
+    { name: 'NZ', value: 5 }
+  ]);
 
   constructor() {
     this.JSON = (<any>window).JSON;
@@ -24,34 +34,30 @@ export class AppComponent {
     }
   }
 
+  ngOnInit() {
+  }
+
   formlyFields: FormlyFieldConfig[] = [
     {
       className: 'row',
       fieldGroup: [
         {
           key: 'fecha1',
-          type: 'datetime-mask',
+          type: 'datetime',
           className: 'col-sm-3',
           templateOptions: {
-            label: 'Datetime Mask',
+            label: 'Datetime',
             format: 'DD-MM-YYYY HH:mm',
             mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
           }
         },
         {
           key: 'select1',
-          type: 'select-async',
+          type: 'select',
           className: 'col-sm-3',
           templateOptions: {
             label: 'Select',
-            options: Observable.create(o => {
-              o.next([
-                { id: 1, name: 'one' },
-                { id: 2, name: 'two' },
-                { id: 3, name: 'three' },
-                { id: 4, name: 'four' },
-              ])
-            })
+            source: this.selectCollection
           }
         },
         {
@@ -61,13 +67,11 @@ export class AppComponent {
           templateOptions: {
             label: 'Chips',
             joinString: '|',
-            source: Observable.create(o => {
-              o.next(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
-            }),
+            source: this.chipsCollection,
             onlyAutocomplete: true,
             maxItems: 15
           }
-        }
+        },
       ],
     },
     {

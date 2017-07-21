@@ -9,6 +9,10 @@ import { FormlyModule, FormlyBootstrapModule } from 'ng-formly';
 import { FormlyDateTimeMaskComponent } from './datetime-mask/datetime-mask.component';
 import { FormlySelectAsyncComponent } from './select-async/select-async.component';
 import { FormlyChipsComponent } from './chips/chips.component';
+import { FormlySelectModule } from './select/select.module';
+import { FormlySelectComponent } from './select/select.component';
+import { FormlyDatetimeModule } from './datetime/datetime.module';
+import { FormlyDatetimeComponent } from './datetime/datetime.component';
 
 @NgModule({
 	imports: [
@@ -20,7 +24,9 @@ import { FormlyChipsComponent } from './chips/chips.component';
 			types: [
 				{ name: 'datetime-mask', component: FormlyDateTimeMaskComponent },
 				{ name: 'select-async', component: FormlySelectAsyncComponent },
-				{ name: 'chips', component: FormlyChipsComponent }
+				{ name: 'chips', component: FormlyChipsComponent },
+				{ name: 'select', component: FormlySelectComponent },
+				{ name: 'datetime', component: FormlyDatetimeComponent },
 			],
 			/*wrappers: [
 			  { name: 'section', component: FormlySectionWrapper },
@@ -30,6 +36,8 @@ import { FormlyChipsComponent } from './chips/chips.component';
 		FormlySelectAsyncModule.forRoot(),
 		FormlyDatetimeMaskModule.forRoot(),
 		FormlyChipsModule.forRoot(),
+		FormlySelectModule.forRoot(),
+		FormlyDatetimeModule.forRoot()
 	],
 	declarations: [
 	],
@@ -37,7 +45,6 @@ import { FormlyChipsComponent } from './chips/chips.component';
 		ReactiveFormsModule,
 		FormlyBootstrapModule,
 		FormlyModule
-		//FormlyChipsModule
 	]
 })
 export class FormlyComponentsModule {

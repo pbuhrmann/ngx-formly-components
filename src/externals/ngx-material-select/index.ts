@@ -1,0 +1,1 @@
+export * from './ngx-material-select.module';

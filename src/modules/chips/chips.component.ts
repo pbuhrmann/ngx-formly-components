@@ -23,10 +23,14 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     public options: any;
     public values: string[];
 
+    constructor(){
+        super();
+    }
+
     ngOnInit() {
         if (this.to.source) {
-            this.to.source.subscribe(x => {
-                this.options = x;
+            this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
+                this.options = x;                
             });
         }
         if (this.formControl.value) {

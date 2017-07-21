@@ -8,7 +8,8 @@ import { CommonModule } from '@angular/common';
 
 import { FormlyComponentsModule } from '../../../src/index';
 //import { FormlyComponentsModule } from 'ngx-formly-components';
-import { NgxMaterialChipsModule } from '../../../src/externals/ngx-material-chips/ngx-material-chips.module';
+import { NgxMaterialSelectModule } from '../../../src/externals/ngx-material-select/ngx-material-select.module';
+import { NgxMaterialDatetimeModule } from '../../../src/externals/ngx-material-datetime/ngx-material-datetime.module';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,7 @@ import { NgxMaterialChipsModule } from '../../../src/externals/ngx-material-chip
     FormsModule,
     ReactiveFormsModule,
     //BrowserAnimationsModule,
-    FormlyComponentsModule,
-    NgxMaterialChipsModule
+    FormlyComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

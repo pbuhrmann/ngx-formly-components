@@ -21,7 +21,8 @@
             "styles.css",
             "assets/css/flex-styles.css",
             "assets/css/font-awesome.min.css",
-            "assets/css/bootstrap.min.css"
+            "assets/css/bootstrap.min.css",
+            "assets/material/iconfont/material-icons.css"
         ],
         "scripts": [],
         "environmentSource": "environments/environment.ts",

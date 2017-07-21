@@ -17,8 +17,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MdButtonModule
   ],
   declarations: [NgxMaterialChipsComponent],
-  exports: [
-    NgxMaterialChipsComponent
-  ]
+  exports: [NgxMaterialChipsComponent]
 })
 export class NgxMaterialChipsModule { }

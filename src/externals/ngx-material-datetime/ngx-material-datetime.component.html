@@ -1,0 +1,4 @@
+<md-input-container>
+  <input mdInput [formControl]="formControl"  placeholder="{{format}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
+  <i class="fa fa-calendar-check-o today" [title]="title" (click)="today()"></i>
+</md-input-container>
