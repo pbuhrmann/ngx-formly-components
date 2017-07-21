@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   JSON: any;
   model: {
     fecha1: Date,
-    select1: number,
+    select1: number | number[],
     chips1: string
   };
   form: FormGroup = new FormGroup({});
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     this.JSON = (<any>window).JSON;
     this.model = {
       fecha1: new Date(),
-      select1: 3,
+      select1: 1,
       chips1: "Argentina|Brazil|France"
     }
   }
@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
           templateOptions: {
             label: 'Datetime',
             format: 'DD-MM-YYYY HH:mm',
+            text_today: 'Today',
             mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
           }
         },
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit {
           className: 'col-sm-3',
           templateOptions: {
             label: 'Select',
-            source: this.selectCollection
+            source: this.selectCollection,
+            multiple: false
           }
         },
         {

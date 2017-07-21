@@ -12,7 +12,7 @@ import { Subject } from 'rxjs/Subject';
     <div class="form-group">
         <!--<label for="key">{{to.label}}</label>-->
         <div style="position: relative">
-            <ngx-material-select [value]="formControl.value" [options]="options" (change)="changed($event)"></ngx-material-select>
+            <ngx-material-select [value]="formControl.value" [options]="options" (change)="changed($event)" [multiple]="to.multiple"></ngx-material-select>
         </div>
     </div>
     `

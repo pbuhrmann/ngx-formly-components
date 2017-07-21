@@ -7,8 +7,6 @@ import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'ngx-material-chips',
-  /*templateUrl: './ngx-material-chips.component.html',
-  styleUrls: ['./ngx-material-chips.component.css']*/
   styles: [`
     md-chip {
       outline: none;
