@@ -6,8 +6,29 @@ import { MdAutocomplete } from '@angular/material';
 
 @Component({
   selector: 'ngx-material-chips',
-  templateUrl: './ngx-material-chips.component.html',
-  styleUrls: ['./ngx-material-chips.component.css']
+  /*templateUrl: './ngx-material-chips.component.html',
+  styleUrls: ['./ngx-material-chips.component.css']*/
+  styles: [`
+    md-chip {
+      outline: none;
+    }
+  `],
+  template: `
+    <md-input-container>
+      <input type="text" mdInput [formControl]="formControl" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
+    </md-input-container>
+    <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
+      <md-option *ngFor="let option of filteredOptions" [value]="option" (click)="add(option)">
+          {{ option }}
+      </md-option>
+    </md-autocomplete>
+    <button md-icon-button (click)="add()">+</button>
+    <md-chip-list>
+      <md-chip *ngFor="let item of items">{{item}}
+          <span (click)="remove(item)" class="fa fa-times" style="cursor: pointer"></span>
+      </md-chip>
+    </md-chip-list>
+    `
 })
 export class NgxMaterialChipsComponent implements OnInit {
 
@@ -35,8 +56,11 @@ export class NgxMaterialChipsComponent implements OnInit {
 
   filter(val: string): string[] {
     return this.options.filter(option => {
-      if (!val || !option) {
+      if (!option) {
         return false;
+      }
+      if (!val) {
+        return true;
       }
       return option.toLowerCase().indexOf(val.toLowerCase()) >= 0;
     }).filter(x => {

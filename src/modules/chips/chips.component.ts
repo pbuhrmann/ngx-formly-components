@@ -1,7 +1,5 @@
 import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
 import { Field } from 'ng-formly';
-declare var require: any;
-var moment = require('moment');
 import { Validators, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
