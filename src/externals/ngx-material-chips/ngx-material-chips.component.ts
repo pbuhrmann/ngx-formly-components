@@ -11,13 +11,14 @@ import { MdAutocomplete } from '@angular/material';
 })
 export class NgxMaterialChipsComponent implements OnInit {
 
-  @Input() options = [];
-  @Input() value;
-  @Output() changed = new EventEmitter<any>();
-  @ViewChild('autocomplete') autocomplete: MdAutocomplete;
+  @Input() values: string[] = [];
+  @Input() options: string[] = [];
+  @Input() maxItems: number = 1000;
+  @Input() onlyAutocomplete: boolean = false;
+  @Output() changed: EventEmitter<any> = new EventEmitter<any>();
 
-  myControl = new FormControl();
-  filteredOptions: Observable<any[]>;
+  formControl: FormControl = new FormControl();
+  filteredOptions: any[];
   inputVal: string;
   option: any = null;
   items: any[] = [];
@@ -25,30 +26,43 @@ export class NgxMaterialChipsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.startWith(null).map(val => val ? this.filter(val) : this.options.slice());
-    this.myControl.valueChanges.subscribe(x => {
+    this.items = this.values.slice();
+    this.formControl.valueChanges.subscribe(x => {
+      this.filteredOptions = this.filter(x);
       this.inputVal = x;
-    })
+    });
   }
 
   filter(val: string): string[] {
-    return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
+    return this.options.filter(option => {
+      if (!val || !option) {
+        return false;
+      }
+      return option.toLowerCase().indexOf(val.toLowerCase()) >= 0;
+    }).filter(x => {
+      return this.items.indexOf(x) == -1;
+    });
   }
 
   add() {
-    if (this.inputVal) {
-      if (this.items.indexOf(this.inputVal) == -1) {
-        this.items.push(this.inputVal);
+    let val = this.inputVal;
+    this.formControl.setValue(null);
+    if (val) {
+      if (this.items.indexOf(val) == -1) {
+        if (this.onlyAutocomplete && this.options.indexOf(val) == -1) {
+          return;
+        }
+        this.items.push(val);
+        this.changed.emit(this.items);
       }
-      this.myControl.setValue(null);
     }
   }
 
   remove(e) {
-    console.log(e);
     this.items = this.items.filter(x => {
       return x != e;
     });
+    this.changed.emit(this.items);
   }
 
 }

@@ -19,9 +19,8 @@ export class AppComponent {
     this.JSON = (<any>window).JSON;
     this.model = {
       fecha1: new Date(),
-      fecha2: new Date(new Date().setFullYear(2018)),
       select1: 3,
-      fecha3: null
+      chips1: "Argentina|Brazil|France"
     }
   }
 
@@ -63,9 +62,9 @@ export class AppComponent {
             label: 'Chips',
             joinString: '|',
             source: Observable.create(o => {
-              o.next(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain'])
+              o.next(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
             }),
-            onlyFromAutocomplete: true,
+            onlyAutocomplete: true,
             maxItems: 15
           }
         }

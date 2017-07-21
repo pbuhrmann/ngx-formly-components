@@ -1,1 +1,1 @@
-export * from './chips.module';
+export * from './datetime-mask.module';

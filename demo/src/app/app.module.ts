@@ -19,7 +19,7 @@ import { NgxMaterialChipsModule } from '../../../src/externals/ngx-material-chip
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
+    //BrowserAnimationsModule,
     FormlyComponentsModule,
     NgxMaterialChipsModule
   ],
