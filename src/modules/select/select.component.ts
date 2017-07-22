@@ -10,7 +10,7 @@ import { Subject } from 'rxjs/Subject';
     `],
     template: `
     <div class="form-group">
-        <!--<label for="key">{{to.label}}</label>-->
+        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':'inherit'}">{{to.label}}</label>
         <div style="position: relative">
             <ngx-material-select [value]="formControl.value" [options]="options" (change)="changed($event)" [multiple]="to.multiple"></ngx-material-select>
         </div>

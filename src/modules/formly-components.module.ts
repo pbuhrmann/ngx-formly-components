@@ -11,6 +11,8 @@ import { FormlySelectModule } from './select/select.module';
 import { FormlySelectComponent } from './select/select.component';
 import { FormlyDatetimeModule } from './datetime/datetime.module';
 import { FormlyDatetimeComponent } from './datetime/datetime.component';
+import { FormlyFormattedInputModule } from './formatted-input/formatted-input.module';
+import { FormlyFormattedInputComponent } from './formatted-input/formatted-input.component';
 
 @NgModule({
 	imports: [
@@ -23,6 +25,7 @@ import { FormlyDatetimeComponent } from './datetime/datetime.component';
 				{ name: 'chips', component: FormlyChipsComponent },
 				{ name: 'select', component: FormlySelectComponent },
 				{ name: 'datetime', component: FormlyDatetimeComponent },
+				{ name: 'formatted-input', component: FormlyFormattedInputComponent },
 			],
 			/*wrappers: [
 			  { name: 'section', component: FormlySectionWrapper },
@@ -31,7 +34,8 @@ import { FormlyDatetimeComponent } from './datetime/datetime.component';
 		}),
 		FormlyChipsModule.forRoot(),
 		FormlySelectModule.forRoot(),
-		FormlyDatetimeModule.forRoot()
+		FormlyDatetimeModule.forRoot(),
+		FormlyFormattedInputModule.forRoot()
 	],
 	declarations: [
 	],

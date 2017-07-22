@@ -11,7 +11,7 @@ import * as moment from 'moment';
     `],
     template: `
     <div class="form-group">
-        <label for="key">{{to.label}}</label>
+        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':'inherit'}">{{to.label}}</label>
         <div style="position: relative">
             <ngx-material-datetime [mask]="to.mask" [format]="to.format" [value]="value" (changed)="changed($event)"></ngx-material-datetime>
         </div>
@@ -35,7 +35,7 @@ export class FormlyDatetimeComponent extends Field implements OnInit, OnDestroy 
             });
         }
         if (this.formControl.value) {
-            this.value = moment(this.formControl.value).format(this.to.format);
+            this.value = moment(this.formControl.value, this.to.format).format(this.to.format);
         }
     }
 

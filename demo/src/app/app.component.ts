@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from 'ng-formly';
 import { Observable, BehaviorSubject } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   JSON: any;
-  model: {
-    fecha1: Date,
-    select1: number | number[],
-    chips1: string
-  };
+  model: any;
   form: FormGroup = new FormGroup({});
   chipsCollection: BehaviorSubject<any> = new BehaviorSubject<any>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
   selectCollection: BehaviorSubject<any> = new BehaviorSubject<any>([
@@ -28,9 +25,10 @@ export class AppComponent implements OnInit {
   constructor() {
     this.JSON = (<any>window).JSON;
     this.model = {
-      fecha1: new Date(),
-      select1: 1,
-      chips1: "Argentina|Brazil|France"
+      datetime: moment().format('DD-MM-YYYY HH:mm'),
+      select: 1,
+      chips: "Argentina|Brazil|France",
+      "formatted-input": null
     }
   }
 
@@ -42,7 +40,7 @@ export class AppComponent implements OnInit {
       className: 'row',
       fieldGroup: [
         {
-          key: 'fecha1',
+          key: 'datetime',
           type: 'datetime',
           className: 'col-sm-3',
           templateOptions: {
@@ -50,21 +48,35 @@ export class AppComponent implements OnInit {
             format: 'DD-MM-YYYY HH:mm',
             text_today: 'Today',
             mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
+          },
+          validators: {
+            validation: Validators.compose([(e) => {
+              if (!e.value) {
+                return { datetime: 'invalid' };
+              }
+              let valid = moment(e.value, 'DD-MM-YYYY HH:mm').isSameOrBefore(moment());
+              valid = valid && e.value.indexOf('_') == -1;
+              return valid ? null : { datetime: 'invalid' }
+            }])
           }
         },
         {
-          key: 'select1',
+          key: 'select',
           type: 'select',
           className: 'col-sm-3',
+          wrapper: [],
           templateOptions: {
             label: 'Select',
             source: this.selectCollection,
-            multiple: false
+            multiple: false,
+          },
+          validators: {
+            validation: Validators.compose([Validators.required])
           }
         },
         {
           className: 'col-sm-3',
-          key: 'chips1',
+          key: 'chips',
           type: 'chips',
           templateOptions: {
             label: 'Chips',
@@ -72,6 +84,21 @@ export class AppComponent implements OnInit {
             source: this.chipsCollection,
             onlyAutocomplete: true,
             maxItems: 15
+          },
+          validators: {
+            validation: Validators.compose([Validators.required])
+          }
+        },
+        {
+          className: 'col-sm-3',
+          key: 'formatted-input',
+          type: 'formatted-input',
+          templateOptions: {
+            label: 'Formatted-input',
+            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // alphanumeric
+          },
+          validators: {
+            validation: Validators.compose([Validators.required])
           }
         },
       ],

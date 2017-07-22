@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import { FormlyChipsComponent } from './chips.component';

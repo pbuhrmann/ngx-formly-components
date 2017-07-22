@@ -1,24 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
-
-import { FormlyDateTimeMaskComponent } from './datetime-mask.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { TextMaskModule } from 'angular2-text-mask';
+import { FormlyFormattedInputComponent } from './formatted-input.component';
+import { MdInputModule } from '@angular/material';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		TextMaskModule
+		MdInputModule
 	],
-	declarations: [FormlyDateTimeMaskComponent],
-	exports: [FormlyDateTimeMaskComponent]
+	declarations: [FormlyFormattedInputComponent],
+	exports: [FormlyFormattedInputComponent]
 })
-export class FormlyDatetimeMaskModule {
+export class FormlyFormattedInputModule {
 	public static forRoot(): ModuleWithProviders {
 		return {
-			ngModule: FormlyDatetimeMaskModule, providers: []
+			ngModule: FormlyFormattedInputModule, providers: []
 		};
 	}
 }
