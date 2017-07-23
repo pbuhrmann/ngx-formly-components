@@ -1,17 +1,15 @@
 <div class="container">
-    <form class="formly" role="form" novalidate [formGroup]="form" style="float: left; width: 100%; clear: both">
-        <formly-form [model]="model" [fields]="formlyFields" [options]="options" [form]="form">
-        </formly-form>
-        <br>
-        <div class="col-sm-12">
-            <button type="button" (click)="submit(modelo)" class="btn btn-primary" [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-            <button type="button" (click)="cancelar()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
-        </div>
-    </form>
+    <formly-form [model]="model" [fields]="formlyFields" [form]="form">
+    </formly-form>
+    <br>
+    <div class="col-sm-12">
+        <button type="button" (click)="submit(modelo)" class="btn btn-primary" [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+        <button type="button" (click)="cancelar()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+    </div>
     <div class="row">
         <div class="col-md-3">
             <!-- <ngx-material-chips [options]="['Prueba1','Prueba2','Anana','Naranja','Queso',1,2,3]" [values]="['abc','defg']"></ngx-material-chips> -->
-            <!-- <ngx-material-select [value]="2" [options]="[{name:'camel', value:1}, {name:'horse', value: 2}, {name:'elephant', value: 3}, {name:'castle', value: 4}]"></ngx-material-select> -->
+            <!-- <ngx-material-select [value]="2" [items]="[{name:'camel', value:1}, {name:'horse', value: 2}, {name:'elephant', value: 3}, {name:'castle', value: 4}]"></ngx-material-select> -->
             <!-- <ngx-material-datetime></ngx-material-datetime> -->
         </div>
     </div>

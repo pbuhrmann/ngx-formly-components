@@ -10,9 +10,9 @@ import { Subject } from 'rxjs/Subject';
     `],
     template: `
     <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':'inherit'}">{{to.label}}</label>
-        <div style="position: relative">
-        <ngx-material-chips [items]="items" [values]="values" [maxItems]="to.maxItems || 99999" [onlyAutocomplete]="to.onlyAutocomplete || false" (changed)="changed($event)"></ngx-material-chips>
+        <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{to.label}}</label>
+        <div>
+            <ngx-material-chips [items]="items" [values]="values" [maxItems]="to.maxItems || 99999" [onlyAutocomplete]="to.onlyAutocomplete || false" (changed)="changed($event)"></ngx-material-chips>
         </div>
     </div>
     `
@@ -28,8 +28,6 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log(this.items);
-        
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 this.items = x;                

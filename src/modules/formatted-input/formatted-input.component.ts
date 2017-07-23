@@ -11,10 +11,12 @@ import { Field } from 'ng-formly';
   `],
     template: `
     <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':'inherit'}">{{ to.label }}</label>
-        <md-input-container>
-            <input mdInput placeholder="{{to.placeholder}}" type="text" [(ngModel)]="value" (ngModelChange)="onChange($event)"/>
-        </md-input-container>
+        <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{ to.label }}</label>
+        <div>
+            <md-input-container>
+                <input mdInput placeholder="{{to.placeholder}}" type="text" [(ngModel)]="value" (ngModelChange)="onChange($event)"/>
+            </md-input-container>
+        </div>
   </div>
   `,
 })

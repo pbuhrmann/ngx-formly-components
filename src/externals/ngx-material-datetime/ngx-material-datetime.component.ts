@@ -1,21 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
+
 @Component({
   selector: 'ngx-material-datetime',
   styles: [`
   .today {
-    position: absolute;
+    /*position: absolute;
     bottom: 10px;
-    right: 10px;
+    right: 10px;*/
     cursor: pointer;
   }
   `],
   template: `
   <md-input-container>
     <input mdInput [formControl]="formControl"  placeholder="{{format}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
-    <i class="fa fa-calendar-check-o today" [title]="text_today" (click)="today()"></i>
+    <i mdSuffix class="fa fa-calendar-check-o today" [title]="text_today" (click)="today()"></i>
   </md-input-container>
   `
 })
@@ -43,6 +44,7 @@ export class NgxMaterialDatetimeComponent implements OnInit {
     }
     this.autoCorrectedDatePipe = this.createAutoCorrectedDateTimePipe(this.format);
     this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
+      console.log(x);
       this.changed.emit(x);
     });
   }

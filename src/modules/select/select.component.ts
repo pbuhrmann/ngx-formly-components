@@ -10,9 +10,9 @@ import { Subject } from 'rxjs/Subject';
     `],
     template: `
     <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':'inherit'}">{{to.label}}</label>
-        <div style="position: relative">
-            <ngx-material-select [value]="formControl.value" [options]="options" (change)="changed($event)" [multiple]="to.multiple"></ngx-material-select>
+        <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{to.label}}</label>
+        <div>
+            <ngx-material-select [value]="formControl.value" [items]="items" (change)="changed($event)" [multiple]="to.multiple"></ngx-material-select>
         </div>
     </div>
     `
@@ -20,7 +20,7 @@ import { Subject } from 'rxjs/Subject';
 export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
-    public options: any;
+    public items: any;
 
     constructor() {
         super();
@@ -29,7 +29,7 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
-                this.options = x;
+                this.items = x;
             });
         }
     }

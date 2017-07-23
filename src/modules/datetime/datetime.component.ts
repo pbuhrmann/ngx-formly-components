@@ -11,8 +11,8 @@ import * as moment from 'moment';
     `],
     template: `
     <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#F00':'inherit'}">{{to.label}}</label>
-        <div style="position: relative">
+        <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{to.label}}</label>
+        <div>
             <ngx-material-datetime [mask]="to.mask" [format]="to.format" [value]="value" (changed)="changed($event)"></ngx-material-datetime>
         </div>
     </div>
