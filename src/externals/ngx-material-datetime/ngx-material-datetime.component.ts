@@ -16,7 +16,7 @@ import { Subject } from 'rxjs/Subject';
   template: `
   <md-input-container>
     <input mdInput [formControl]="formControl"  placeholder="{{format}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
-    <i mdSuffix class="fa fa-calendar-check-o today" [title]="text_today" (click)="today()"></i>
+    <i mdSuffix class="fa fa-calendar-check-o today" [title]="txt_today" (click)="today()"></i>
   </md-input-container>
   `
 })
@@ -26,9 +26,10 @@ export class NgxMaterialDatetimeComponent implements OnInit {
 
   @Input() value: string = null;
   @Input() format: string = null;
-  @Input() mask = null;
-  @Input() text_today = "Today";
+  @Input() mask: (string | RegExp)[] = null;
+  @Input() txt_today = "Today";
   @Output() changed: EventEmitter<any> = new EventEmitter<any>();
+  momentFunc = (moment as any).default ? (moment as any).default : moment;
 
   public formControl: FormControl = new FormControl();
   public autoCorrectedDatePipe: any;
@@ -50,7 +51,7 @@ export class NgxMaterialDatetimeComponent implements OnInit {
   }
 
   today() {
-    this.value = moment().format(this.format);
+    this.value = this.momentFunc().format(this.format);
   }
 
   createAutoCorrectedDateTimePipe(dateFormat: string) {

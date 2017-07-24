@@ -1,1 +1,1 @@
-export * from './ngx-material-select.module';
+export { NgxMaterialSelectModule} from './ngx-material-select.module';

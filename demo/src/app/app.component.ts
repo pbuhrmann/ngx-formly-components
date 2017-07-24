@@ -13,8 +13,8 @@ export class AppComponent implements OnInit {
   JSON: any;
   model: any;
   form: FormGroup = new FormGroup({});
-  chipsCollection: BehaviorSubject<any> = new BehaviorSubject<any>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
-  selectCollection: BehaviorSubject<any> = new BehaviorSubject<any>([
+  chipsCollection: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
+  selectCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
     { name: 'ARG', value: 1 },
     { name: 'BR', value: 2 },
     { name: 'CH', value: 3 },
@@ -109,5 +109,14 @@ export class AppComponent implements OnInit {
 
       ]
     }
-  ]
+  ];
+
+  submit() {
+    console.log(this.model);
+  }
+
+  cancel() {
+
+  }
+
 }

@@ -1,1 +1,1 @@
-export * from './ngx-material-chips.module';
+export { NgxMaterialChipsModule } from './ngx-material-chips.module';

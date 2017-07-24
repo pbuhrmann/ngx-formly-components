@@ -1,20 +1,25 @@
 {
     "name": "ngx-formly-components",
-    "version": "0.0.6",
+    "author": "https://github.com/penrique",
+    "version": "0.0.7",
     "license": "MIT",
-    "main": "./lib/dist/index.js",
-    "types": "./lib/dist/types",
+    "main": "lib/src/index.js",
+    "module": "lib/src/index.js",
+    "typings": "lib/src/index.d.ts",
     "scripts": {
-        "build": "npm run clean && npm run tsc && npm run ngc && npm run gulp",
+        "build": "npm run clean && npm run ngc",
         "package": "rollup -c",
         "clean": "npm run cleanlib && npm run cleansrc",
         "cleanlib": "rimraf lib && rimraf node_modules/ngx-formly-components/lib",
         "cleansrc": "rimraf src/**/*.js src/**/*.js.map src/**/*.metadata.json src/**/*.d.ts",
-        "prepublish": "npm run cleanlib && npm run build",
+        "prepublish": "npm run cleanlib && npm run ngc",
         "ngc": "ngc -p tsconfig.build.json",
         "tsc": "tsc -p tsconfig.json",
         "gulp": "gulp"
     },
+    "files": [
+        "lib"
+    ],
     "dependencies": {
         "@angular/animations": "^4.3.1",
         "@angular/cdk": "^2.0.0-beta.8",

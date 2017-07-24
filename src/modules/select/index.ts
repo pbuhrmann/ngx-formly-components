@@ -1,1 +1,1 @@
-export * from './select.module';
+export { FormlySelectModule } from './select.module';

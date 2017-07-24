@@ -6,10 +6,8 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { FormlyComponentsModule } from '../../../src/index';
-//import { FormlyComponentsModule } from 'ngx-formly-components';
-import { NgxMaterialSelectModule } from '../../../src/externals/ngx-material-select/ngx-material-select.module';
-import { NgxMaterialDatetimeModule } from '../../../src/externals/ngx-material-datetime/ngx-material-datetime.module';
+//import { FormlyComponentsModule } from '../../../src/index';
+import { FormlyComponentsModule } from 'ngx-formly-components';
 
 @NgModule({
   declarations: [
@@ -18,10 +16,10 @@ import { NgxMaterialDatetimeModule } from '../../../src/externals/ngx-material-d
   imports: [
     CommonModule,
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    //BrowserAnimationsModule,
-    FormlyComponentsModule
+    /*FormsModule,
+    ReactiveFormsModule,*/
+    BrowserAnimationsModule,
+    FormlyComponentsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

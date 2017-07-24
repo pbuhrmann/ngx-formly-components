@@ -23,6 +23,7 @@ export class FormlyDatetimeComponent extends Field implements OnInit, OnDestroy 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
     public value: string;
     public options: any;
+    momentFunc = (moment as any).default ? (moment as any).default : moment;
 
     constructor() {
         super();
@@ -35,7 +36,7 @@ export class FormlyDatetimeComponent extends Field implements OnInit, OnDestroy 
             });
         }
         if (this.formControl.value) {
-            this.value = moment(this.formControl.value, this.to.format).format(this.to.format);
+            this.value = this.momentFunc(this.formControl.value, this.to.format).format(this.to.format);
         }
     }
 

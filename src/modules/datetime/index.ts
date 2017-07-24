@@ -1,1 +1,1 @@
-export * from './datetime.module';
+export { FormlyDatetimeModule } from './datetime.module';

@@ -11,3 +11,6 @@ tslint.js
 .npmignore
 tsconfig.json
 tsconfig-aot.json
+tsconfig-aot2.json
+tsconfig.build.json
+gulpfile.js

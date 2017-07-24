@@ -1,1 +1,1 @@
-export * from './ngx-material-datetime.module';
+export { NgxMaterialDatetimeModule } from './ngx-material-datetime.module';

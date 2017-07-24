@@ -1,1 +1,1 @@
-export * from './formatted-input.module';
+export { FormlyFormattedInputModule } from './formatted-input.module';
