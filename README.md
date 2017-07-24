@@ -184,7 +184,7 @@ export class AppComponent implements OnInit {
 ---
 Input | Type | Example
 --- | --- | ---
-*mask* | `(string|RegExp)[]` | `[/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]`
+*mask* | ```(string|RegExp)[]``` | `[/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]`
 *format* | `string` | `'DD-MM-YYYY HH:mm'`
 *txt_today* | `string` | `Fecha de Hoy`
 ---
@@ -212,8 +212,8 @@ maxLength
 ---
 Input | Type | Example
 --- | --- | ---
-*format* | `(val: string) => string` | `(e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '')`
-*placeholder* | `string` | `Only alphanumeric allowed`
+*format* | `(val: string) => string` | ```(e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '')```
+*placeholder* | `string` | `Only uppercase alphanumeric allowed`
 *maxLength* | `number` | `12`
 ---
 ### **Textarea**
@@ -221,8 +221,8 @@ Input | Type | Example
 ---
 Input | Type | Example
 --- | --- | ---
-*format* | `(val: string) => string` | `(e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '')`
-*placeholder* | `string` | `Only alphanumeric allowed`
+*format* | `(val: string) => string` | ```(e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '')```
+*placeholder* | `string` | `Only uppercase alphanumeric allowed`
 *maxLength* | `number` | `12`
 ---
 
