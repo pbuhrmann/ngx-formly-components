@@ -14,7 +14,7 @@ import { Field } from 'ng-formly';
         <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{ to.label }}</label>
         <div>
             <md-input-container style="width: 100%">
-            <input mdInput placeholder="{{to.placeholder}}" [type]="text" [(ngModel)]="value" (ngModelChange)="onChange($event)"/>
+            <input mdInput placeholder="{{to.placeholder}}" type="text" [(ngModel)]="value" (ngModelChange)="onChange($event)"/>
             </md-input-container>
         </div>
   </div>

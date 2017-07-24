@@ -205,7 +205,6 @@ Input | Type | Example
 *maxItems* | `BehaviorSubject<string[]>` | `new BehaviorSubject<any[]>([{ name: 'ARG', value: 1 },{ name: 'BR', value: 2 }]);`
 *onlyAutocomplete* | `boolean` | `true`
 *placeholder* | `string` | `Press enter to add value`
-maxLength
 ---
 ### **Input**
 #### Formly type: `'input'`
