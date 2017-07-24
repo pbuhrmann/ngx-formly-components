@@ -12,7 +12,7 @@ import { Subject } from 'rxjs/Subject';
     <div class="form-group">
         <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{to.label}}</label>
         <div>
-            <ngx-material-chips [items]="items" [values]="values" [maxItems]="to.maxItems || 99999" [onlyAutocomplete]="to.onlyAutocomplete || false" (changed)="changed($event)"></ngx-material-chips>
+            <ngx-material-chips [placeholder]="to.placeholder" [items]="items" [values]="values" [maxItems]="to.maxItems || 99999" [onlyAutocomplete]="to.onlyAutocomplete || false" (changed)="changed($event)"></ngx-material-chips>
         </div>
     </div>
     `

@@ -4,6 +4,14 @@
 npm install ngx-formly-components
 ```
 
+# Demo
+
+```
+> npm install
+> ng serve
+>>> Open your browser on `http://localhost:4200`
+```
+
 # Usage
 
 `app.module.ts`
@@ -110,7 +118,7 @@ export class AppComponent implements OnInit {
           key: 'select',
           type: 'select',
           className: 'col-sm-3',
-          wrapper: [],
+          wrapper: [], //<-- in order to hide formly's default label
           templateOptions: {
             label: 'Select',
             source: this.selectCollection,
@@ -129,7 +137,8 @@ export class AppComponent implements OnInit {
             joinString: '|',
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            maxItems: 15
+            maxItems: 15,
+            placeholder: "Press enter to add value"
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -170,24 +179,24 @@ export class AppComponent implements OnInit {
 ```
 
 # Components
-### Datetime
+### **Datetime**
 #### Formly type: `'datetime'`
 ---
 Input | Type | Example
 --- | --- | ---
-*@Input() mask* | `(string|RegExp)[]` | `[/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]`
-*@Input() format* | `string` | `'DD-MM-YYYY HH:mm'`
-*@Input() txt_today* | `string` | `Fecha de Hoy`
-
-### Select
+*mask* | `(string|RegExp)[]` | `[/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]`
+*format* | `string` | `'DD-MM-YYYY HH:mm'`
+*txt_today* | `string` | `Fecha de Hoy`
+---
+### **Select**
 #### Formly type: `'select'`
 ---
 Input | Type | Example
 --- | --- | ---
 *source* | `BehaviorSubject<string[]>` | `new BehaviorSubject<any[]>([{ name: 'ARG', value: 1 },{ name: 'BR', value: 2 }]);`
 *multiple* | `boolean` | `true`
-
-### Chips
+---
+### **Chips**
 #### Formly type: `'chips'`
 ---
 Input | Type | Example
@@ -195,14 +204,26 @@ Input | Type | Example
 *source* | `BehaviorSubject<string[]>` | `new BehaviorSubject<any[]>(['Cheese', 'Apple', 'Pie']);`
 *maxItems* | `BehaviorSubject<string[]>` | `new BehaviorSubject<any[]>([{ name: 'ARG', value: 1 },{ name: 'BR', value: 2 }]);`
 *onlyAutocomplete* | `boolean` | `true`
-
-### Formatted-input
-#### Formly type: `'formatted-input'`
+*placeholder* | `string` | `Press enter to add value`
+maxLength
+---
+### **Input**
+#### Formly type: `'input'`
 ---
 Input | Type | Example
 --- | --- | ---
 *format* | `(val: string) => string` | `(e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '')`
 *placeholder* | `string` | `Only alphanumeric allowed`
-
+*maxLength* | `number` | `12`
+---
+### **Textarea**
+#### Formly type: `'textarea'`
+---
+Input | Type | Example
+--- | --- | ---
+*format* | `(val: string) => string` | `(e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '')`
+*placeholder* | `string` | `Only alphanumeric allowed`
+*maxLength* | `number` | `12`
+---
 
 

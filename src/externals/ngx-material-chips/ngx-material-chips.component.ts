@@ -13,8 +13,8 @@ import { Subject } from 'rxjs/Subject';
     }
   `],
   template: `
-    <md-input-container>
-      <input type="text" mdInput [formControl]="formControl" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
+    <md-input-container style="width: 70%">
+      <input type="text" mdInput [placeholder]="placeholder" [formControl]="formControl" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
     </md-input-container>
     <md-autocomplete #autocomplete="mdAutocomplete">
       <md-option *ngFor="let option of filteredItems" [value]="option" (click)="add(option)">
@@ -36,6 +36,7 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
   @Input() values: string[] = [];
   @Input() items: string[] = [];
   @Input() maxItems: number = 1000;
+  @Input() placeholder: string = '';
   @Input() onlyAutocomplete: boolean = false;
   @Output() changed: EventEmitter<any> = new EventEmitter<any>();
 

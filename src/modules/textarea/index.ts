@@ -1,0 +1,1 @@
+export { FormlyTextareaModule } from './textarea.module';

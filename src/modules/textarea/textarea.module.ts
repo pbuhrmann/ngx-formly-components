@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { FormlyInputComponent } from './input.component';
+import { FormlyTextareaComponent } from './textarea.component';
 import { MdInputModule } from '@angular/material';
-import { InputFormat } from './input.pipe';
 
 @NgModule({
 	imports: [
@@ -12,13 +11,13 @@ import { InputFormat } from './input.pipe';
 		ReactiveFormsModule,
 		MdInputModule
 	],
-	declarations: [FormlyInputComponent, InputFormat],
-	exports: [FormlyInputComponent],
+	declarations: [FormlyTextareaComponent],
+	exports: [FormlyTextareaComponent]
 })
-export class FormlyInputModule {
+export class FormlyTextareaModule {
 	public static forRoot(): ModuleWithProviders {
 		return {
-			ngModule: FormlyInputModule, providers: []
+			ngModule: FormlyTextareaModule, providers: []
 		};
 	}
 }

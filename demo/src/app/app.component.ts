@@ -26,9 +26,10 @@ export class AppComponent implements OnInit {
     this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      select: 1,
+      select: 2,
       chips: "Argentina|Brazil|France",
-      "formatted-input": null
+      input1: null,
+      input2: null,
     }
   }
 
@@ -38,6 +39,10 @@ export class AppComponent implements OnInit {
   formlyFields: FormlyFieldConfig[] = [
     {
       className: 'row',
+      wrappers: ['section'],
+      templateOptions: {
+        title: 'Demo'
+      },
       fieldGroup: [
         {
           key: 'datetime',
@@ -64,7 +69,7 @@ export class AppComponent implements OnInit {
           key: 'select',
           type: 'select',
           className: 'col-sm-3',
-          wrapper: [],
+          wrapper: [], //<-- in order to hide formly's default label
           templateOptions: {
             label: 'Select',
             source: this.selectCollection,
@@ -83,7 +88,8 @@ export class AppComponent implements OnInit {
             joinString: '|',
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            maxItems: 5
+            maxItems: 5,
+            placeholder: "Press enter to add value"
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -91,7 +97,7 @@ export class AppComponent implements OnInit {
         },
         {
           className: 'col-sm-3',
-          key: 'input',
+          key: 'input1',
           type: 'input',
           wrapper: [],
           templateOptions: {
@@ -106,8 +112,32 @@ export class AppComponent implements OnInit {
     },
     {
       className: 'row',
+      wrappers: ['split'],
       fieldGroup: [
-
+        {
+          className: 'col-sm-4',
+          key: 'input2',
+          type: 'input',
+          wrapper: [],
+          templateOptions: {
+            label: 'Input',
+            placeholder: 'E-mail',
+          },
+          validators: {
+            validation: Validators.compose([Validators.email])
+          }
+        },
+        {
+          className: 'col-sm-4',
+          key: 'textarea',
+          type: 'textarea',
+          wrapper: [],
+          templateOptions: {
+            label: 'Input',
+            placeholder: 'Comments',
+            maxLength: 5
+          }
+        },
       ]
     }
   ];

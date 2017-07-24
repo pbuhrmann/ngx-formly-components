@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { FormlyComponentsModule } from '../../../src/index';
-//import { FormlyComponentsModule } from 'ngx-formly-components';
+// import { FormlyComponentsModule } from 'ngx-formly-components';
 
 @NgModule({
   declarations: [
@@ -16,8 +16,6 @@ import { FormlyComponentsModule } from '../../../src/index';
   imports: [
     CommonModule,
     BrowserModule,
-    /*FormsModule,
-    ReactiveFormsModule,*/
     BrowserAnimationsModule,
     FormlyComponentsModule.forRoot()
   ],

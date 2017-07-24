@@ -45,7 +45,6 @@ export class NgxMaterialDatetimeComponent implements OnInit {
     }
     this.autoCorrectedDatePipe = this.createAutoCorrectedDateTimePipe(this.format);
     this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-      console.log(x);
       this.changed.emit(x);
     });
   }

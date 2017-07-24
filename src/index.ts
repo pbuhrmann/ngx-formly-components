@@ -11,6 +11,13 @@ import { FormlyDatetimeModule } from './modules/datetime/datetime.module';
 import { FormlyDatetimeComponent } from './modules/datetime/datetime.component';
 import { FormlyInputModule } from './modules/input/input.module';
 import { FormlyInputComponent } from './modules/input/input.component';
+import { FormlyTextareaModule } from './modules/textarea/textarea.module';
+import { FormlyTextareaComponent } from './modules/textarea/textarea.component';
+
+import { FormlySectionWrapperComponent } from './modules/section-wrapper/section-wrapper.component';
+import { FormlySplitWrapperComponent } from './modules/split-wrapper/split-wrapper.component';
+import { FormlySectionWrapperModule } from './modules/section-wrapper/section-wrapper.module';
+import { FormlySplitWrapperModule } from './modules/split-wrapper/split-wrapper.module';
 
 @NgModule({
 	imports: [
@@ -24,16 +31,20 @@ import { FormlyInputComponent } from './modules/input/input.component';
 				{ name: 'select', component: FormlySelectComponent },
 				{ name: 'datetime', component: FormlyDatetimeComponent },
 				{ name: 'input', component: FormlyInputComponent },
+				{ name: 'textarea', component: FormlyTextareaComponent },
 			],
-			/*wrappers: [
-			  { name: 'section', component: FormlySectionWrapper },
-			  { name: 'split', component: FormlySplitWrapper }
-			]*/
+			wrappers: [
+			  { name: 'section', component: FormlySectionWrapperComponent },
+			  { name: 'split', component: FormlySplitWrapperComponent }
+			]
 		}),
 		FormlyChipsModule.forRoot(),
 		FormlySelectModule.forRoot(),
 		FormlyDatetimeModule.forRoot(),
-		FormlyInputModule.forRoot()
+		FormlyInputModule.forRoot(),
+		FormlyTextareaModule.forRoot(),
+		FormlySectionWrapperModule.forRoot(),
+		FormlySplitWrapperModule.forRoot(),
 	],
 	declarations: [
 	],

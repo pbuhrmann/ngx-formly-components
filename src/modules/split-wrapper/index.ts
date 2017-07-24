@@ -1,0 +1,1 @@
+export { FormlySplitWrapperModule } from './split-wrapper.module';
