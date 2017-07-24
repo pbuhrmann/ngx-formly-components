@@ -81,7 +81,7 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
   add() {
     let val = this.inputVal;
     this.formControl.setValue(null);
-    if (this.selectedItems && val) {
+    if (this.selectedItems && val && this.selectedItems.length < this.maxItems) {
       if (this.selectedItems.indexOf(val) == -1) {
         if (this.onlyAutocomplete && this.items.indexOf(val) == -1) {
           return;

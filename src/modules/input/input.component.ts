@@ -20,7 +20,7 @@ import { Field } from 'ng-formly';
   </div>
   `,
 })
-export class FormlyFormattedInputComponent extends Field implements OnInit {
+export class FormlyInputComponent extends Field implements OnInit {
 
     public value: string;
 

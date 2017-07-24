@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
             joinString: '|',
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            maxItems: 15
+            maxItems: 5
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -91,11 +91,12 @@ export class AppComponent implements OnInit {
         },
         {
           className: 'col-sm-3',
-          key: 'formatted-input',
-          type: 'formatted-input',
+          key: 'input',
+          type: 'input',
+          wrapper: [],
           templateOptions: {
-            label: 'Formatted-input',
-            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // alphanumeric
+            label: 'Input',
+            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
           },
           validators: {
             validation: Validators.compose([Validators.required])

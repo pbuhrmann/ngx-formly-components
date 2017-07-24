@@ -1,0 +1,1 @@
+export { FormlyInputModule } from './input.module';

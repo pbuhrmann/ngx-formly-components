@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { FormlyFormattedInputComponent } from './formatted-input.component';
+import { FormlyInputComponent } from './input.component';
 import { MdInputModule } from '@angular/material';
 
 @NgModule({
@@ -11,13 +11,13 @@ import { MdInputModule } from '@angular/material';
 		ReactiveFormsModule,
 		MdInputModule
 	],
-	declarations: [FormlyFormattedInputComponent],
-	exports: [FormlyFormattedInputComponent]
+	declarations: [FormlyInputComponent],
+	exports: [FormlyInputComponent]
 })
-export class FormlyFormattedInputModule {
+export class FormlyInputModule {
 	public static forRoot(): ModuleWithProviders {
 		return {
-			ngModule: FormlyFormattedInputModule, providers: []
+			ngModule: FormlyInputModule, providers: []
 		};
 	}
 }

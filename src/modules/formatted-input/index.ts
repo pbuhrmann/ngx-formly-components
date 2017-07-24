@@ -1,1 +1,0 @@
-export { FormlyFormattedInputModule } from './formatted-input.module';
