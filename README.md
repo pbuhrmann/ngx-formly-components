@@ -16,6 +16,12 @@ npm install ngx-formly-components
 
 `app.module.ts`
 ```
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { AppComponent } from './app.component';
 import { FormlyComponentsModule } from 'ngx-formly-components';
 
 @NgModule({
@@ -25,7 +31,6 @@ import { FormlyComponentsModule } from 'ngx-formly-components';
   imports: [
     CommonModule,
     BrowserModule,
-    ...
     BrowserAnimationsModule,
     FormlyComponentsModule.forRoot()
   ],
@@ -45,8 +50,7 @@ export class AppModule { }
         <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
         <button type="button" (click)="cancel()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
     </div>
-    <br> 
-    Model:
+    <br> Model:
     <br>
     <textarea disabled rows="15" cols="4" style="width: 90%">{{JSON.stringify(model, null, 2)}}</textarea>
 </div>
@@ -66,10 +70,11 @@ import * as moment from 'moment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  JSON: any;
   model: any;
   form: FormGroup = new FormGroup({});
-  chipsCollection: BehaviorSubject<any> = new BehaviorSubject<any>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
-  selectCollection: BehaviorSubject<any> = new BehaviorSubject<any>([
+  chipsCollection: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
+  selectCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
     { name: 'ARG', value: 1 },
     { name: 'BR', value: 2 },
     { name: 'CH', value: 3 },
@@ -78,11 +83,13 @@ export class AppComponent implements OnInit {
   ]);
 
   constructor() {
+    this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      select: 1,
+      select: 2,
       chips: "Argentina|Brazil|France",
-      "formatted-input": null
+      input1: null,
+      input2: null,
     }
   }
 
@@ -92,6 +99,10 @@ export class AppComponent implements OnInit {
   formlyFields: FormlyFieldConfig[] = [
     {
       className: 'row',
+      wrappers: ['section'],
+      templateOptions: {
+        title: 'Demo'
+      },
       fieldGroup: [
         {
           key: 'datetime',
@@ -137,7 +148,7 @@ export class AppComponent implements OnInit {
             joinString: '|',
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            maxItems: 15,
+            maxItems: 5,
             placeholder: "Press enter to add value"
           },
           validators: {
@@ -146,11 +157,12 @@ export class AppComponent implements OnInit {
         },
         {
           className: 'col-sm-3',
-          key: 'formatted-input',
-          type: 'formatted-input',
+          key: 'input1',
+          type: 'input',
+          wrapper: [],
           templateOptions: {
-            label: 'Formatted-input',
-            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // alphanumeric
+            label: 'Input',
+            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -160,8 +172,32 @@ export class AppComponent implements OnInit {
     },
     {
       className: 'row',
+      wrappers: ['split'],
       fieldGroup: [
-
+        {
+          className: 'col-sm-4',
+          key: 'input2',
+          type: 'input',
+          wrapper: [],
+          templateOptions: {
+            label: 'Input',
+            placeholder: 'E-mail',
+          },
+          validators: {
+            validation: Validators.compose([Validators.email])
+          }
+        },
+        {
+          className: 'col-sm-4',
+          key: 'textarea',
+          type: 'textarea',
+          wrapper: [],
+          templateOptions: {
+            label: 'Input',
+            placeholder: 'Comments',
+            maxLength: 5
+          }
+        },
       ]
     }
   ];
@@ -175,6 +211,7 @@ export class AppComponent implements OnInit {
   }
 
 }
+
 
 ```
 
