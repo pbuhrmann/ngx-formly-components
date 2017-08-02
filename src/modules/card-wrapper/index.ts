@@ -1,0 +1,1 @@
+export { FormlyCardWrapperModule } from './card-wrapper.module';

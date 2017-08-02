@@ -2,21 +2,18 @@ import { Component, OnInit, DoCheck, ChangeDetectorRef } from '@angular/core';
 import { Field } from 'ng-formly';
 
 @Component({
-    selector: 'formly-formatted-input',
+    selector: 'formly-ngx-material-textarea',
     styles: [`
     textarea {
         resize: vertical;
     }
   `],
     template: `
-    <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{ to.label }}</label>
-        <div>
-            <md-input-container style="width: 100%">
-                <textarea mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [(ngModel)]="value" (ngModelChange)="onChange($event)"></textarea>
-            </md-input-container>
-        </div>
-  </div>
+    <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+        <md-input-container style="width: 100%">
+            <textarea mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [(ngModel)]="value" (ngModelChange)="onChange($event)"></textarea>
+        </md-input-container>
+    </div>
   `,
 })
 export class FormlyTextareaComponent extends Field implements OnInit {

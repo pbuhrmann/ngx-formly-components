@@ -1,0 +1,1 @@
+export { FormlyRepeatedSectionModule } from './repeated-section.module';

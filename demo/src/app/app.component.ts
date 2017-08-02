@@ -23,25 +23,37 @@ export class AppComponent implements OnInit {
   ]);
 
   constructor() {
-    this.JSON = (<any>window).JSON;
-    this.model = {
-      datetime: moment().format('DD-MM-YYYY HH:mm'),
-      select: 2,
-      chips: "Argentina|Brazil|France",
-      input1: null,
-      input2: null,
-    }
   }
 
   ngOnInit() {
+    this.JSON = (<any>window).JSON;
+    this.model = {
+      datetime: moment().format('DD-MM-YYYY HH:mm'),
+      select: null,
+      chips: "Argentina|Brazil|France",
+      input1: "Arg",
+      input2: null,
+      checklist1: false,
+      checklist2: true,
+    }
+    setTimeout(() => {
+      this.selectCollection = new BehaviorSubject<any[]>([
+        { name: 'ddd', value: 5 },
+        { name: 'eee', value: 6 },
+        { name: 'fff', value: 7 },
+      ]);
+      console.log(this.selectCollection);
+
+    }, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
     {
       className: 'row',
-      wrappers: ['section'],
+      wrappers: ['card'],
       templateOptions: {
-        title: 'Demo'
+        title: 'Components',
+        subtitle: 'Card #1',
       },
       fieldGroup: [
         {
@@ -49,7 +61,7 @@ export class AppComponent implements OnInit {
           type: 'datetime',
           className: 'col-sm-3',
           templateOptions: {
-            label: 'Datetime',
+            placeholder: 'Datetime',
             format: 'DD-MM-YYYY HH:mm',
             text_today: 'Today',
             mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
@@ -71,24 +83,41 @@ export class AppComponent implements OnInit {
           className: 'col-sm-3',
           wrapper: [], //<-- in order to hide formly's default label
           templateOptions: {
-            label: 'Select',
-            source: this.selectCollection,
+            placeholder: 'Select',
+            source: Observable.create(o => {
+              let val = this.model.input1;
+              this.selectCollection.first().subscribe(y => {
+                o.next(y);
+              });
+              this.form.valueChanges.map(x => x.input1).filter(x => x != val).subscribe(x => {
+                if (x != val) {
+                  this.selectCollection.first().subscribe(y => {
+                    val = x;
+                    o.next(y);
+                  });
+                }
+              });
+            }),
             multiple: false,
+            nonull: true
           },
           validators: {
             validation: Validators.compose([Validators.required])
           }
         },
         {
+          type: 'blank',
+          className: 'col-xs-12',
+        },
+        {
           className: 'col-sm-3',
           key: 'chips',
           type: 'chips',
           templateOptions: {
-            label: 'Chips',
             joinString: '|',
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            maxItems: 5,
+            //maxItems: 5,
             placeholder: "Press enter to add value"
           },
           validators: {
@@ -102,6 +131,11 @@ export class AppComponent implements OnInit {
           wrapper: [],
           templateOptions: {
             label: 'Input',
+            source: this.chipsCollection,
+            sourceFilter: (x) => {
+              let arr = x.filter(x => x == 'Argentina');
+              return arr;
+            },
             format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
           },
           validators: {
@@ -111,8 +145,12 @@ export class AppComponent implements OnInit {
       ],
     },
     {
-      className: 'row',
-      wrappers: ['split'],
+      className: '',
+      wrappers: ['card'],
+      templateOptions: {
+        title: 'More Components',
+        subtitle: 'Card #2'
+      },
       fieldGroup: [
         {
           className: 'col-sm-4',
@@ -138,7 +176,55 @@ export class AppComponent implements OnInit {
             maxLength: 5
           }
         },
+        {
+          className: 'col-sm-2',
+          key: 'checklist1',
+          type: 'checklist',
+          wrapper: [],
+          templateOptions: {
+            text: 'Short text',
+          }
+        },
+        {
+          className: 'col-sm-2',
+          key: 'checklist2',
+          type: 'checklist',
+          wrapper: [],
+          templateOptions: {
+            text: 'Some checklist with lots of text',
+          }
+        },
       ]
+    },
+    {
+      className: 'row',
+      type: 'repeated-section',
+      key: 'repeated',
+      wrappers: ['card'],
+      templateOptions: {
+        title: 'Repeated Section', 
+        addText: 'Add Section',
+        addIcon: 'fa fa-plus-square-o',
+        removeText: 'Remove',
+        removeIcon: 'fa fa-minus',
+        class: null,
+        canAdd: true,
+        // maxSections: 3, Cantidad maxima que se puede agregar, en este caso de adjuntos
+      },
+      fieldArray: {
+        className: 'row',
+        fieldGroup: [
+          {
+            className: 'col-sm-6',
+            key: 'checklist',
+            type: 'checklist',
+            wrapper: [],
+            templateOptions: {
+              text: "I'm inside a repeated section!",
+            }
+          },
+        ]
+      }
     }
   ];
 

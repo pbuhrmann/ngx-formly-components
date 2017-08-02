@@ -18,6 +18,14 @@ import { FormlySectionWrapperComponent } from './modules/section-wrapper/section
 import { FormlySplitWrapperComponent } from './modules/split-wrapper/split-wrapper.component';
 import { FormlySectionWrapperModule } from './modules/section-wrapper/section-wrapper.module';
 import { FormlySplitWrapperModule } from './modules/split-wrapper/split-wrapper.module';
+import { FormlyChecklistModule } from './modules/checklist/checklist.module';
+import { FormlyChecklistComponent } from './modules/checklist/checklist.component';
+import { FormlyCardWrapperComponent } from './modules/card-wrapper/card-wrapper.component';
+import { FormlyCardWrapperModule } from './modules/card-wrapper/card-wrapper.module';
+import { FormlyBlankModule } from './modules/blank/blank.module';
+import { FormlyBlankComponent } from './modules/blank/blank.component';
+import { FormlyRepeatedSectionComponent } from './modules/repeated-section/repeated-section.component';
+import { FormlyRepeatedSectionModule } from './modules/repeated-section/repeated-section.module';
 
 @NgModule({
 	imports: [
@@ -32,10 +40,14 @@ import { FormlySplitWrapperModule } from './modules/split-wrapper/split-wrapper.
 				{ name: 'datetime', component: FormlyDatetimeComponent },
 				{ name: 'input', component: FormlyInputComponent },
 				{ name: 'textarea', component: FormlyTextareaComponent },
+				{ name: 'checklist', component: FormlyChecklistComponent },
+				{ name: 'blank', component: FormlyBlankComponent },
+				{ name: 'repeated-section', component: FormlyRepeatedSectionComponent }
 			],
 			wrappers: [
-			  { name: 'section', component: FormlySectionWrapperComponent },
-			  { name: 'split', component: FormlySplitWrapperComponent }
+				{ name: 'section', component: FormlySectionWrapperComponent },
+				{ name: 'split', component: FormlySplitWrapperComponent },
+				{ name: 'card', component: FormlyCardWrapperComponent }				
 			]
 		}),
 		FormlyChipsModule.forRoot(),
@@ -45,6 +57,10 @@ import { FormlySplitWrapperModule } from './modules/split-wrapper/split-wrapper.
 		FormlyTextareaModule.forRoot(),
 		FormlySectionWrapperModule.forRoot(),
 		FormlySplitWrapperModule.forRoot(),
+		FormlyChecklistModule.forRoot(),
+		FormlyCardWrapperModule.forRoot(),
+		FormlyBlankModule.forRoot(),
+		FormlyRepeatedSectionModule.forRoot()
 	],
 	declarations: [
 	],

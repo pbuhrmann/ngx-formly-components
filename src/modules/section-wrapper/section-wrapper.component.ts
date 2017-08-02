@@ -4,12 +4,13 @@ import { FieldWrapper } from 'ng-formly';
 @Component({
   selector: 'formly-section-wrapper',
   template: `
-    <br>
     <h3 class="section-wrapper-header text-muted">{{to.title}}</h3>
-    <br>
     <ng-container #fieldComponent></ng-container>
   `,
   styles: [`
+    :host {
+      width: 100%;
+    }
     .section-wrapper-header {
         border-bottom: 5px solid rgba(0,0,0,0.1);
     }

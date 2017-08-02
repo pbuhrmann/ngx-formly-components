@@ -9,18 +9,15 @@ import { Subject } from 'rxjs/Subject';
 
     `],
     template: `
-    <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{to.label}}</label>
-        <div>
-            <ngx-material-chips [placeholder]="to.placeholder" [items]="items" [values]="values" [maxItems]="to.maxItems || 99999" [onlyAutocomplete]="to.onlyAutocomplete || false" (changed)="changed($event)"></ngx-material-chips>
-        </div>
+    <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+        <ngx-material-chips [placeholder]="to.placeholder" [items]="items" [values]="values" [maxItems]="to.maxItems || 99999" [onlyAutocomplete]="to.onlyAutocomplete || false" (changed)="changed($event)"></ngx-material-chips>
     </div>
     `
 })
 export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
-    public items: any;
+    public items: any[];
     public values: string[];
 
     constructor(){

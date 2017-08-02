@@ -10,11 +10,8 @@ import * as moment from 'moment';
 
     `],
     template: `
-    <div class="form-group">
-        <label for="key" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">{{to.label}}</label>
-        <div>
-            <ngx-material-datetime [mask]="to.mask" [format]="to.format" [value]="value" (changed)="changed($event)"></ngx-material-datetime>
-        </div>
+    <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+        <ngx-material-datetime [placeholder]="to.placeholder" [mask]="to.mask" [format]="to.format" [value]="value" (changed)="changed($event)"></ngx-material-datetime>
     </div>
     `
 })

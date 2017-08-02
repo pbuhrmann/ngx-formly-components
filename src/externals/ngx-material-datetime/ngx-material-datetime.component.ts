@@ -15,7 +15,7 @@ import { Subject } from 'rxjs/Subject';
   `],
   template: `
   <md-input-container>
-    <input mdInput [formControl]="formControl"  placeholder="{{format}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
+    <input mdInput [formControl]="formControl"  placeholder="{{placeholder}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
     <i mdSuffix class="fa fa-calendar-check-o today" [title]="txt_today" (click)="today()"></i>
   </md-input-container>
   `
@@ -25,6 +25,7 @@ export class NgxMaterialDatetimeComponent implements OnInit {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   @Input() value: string = null;
+  @Input() placeholder: string = null;
   @Input() format: string = null;
   @Input() mask: (string | RegExp)[] = null;
   @Input() txt_today = "Today";

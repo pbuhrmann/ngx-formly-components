@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FormlyInputComponent } from './input.component';
-import { MdInputModule } from '@angular/material';
+import { MdInputModule, MdAutocompleteModule } from '@angular/material';
 import { InputFormat } from './input.pipe';
 
 @NgModule({
@@ -10,7 +10,8 @@ import { InputFormat } from './input.pipe';
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		MdInputModule
+		MdInputModule,
+		MdAutocompleteModule
 	],
 	declarations: [FormlyInputComponent, InputFormat],
 	exports: [FormlyInputComponent],

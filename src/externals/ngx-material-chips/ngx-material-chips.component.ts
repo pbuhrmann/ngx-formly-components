@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
   styles: [`
     md-chip {
       outline: none;
+      margin: 1px 0px 0px 0px !important;
     }
   `],
   template: `
@@ -49,7 +50,7 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
-    this.selectedItems = this.values;
+    this.selectedItems = this.values || [];
     this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
       this.filteredItems = this.filter(x);
       this.inputVal = x;
@@ -81,6 +82,7 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
 
   add() {
     let val = this.inputVal;
+    //console.log(val, this.selectedItems, this.maxItems);
     this.formControl.setValue(null);
     if (this.selectedItems && val && this.selectedItems.length < this.maxItems) {
       if (this.selectedItems.indexOf(val) == -1) {

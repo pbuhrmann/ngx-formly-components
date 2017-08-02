@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 
 import { FormlyComponentsModule } from '../../../src/index';
-// import { FormlyComponentsModule } from 'ngx-formly-components';
+//import { FormlyComponentsModule } from 'ngx-formly-components';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { FormlyComponentsModule } from '../../../src/index';
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    FormlyComponentsModule.forRoot()
+    FormlyComponentsModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

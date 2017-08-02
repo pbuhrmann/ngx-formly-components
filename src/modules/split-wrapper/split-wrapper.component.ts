@@ -8,6 +8,9 @@ import { FieldWrapper } from 'ng-formly';
     <ng-container #fieldComponent></ng-container>
   `,
   styles: [`
+    :host {
+      width: 100%;
+    }
     .section-wrapper-header {
         border-bottom: 5px solid rgba(0,0,0,0.1);
     }
