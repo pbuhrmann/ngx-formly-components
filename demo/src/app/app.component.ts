@@ -117,7 +117,7 @@ export class AppComponent implements OnInit {
             joinString: '|',
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            //maxItems: 5,
+            maxItems: 7,
             placeholder: "Press enter to add value"
           },
           validators: {
@@ -202,20 +202,21 @@ export class AppComponent implements OnInit {
       key: 'repeated',
       wrappers: ['card'],
       templateOptions: {
-        title: 'Repeated Section', 
+        title: 'Repeated Section',
         addText: 'Add Section',
         addIcon: 'fa fa-plus-square-o',
         removeText: 'Remove',
         removeIcon: 'fa fa-minus',
         class: null,
         canAdd: true,
+        canRemove: true,
         // maxSections: 3, Cantidad maxima que se puede agregar, en este caso de adjuntos
       },
       fieldArray: {
         className: 'row',
         fieldGroup: [
           {
-            className: 'col-sm-6',
+            className: 'col-sm-3',
             key: 'checklist',
             type: 'checklist',
             wrapper: [],
@@ -223,6 +224,17 @@ export class AppComponent implements OnInit {
               text: "I'm inside a repeated section!",
             }
           },
+          {
+            className: 'col-sm-3',
+            key: 'chips',
+            type: 'chips',
+            templateOptions: {
+              joinString: '|',
+              source: this.chipsCollection,
+              onlyAutocomplete: true,
+              placeholder: "Press enter to add value"
+            }
+          }
         ]
       }
     }

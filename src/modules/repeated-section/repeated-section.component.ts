@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { FieldType } from 'ng-formly';
+var clone = require('clone');
 
 @Component({
   selector: 'formly-repeated-section',
@@ -46,9 +47,16 @@ export class FormlyRepeatedSectionComponent extends FieldType implements OnInit 
       this.model.map(() => {
         this.sectionsNumber++;
         (<FormArray>this.formControl).push(new FormGroup({}));
-        let largo = this._fields.push(
-          JSON.parse(JSON.stringify(this.field.fieldArray.fieldGroup)),
-        );
+        // let largo = this._fields.push(
+        //   JSON.parse(JSON.stringify(this.field.fieldArray.fieldGroup)),
+        // );
+        let fieldGroup = clone(this.field.fieldArray.fieldGroup);
+        /*this.field.fieldArray.fieldGroup.forEach(x => {
+          if (x.formControl) {
+            x.formControl.setValue(null);
+          }
+        });*/
+        let largo = this._fields.push(fieldGroup);
         this.field.fieldArray.fieldGroup.forEach((campo, i) => {
           this._fields[largo - 1][i].templateOptions = campo.templateOptions;
         });
@@ -62,10 +70,17 @@ export class FormlyRepeatedSectionComponent extends FieldType implements OnInit 
       this.model.push(new this.to.class());
     } else {
       this.model.push({});
-    }
-    let largo = this._fields.push(
-      JSON.parse(JSON.stringify(this.field.fieldArray.fieldGroup)),
-    );
+    }    
+    // let largo = this._fields.push(
+    //   JSON.parse(JSON.stringify(this.field.fieldArray.fieldGroup)),
+    // );
+    let fieldGroup = clone(this.field.fieldArray.fieldGroup);
+    /*this.field.fieldArray.fieldGroup.forEach(x => {
+      if (x.formControl) {
+        x.formControl.setValue(null);
+      }
+    });*/
+    let largo = this._fields.push(fieldGroup);
     this.field.fieldArray.fieldGroup.forEach((campo, i) => {
       this._fields[largo - 1][i].templateOptions = campo.templateOptions;
     });
@@ -84,7 +99,7 @@ export class FormlyRepeatedSectionComponent extends FieldType implements OnInit 
       return this._fields[i];
     }
 
-    this._fields.splice(i, 0, JSON.parse(JSON.stringify(this.field.fieldArray.fieldGroup)));
+    this._fields.splice(i, 0, this.field.fieldArray.fieldGroup);
 
     return this._fields[i];
   }

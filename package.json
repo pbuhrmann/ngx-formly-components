@@ -1,7 +1,7 @@
 {
     "name": "ngx-formly-components",
     "author": "https://github.com/penrique",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "license": "MIT",
     "main": "lib/index.js",
     "module": "lib/index.js",
@@ -34,6 +34,7 @@
         "@angular/router": "^4.3.1",
         "angular2-text-mask": "^8.0.2",
         "bootstrap": "^3.3.7",
+        "clone": "^2.1.1",
         "core-js": "^2.4.1",
         "font-awesome": "^4.7.0",
         "jquery": "^3.2.1",
