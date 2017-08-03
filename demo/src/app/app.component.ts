@@ -217,15 +217,6 @@ export class AppComponent implements OnInit {
         fieldGroup: [
           {
             className: 'col-sm-3',
-            key: 'checklist',
-            type: 'checklist',
-            wrapper: [],
-            templateOptions: {
-              text: "I'm inside a repeated section!",
-            }
-          },
-          {
-            className: 'col-sm-3',
             key: 'chips',
             type: 'chips',
             templateOptions: {
@@ -234,7 +225,16 @@ export class AppComponent implements OnInit {
               onlyAutocomplete: true,
               placeholder: "Press enter to add value"
             }
-          }
+          },
+          {
+            className: 'col-sm-3',
+            key: 'checklist',
+            type: 'checklist',
+            wrapper: [],
+            templateOptions: {
+              text: "I'm inside a repeated section!",
+            }
+          },
         ]
       }
     }

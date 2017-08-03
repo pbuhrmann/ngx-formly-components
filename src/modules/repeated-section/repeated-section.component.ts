@@ -18,8 +18,7 @@ var clone = require('clone');
           <hr>
         </div>
     </div>
-    <div class="col-xs-12">
-      <br>
+    <div class="col-xs-12" style="margin-top: 10px">
       <button md-raised-button color="primary" *ngIf="to['canAdd'] && (to['maxSections'] ? to['maxSections'] > sectionsNumber : true)" (click)="add()">
         <i class="material-icons">add</i>
         {{to['addText'] || 'Agregar'}}

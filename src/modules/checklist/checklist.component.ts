@@ -32,7 +32,6 @@ export class FormlyChecklistComponent extends Field implements OnInit, OnDestroy
     }
 
     changed(e: any) {
-        console.log(e);
         this.formControl.setValue(e);
     }
 
