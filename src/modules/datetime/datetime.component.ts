@@ -11,7 +11,7 @@ import * as moment from 'moment';
     `],
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
-        <ngx-material-datetime [placeholder]="to.placeholder" [mask]="to.mask" [format]="to.format" [value]="value" (changed)="changed($event)"></ngx-material-datetime>
+        <ngx-material-datetime [disabled]="to.disabled" [placeholder]="to.placeholder" [mask]="to.mask" [format]="to.format" [value]="value" (changed)="changed($event)"></ngx-material-datetime>
     </div>
     `
 })

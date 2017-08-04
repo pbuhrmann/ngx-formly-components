@@ -11,7 +11,7 @@ import { Field } from 'ng-formly';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
-            <textarea mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [(ngModel)]="value" (ngModelChange)="onChange($event)"></textarea>
+            <textarea [disabled]="to.disabled" mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [(ngModel)]="value" (ngModelChange)="onChange($event)"></textarea>
         </md-input-container>
     </div>
   `,

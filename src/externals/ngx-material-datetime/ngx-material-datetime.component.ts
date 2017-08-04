@@ -12,11 +12,14 @@ import { Subject } from 'rxjs/Subject';
     right: 10px;*/
     cursor: pointer;
   }
+  .disabled {
+    color: rgba(0,0,0,.38);
+  }
   `],
   template: `
   <md-input-container>
     <input mdInput [formControl]="formControl"  placeholder="{{placeholder}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
-    <i mdSuffix class="fa fa-calendar-check-o today" [title]="txt_today" (click)="today()"></i>
+    <i mdSuffix class="fa fa-calendar-check-o today" [class.disabled]="disabled" [title]="txt_today" (click)="!disabled && today()"></i>
   </md-input-container>
   `
 })
@@ -25,6 +28,7 @@ export class NgxMaterialDatetimeComponent implements OnInit {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   @Input() value: string = null;
+  @Input() disabled: boolean = false;
   @Input() placeholder: string = null;
   @Input() format: string = null;
   @Input() mask: (string | RegExp)[] = null;
@@ -38,6 +42,9 @@ export class NgxMaterialDatetimeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if(this.disabled){
+      this.formControl.disable();
+    }
     if (!this.format) {
       console.error('Format is missing, example: <ngx-material-datetime format="DD-MM-YYYY HH:mm:ss"></ngx-material-datetime>');
     }

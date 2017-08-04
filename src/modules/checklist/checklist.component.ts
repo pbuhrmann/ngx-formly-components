@@ -13,7 +13,7 @@ import { Subject } from 'rxjs/Subject';
     template: `
     <div class="">
         <div style="margin-top: 15px">
-            <md-checkbox class="example-margin" [(ngModel)]="value" (ngModelChange)="changed($event)">{{to.text || ''}}</md-checkbox>
+            <md-checkbox [disabled]="to.disabled" class="example-margin" [(ngModel)]="value" (ngModelChange)="changed($event)">{{to.text || ''}}</md-checkbox>
         </div>
     </div>
     `

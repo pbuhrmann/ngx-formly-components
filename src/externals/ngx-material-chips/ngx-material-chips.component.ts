@@ -38,6 +38,7 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
   @Input() items: string[] = [];
   @Input() maxItems: number = 1000;
   @Input() placeholder: string = '';
+  @Input() disabled: boolean = false;
   @Input() onlyAutocomplete: boolean = false;
   @Output() changed: EventEmitter<any> = new EventEmitter<any>();
 
@@ -55,13 +56,16 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
       this.filteredItems = this.filter(x);
       this.inputVal = x;
     });
+    if (this.disabled) {
+      this.formControl.disable();
+    }
   }
 
   filter(val: string): string[] {
     if (!this.items) {
       return null;
     }
-    
+
     return this.items.filter(option => {
       if (!option) {
         return false;
@@ -81,6 +85,9 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
   }
 
   add() {
+    if (this.disabled) {
+      return;
+    }
     let val = this.inputVal;
     //console.log(val, this.selectedItems, this.maxItems);
     this.formControl.setValue(null);
@@ -97,6 +104,9 @@ export class NgxMaterialChipsComponent implements OnInit, OnDestroy {
   }
 
   remove(e) {
+    if (this.disabled) {
+      return;
+    }
     this.selectedItems = this.selectedItems.filter(x => {
       return x != e;
     });

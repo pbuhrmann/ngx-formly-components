@@ -1,26 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from 'ng-formly';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   JSON: any;
   model: any;
   form: FormGroup = new FormGroup({});
   chipsCollection: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
-  selectCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
-    { name: 'ARG', value: 1 },
-    { name: 'BR', value: 2 },
-    { name: 'CH', value: 3 },
-    { name: 'CL', value: 4 },
-    { name: 'NZ', value: 5 }
+  typesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
+    { name: 'Type 1', value: 1 },
+    { name: 'Type 2', value: 2 },
+    { name: 'Type 3', value: 3 },
   ]);
+  subtypesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
+    { name: 'Fever', value: 1, type: 1, priority: 1 },
+    { name: 'Cough', value: 2, type: 1, priority: 1 },
+    { name: 'Hypotension', value: 3, type: 1, priority: 2 },
+    { name: 'Dizziness', value: 4, type: 2, priority: 2 },
+    { name: 'Hypertension', value: 5, type: 2, priority: 3 },
+    { name: 'Chest pain', value: 6, type: 3, priority: 3 }
+  ]);
+  prioritiesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
+    { name: 'Low', value: 1 },
+    { name: 'Normal', value: 2 },
+    { name: 'High', value: 3 },
+  ]);
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor() {
   }
@@ -29,22 +42,15 @@ export class AppComponent implements OnInit {
     this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      select: null,
+      typeId: 1,
+      subtypeId: 1,
+      priorityId: 1,
       chips: "Argentina|Brazil|France",
-      input1: "Arg",
+      input1: "ARG",
       input2: null,
       checklist1: false,
       checklist2: true,
     }
-    setTimeout(() => {
-      this.selectCollection = new BehaviorSubject<any[]>([
-        { name: 'ddd', value: 5 },
-        { name: 'eee', value: 6 },
-        { name: 'fff', value: 7 },
-      ]);
-      console.log(this.selectCollection);
-
-    }, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -78,31 +84,80 @@ export class AppComponent implements OnInit {
           }
         },
         {
-          key: 'select',
-          type: 'select',
           className: 'col-sm-3',
-          wrapper: [], //<-- in order to hide formly's default label
+          key: 'typeId',
+          type: 'select',
+          wrapper: [],
           templateOptions: {
-            placeholder: 'Select',
+            placeholder: 'Type',
+            nonull: true,
+            source: this.typesCollection
+          }
+        },
+        {
+          className: 'col-sm-3',
+          key: 'subtypeId',
+          type: 'select',
+          wrapper: [],
+          templateOptions: {
+            placeholder: 'Subtype',
+            nonull: true,
             source: Observable.create(o => {
-              let val = this.model.input1;
-              this.selectCollection.first().subscribe(y => {
+              let key = 'typeId';
+              let val = this.model[key];
+              let endpoint = this.subtypesCollection;
+              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
                 o.next(y);
               });
-              this.form.valueChanges.map(x => x.input1).filter(x => x != val).subscribe(x => {
-                if (x != val) {
-                  this.selectCollection.first().subscribe(y => {
-                    val = x;
-                    o.next(y);
-                  });
-                }
+              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
+                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
+                  val = x;
+                  o.next(y);
+                });
+              });
+            })
+          }
+        },
+        {
+          className: 'col-sm-3',
+          key: 'priorityId',
+          type: 'select',
+          wrapper: [],
+          templateOptions: {
+            placeholder: 'Priority',
+            disabled: true,
+            nonull: true,
+            //source: this.prioridadCollection
+            source: Observable.create(o => {
+              let key = 'subtypeId';
+              let val = this.model[key];
+              let endpoint = this.prioritiesCollection;
+              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
+                o.next(y);
+              });
+              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
+                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
+                  val = x;
+                  o.next(y);
+                });
               });
             }),
-            multiple: false,
-            nonull: true
-          },
-          validators: {
-            validation: Validators.compose([Validators.required])
+            bind: Observable.create(o => {
+              let key = 'subtypeId';
+              let property = 'priority';
+              let val = this.model[key];
+              let result = this.subtypesCollection.takeUntil(this.ngUnsubscribe).first().subscribe(x => {
+                o.next(x.filter(y => y.value == val)[0][property]);
+              });
+              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
+                val = x;
+                let value = this.subtypesCollection.getValue().filter(y => y.value == x);
+                if (value && value.length > 0) {
+                  let result = value[0][property];
+                  o.next(result);
+                }
+              });
+            })
           }
         },
         {
@@ -131,6 +186,7 @@ export class AppComponent implements OnInit {
           wrapper: [],
           templateOptions: {
             label: 'Input',
+            disabled: true,
             source: this.chipsCollection,
             sourceFilter: (x) => {
               let arr = x.filter(x => x == 'Argentina');
@@ -246,6 +302,11 @@ export class AppComponent implements OnInit {
 
   cancel() {
 
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

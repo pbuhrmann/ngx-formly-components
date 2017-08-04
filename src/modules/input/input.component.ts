@@ -35,6 +35,9 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
+        if(this.to.disabled){
+            this.fControl.disable();
+        }
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 this.items = x;

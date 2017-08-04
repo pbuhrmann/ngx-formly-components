@@ -11,7 +11,7 @@ import { Subscription } from "rxjs/Subscription";
     `],
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}" style="margin-top: 10px">
-        <ngx-material-select [nonull]="to.nonull" [placeholder]="to.placeholder" [value]="formControl.value" [items]="items" (change)="changed($event)" [multiple]="to.multiple"></ngx-material-select>
+        <ngx-material-select [disabled]="to.disabled" [nonull]="to.nonull" [placeholder]="to.placeholder" [value]="formControl.value" [items]="items" (change)="changed($event)" [multiple]="to.multiple"></ngx-material-select>
     </div>
     `
 })
@@ -21,7 +21,6 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
     public items: any;
     private watch_lastValue: any = null;
     private sub: Subscription;
-
 
     constructor() {
         super();
@@ -35,6 +34,11 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
                 if (this.to.nonull && !initialValue && x) {
                     this.formControl.setValue(x[0].value);
                 }
+            });
+        }
+        if (this.to.bind) {
+            this.to.bind.takeUntil(this.ngUnsubscribe).subscribe(x => {
+                this.formControl.setValue(x);
             });
         }
     }
