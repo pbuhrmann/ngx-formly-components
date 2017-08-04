@@ -146,7 +146,7 @@ export class AppComponent implements OnInit, OnDestroy {
               let key = 'subtypeId';
               let property = 'priority';
               let val = this.model[key];
-              let result = this.subtypesCollection.takeUntil(this.ngUnsubscribe).first().subscribe(x => {
+              this.subtypesCollection.takeUntil(this.ngUnsubscribe).first().subscribe(x => {
                 o.next(x.filter(y => y.value == val)[0][property]);
               });
               this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
