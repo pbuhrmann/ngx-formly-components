@@ -3,7 +3,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FormlyInputComponent } from './input.component';
 import { MdInputModule, MdAutocompleteModule } from '@angular/material';
-import { InputFormat } from './input.pipe';
+//import { InputFormat } from './input.pipe';
 
 @NgModule({
 	imports: [
@@ -13,7 +13,7 @@ import { InputFormat } from './input.pipe';
 		MdInputModule,
 		MdAutocompleteModule
 	],
-	declarations: [FormlyInputComponent, InputFormat],
+	declarations: [FormlyInputComponent],
 	exports: [FormlyInputComponent],
 })
 export class FormlyInputModule {

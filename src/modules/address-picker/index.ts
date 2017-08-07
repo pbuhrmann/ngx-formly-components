@@ -1,0 +1,1 @@
+export { FormlyAddressPickerModule } from './address-picker.module';

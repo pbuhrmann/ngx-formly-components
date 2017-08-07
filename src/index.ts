@@ -26,6 +26,8 @@ import { FormlyBlankModule } from './modules/blank/blank.module';
 import { FormlyBlankComponent } from './modules/blank/blank.component';
 import { FormlyRepeatedSectionComponent } from './modules/repeated-section/repeated-section.component';
 import { FormlyRepeatedSectionModule } from './modules/repeated-section/repeated-section.module';
+import { FormlyAddressPickerModule } from './modules/address-picker/address-picker.module';
+import { FormlyAddressPickerComponent } from './modules/address-picker/address-picker.component';
 
 @NgModule({
 	imports: [
@@ -42,7 +44,8 @@ import { FormlyRepeatedSectionModule } from './modules/repeated-section/repeated
 				{ name: 'textarea', component: FormlyTextareaComponent },
 				{ name: 'checklist', component: FormlyChecklistComponent },
 				{ name: 'blank', component: FormlyBlankComponent },
-				{ name: 'repeated-section', component: FormlyRepeatedSectionComponent }
+				{ name: 'repeated-section', component: FormlyRepeatedSectionComponent },
+				{ name: 'address-picker', component: FormlyAddressPickerComponent }
 			],
 			wrappers: [
 				{ name: 'section', component: FormlySectionWrapperComponent },
@@ -60,7 +63,8 @@ import { FormlyRepeatedSectionModule } from './modules/repeated-section/repeated
 		FormlyChecklistModule.forRoot(),
 		FormlyCardWrapperModule.forRoot(),
 		FormlyBlankModule.forRoot(),
-		FormlyRepeatedSectionModule.forRoot()
+		FormlyRepeatedSectionModule.forRoot(),
+		FormlyAddressPickerModule.forRoot()
 	],
 	declarations: [
 	],

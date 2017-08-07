@@ -19,7 +19,7 @@ import { Subject } from 'rxjs/Subject';
   template: `
   <md-input-container>
     <input mdInput [formControl]="formControl"  placeholder="{{placeholder}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
-    <i mdSuffix class="fa fa-calendar-check-o today" [class.disabled]="disabled" [title]="txt_today" (click)="!disabled && today()"></i>
+    <i mdSuffix class="fa fa-calendar-check-o today" [class.disabled]="disabled" [mdTooltip]="tooltip" mdTooltipPosition="below" (click)="!disabled && today()"></i>
   </md-input-container>
   `
 })
@@ -32,7 +32,7 @@ export class NgxMaterialDatetimeComponent implements OnInit {
   @Input() placeholder: string = null;
   @Input() format: string = null;
   @Input() mask: (string | RegExp)[] = null;
-  @Input() txt_today = "Today";
+  @Input() tooltip;
   @Output() changed: EventEmitter<any> = new EventEmitter<any>();
   momentFunc = (moment as any).default ? (moment as any).default : moment;
 

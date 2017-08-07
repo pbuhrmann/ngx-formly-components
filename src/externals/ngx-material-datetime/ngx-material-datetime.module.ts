@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgxMaterialDatetimeComponent } from './ngx-material-datetime.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
-import { MdInputModule, MdDatepickerModule, MdButtonModule, MdNativeDateModule } from '@angular/material';
+import { MdInputModule, MdDatepickerModule, MdButtonModule, MdNativeDateModule, MdTooltipModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -13,7 +13,8 @@ import { MdInputModule, MdDatepickerModule, MdButtonModule, MdNativeDateModule }
     MdInputModule,
     MdDatepickerModule,
     MdNativeDateModule,
-    TextMaskModule
+    TextMaskModule,
+    MdTooltipModule
   ],
   declarations: [NgxMaterialDatetimeComponent],
   exports: [NgxMaterialDatetimeComponent]

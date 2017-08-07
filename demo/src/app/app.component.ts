@@ -50,6 +50,12 @@ export class AppComponent implements OnInit, OnDestroy {
       input2: null,
       checklist1: false,
       checklist2: true,
+      textarea: null,
+      address: {
+        formatted_address: 'Cerrito 800, C1010AAP CABA, Argentina',
+        lat: -34.5992993,
+        lng: -58.3827919
+      },
     }
   }
 
@@ -68,6 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
           className: 'col-sm-3',
           templateOptions: {
             placeholder: 'Datetime',
+            tooltip: 'Today',
             format: 'DD-MM-YYYY HH:mm',
             text_today: 'Today',
             mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
@@ -248,6 +255,22 @@ export class AppComponent implements OnInit, OnDestroy {
             text: 'Some checklist with lots of text',
           }
         },
+        {
+          className: 'col-sm-8',
+          key: 'address',
+          type: 'address-picker',
+          wrapper: [],
+          templateOptions: {
+            placeholder: 'Address',
+            tooltip: 'Open map',
+            api_key: 'AIzaSyArmiw8_wiv9nLQTIqhjynQFE6Q5Pzpxyo',
+            country: 'AR', //https://en.wikipedia.org/wiki/ISO_3166-1
+            mapCenterCoords: [-34.561253, -58.400155],
+            tileLayerSource: 'http://190.210.64.181/osm/{z}/{x}/{y}.png',
+            yes: 'Accept',
+            no: 'Cancel'
+          }
+        }
       ]
     },
     {
