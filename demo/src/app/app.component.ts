@@ -42,8 +42,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      typeId: 1,
-      subtypeId: 1,
+      typeId: 2,
+      subtypeId: 2,
       priorityId: 1,
       chips: "Argentina|Brazil|France",
       input1: "ARG",
@@ -110,9 +110,10 @@ export class AppComponent implements OnInit, OnDestroy {
                 o.next(y);
               });
               this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
+                val = x;
                 endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
-                  val = x;
-                  o.next(y);
+                  let res = y.slice(0, x);
+                  o.next(res);
                 });
               });
             })
@@ -127,16 +128,15 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Priority',
             disabled: true,
             nonull: true,
-            //source: this.prioridadCollection
             source: Observable.create(o => {
               let key = 'subtypeId';
               let val = this.model[key];
               let endpoint = this.prioritiesCollection;
-              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
+              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => { //submit collection for the first time
                 o.next(y);
               });
-              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
-                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
+              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => { //subscribe to changes in the form
+                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => { //update collection whenever key's value changes
                   val = x;
                   o.next(y);
                 });
@@ -146,16 +146,14 @@ export class AppComponent implements OnInit, OnDestroy {
               let key = 'subtypeId';
               let property = 'priority';
               let val = this.model[key];
-              this.subtypesCollection.takeUntil(this.ngUnsubscribe).first().subscribe(x => {
-                o.next(x.filter(y => y.value == val)[0][property]);
+              let endpoint = this.subtypesCollection;
+              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(x => {
+                x && o.next(x.filter(y => y.value == val)[0][property]); //submit key's property value 
               });
-              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
+              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => { //subscribe to changes in the form
                 val = x;
-                let value = this.subtypesCollection.getValue().filter(y => y.value == x);
-                if (value && value.length > 0) {
-                  let result = value[0][property];
-                  o.next(result);
-                }
+                let value = endpoint.getValue().filter(y => y.value == x); //get key's collection and match to value
+                value && value.length > 0 && o.next(value[0][property]); //submit key's property value 
               });
             })
           }

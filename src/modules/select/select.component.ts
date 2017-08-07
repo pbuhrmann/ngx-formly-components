@@ -21,6 +21,7 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
     public items: any;
     private watch_lastValue: any = null;
     private sub: Subscription;
+    private firstValue = null;
 
     constructor() {
         super();
@@ -31,8 +32,16 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 this.items = x;
-                if (this.to.nonull && !initialValue && x) {
-                    this.formControl.setValue(x[0].value);
+                if (x && x.length > 0) {
+                    let filtered = x.filter(y => y.value == this.formControl.value);
+                    if (filtered.length > 0) {
+                        this.formControl.setValue(filtered[0].value);
+                    }
+                    else {
+                        if (this.to.nonull) {
+                            this.formControl.setValue(x[0].value);
+                        }
+                    }
                 }
             });
         }
