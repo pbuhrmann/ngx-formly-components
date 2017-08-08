@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy, Inject, AfterViewInit } from '@angular/core';
 import { Field } from 'ng-formly';
 import { Subject } from 'rxjs/Subject';
 import { FormControl } from '@angular/forms';
@@ -19,7 +19,7 @@ import * as L from 'leaflet';
 		<md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
 			<md-option *ngFor="let item of items" [value]="item" (click)="setValue(item)">{{item.formatted_address}}</md-option>
 		</md-autocomplete>
-		<div id="myMap" style="height: calc(100% - 100px); width: 100%; position: relative"></div>
+		<div id="ngx-formly-components-map-{{mapId}}" style="height: calc(100% - 100px); width: 100%; position: relative"></div>
 		<div style="margin-top: 15px">
 			<button md-button color="primary" [md-dialog-close]="fControl.value">{{data.yes}}</button>
 			<button md-button color="accent" [md-dialog-close]="false">{{data.no}}</button>		
@@ -27,7 +27,7 @@ import * as L from 'leaflet';
 	</div>	
   `,
 })
-export class FormlyAddressPickerMapComponent implements OnInit, OnDestroy {
+export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	public map: L.Map;
 
@@ -40,12 +40,12 @@ export class FormlyAddressPickerMapComponent implements OnInit, OnDestroy {
 	private timeout_inverse: any;
 	private featureGroup: L.FeatureGroup = new L.FeatureGroup();
 	private location: L.Layer = null;
+	public mapId = Math.round(Math.random() * 10000000);
 
 	constructor(private http: Http, @Inject(MD_DIALOG_DATA) public data: any) {
 	}
 
 	public ngOnInit() {
-		console.log(this.data);
 		this.fControl.setValue(this.data.address);
 
 		this.fControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(e => {
@@ -65,8 +65,10 @@ export class FormlyAddressPickerMapComponent implements OnInit, OnDestroy {
 				}, 250);
 			}
 		});
+	}
 
-		this.map = L.map('myMap', {
+	ngAfterViewInit() {
+		this.map = L.map('ngx-formly-components-map-' + this.mapId, {
 			maxZoom: 18,
 			minZoom: 6
 		}).setView(this.data.mapCenterCoords, 12);
@@ -123,6 +125,7 @@ export class FormlyAddressPickerMapComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-
+		this.ngUnsubscribe.next();
+		this.ngUnsubscribe.complete();
 	}
 }

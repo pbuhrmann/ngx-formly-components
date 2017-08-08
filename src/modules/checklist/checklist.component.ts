@@ -11,11 +11,7 @@ import { Subject } from 'rxjs/Subject';
     }
     `],
     template: `
-    <div class="">
-        <div style="margin-top: 15px">
-            <md-checkbox [disabled]="to.disabled" class="example-margin" [(ngModel)]="value" (ngModelChange)="changed($event)">{{to.text || ''}}</md-checkbox>
-        </div>
-    </div>
+    <md-checkbox [disabled]="to.disabled" class="example-margin" [(ngModel)]="value" (ngModelChange)="changed($event)">{{to.text || ''}}</md-checkbox>
     `
 })
 export class FormlyChecklistComponent extends Field implements OnInit, OnDestroy {

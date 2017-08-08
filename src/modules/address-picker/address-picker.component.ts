@@ -1,10 +1,10 @@
-import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy, ViewChild } from '@angular/core';
 import { Field } from 'ng-formly';
 import { Subject } from 'rxjs/Subject';
 import { FormControl } from '@angular/forms';
 import { Http } from "@angular/http";
 import { Subscription } from 'rxjs/Subscription';
-import { MdDialog } from "@angular/material";
+import { MdDialog, MdAutocomplete } from '@angular/material';
 import { FormlyAddressPickerMapComponent } from './map/map.component';
 
 @Component({
@@ -90,6 +90,7 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
     }
 
     openMap() {
+        this.items = [];
         let dialogRef = this.dialog.open(FormlyAddressPickerMapComponent, {
             width: '80vw',
             height: '80vh',

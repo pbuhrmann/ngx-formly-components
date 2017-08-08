@@ -20,32 +20,22 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     public items: any[];
     public values: string[];
 
-    constructor(){
+    constructor() {
         super();
     }
 
     ngOnInit() {
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
-                this.items = x;                
+                this.items = x;
             });
         }
-        if (this.formControl.value) {
-            if (this.to.joinString) {
-                this.values = this.formControl.value.split(this.to.joinString);
-            } else {
-                this.values = this.formControl.value.split('|');
-            }
-        }
+        this.values = this.formControl.value || [];
     }
 
     changed(e: string[]) {
-        if (!!e) {
-            if (this.to.joinString) {
-                this.formControl.setValue(e.join(this.to.joinString));
-            } else {
-                this.formControl.setValue(e.join('|'));
-            }
+        if (e) {
+            this.formControl.setValue(e);
         }
     }
 

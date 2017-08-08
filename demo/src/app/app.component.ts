@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
       typeId: 2,
       subtypeId: 2,
       priorityId: 1,
-      chips: "Argentina|Brazil|France",
+      chips: ['Argentina', 'Brazil', 'France'],
       input1: "ARG",
       input2: null,
       checklist1: false,
@@ -174,11 +174,10 @@ export class AppComponent implements OnInit, OnDestroy {
           key: 'chips',
           type: 'chips',
           templateOptions: {
-            joinString: '|',
+            placeholder: "Chips",
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            maxItems: 7,
-            placeholder: "Press enter to add value"
+            maxItems: 7            
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -263,10 +262,10 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             placeholder: 'Address',
             tooltip: 'Open map',
-            api_key: 'AIzaSyArmiw8_wiv9nLQTIqhjynQFE6Q5Pzpxyo',
+            api_key: '',
             country: 'AR', //https://en.wikipedia.org/wiki/ISO_3166-1
             mapCenterCoords: [-34.561253, -58.400155],
-            tileLayerSource: 'http://190.210.64.181/osm/{z}/{x}/{y}.png',
+            tileLayerSource: '',
             yes: 'Accept',
             no: 'Cancel'
           }
@@ -297,7 +296,6 @@ export class AppComponent implements OnInit, OnDestroy {
             key: 'chips',
             type: 'chips',
             templateOptions: {
-              joinString: '|',
               source: this.chipsCollection,
               onlyAutocomplete: true,
               placeholder: "Press enter to add value"

@@ -10,7 +10,7 @@ var clone = require('clone');
         <formly-form [model]="model[i]" [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
         </formly-form>
         <br>
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="margin-top: 10px">
           <button md-raised-button *ngIf="to['canRemove']" color="warn" (click)="remove(i)">
             <i class="material-icons">remove</i>
             {{to['removeText'] || 'Quitar'}}
@@ -18,7 +18,7 @@ var clone = require('clone');
           <hr>
         </div>
     </div>
-    <div class="col-xs-12" style="margin-top: 10px">
+    <div class="col-xs-12">
       <button md-raised-button color="primary" *ngIf="to['canAdd'] && (to['maxSections'] ? to['maxSections'] > sectionsNumber : true)" (click)="add()">
         <i class="material-icons">add</i>
         {{to['addText'] || 'Agregar'}}
