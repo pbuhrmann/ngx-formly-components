@@ -97,7 +97,7 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             placeholder: 'Type',
-            nonull: true,
+            nonull: false,
             source: this.typesCollection
           }
         },

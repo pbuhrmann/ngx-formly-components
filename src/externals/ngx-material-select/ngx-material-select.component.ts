@@ -3,10 +3,12 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'ngx-material-select',
   styles: [`
-
+  :host /deep/ .mat-select-trigger {
+    min-width: unset;
+  }
   `],
   template: `
-    <md-select [disabled]="disabled" style="width: 70%" [placeholder]="placeholder" [(ngModel)]="value" (change)="changed($event)" name="select-list" [multiple]="multiple">
+    <md-select [disabled]="disabled" [style.width]="nonull?'100%':'calc(100% - 50px)'" style="padding-top: 4px" [placeholder]="placeholder" [(ngModel)]="value" (change)="changed($event)" name="select-list" [multiple]="multiple">
       <md-option *ngFor="let item of items" [value]="item.value">{{item.name}}</md-option>
     </md-select>
     <button md-icon-button *ngIf="!nonull" (click)="clear()"><i class="material-icons md-24">clear</i></button>

@@ -68,7 +68,7 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
                             }
                         }
                     });
-                }, 250);
+                }, 300);
             }
         });
     }
