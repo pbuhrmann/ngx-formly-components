@@ -177,7 +177,7 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: "Chips",
             source: this.chipsCollection,
             onlyAutocomplete: true,
-            maxItems: 7            
+            maxItems: 7
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -220,6 +220,9 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             label: 'Input',
             placeholder: 'E-mail',
+            keydown: (e) => {
+              console.log(e);
+            },
           },
           validators: {
             validation: Validators.compose([Validators.email])

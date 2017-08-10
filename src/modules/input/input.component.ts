@@ -14,7 +14,7 @@ import { FormControl } from '@angular/forms';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
-            <input mdInput [placeholder]="to.placeholder" type="text" [formControl]="fControl" [mdAutocomplete]="autocomplete" [value]="value"/>
+            <input mdInput [placeholder]="to.placeholder" type="text" [formControl]="fControl" [mdAutocomplete]="autocomplete" [value]="value" (keydown)="keydown($event)"/>
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete">
             <md-option *ngFor="let item of filteredItems" [value]="item">{{item}}</md-option>
@@ -35,7 +35,7 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        if(this.to.disabled){
+        if (this.to.disabled) {
             this.fControl.disable();
         }
         if (this.to.source) {
@@ -87,6 +87,12 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy {
             val = val.toString();
             return option.toLowerCase().indexOf(val.toLowerCase()) >= 0;
         });
+    }
+
+    keydown(e: any) {
+        if (this.to.keydown) {
+            this.to.keydown(e);
+        }
     }
 
     ngOnDestroy() {
