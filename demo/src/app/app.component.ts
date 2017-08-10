@@ -220,6 +220,7 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             label: 'Input',
             placeholder: 'E-mail',
+            //password: true,
             keydown: (e) => {
               console.log(e);
             },
