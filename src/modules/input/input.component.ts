@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { Field } from 'ng-formly';
 import { Subject } from 'rxjs/Subject';
 import { FormControl } from '@angular/forms';
@@ -14,7 +14,7 @@ import { FormControl } from '@angular/forms';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
-            <input mdInput [placeholder]="to.placeholder" type="{{to.password?'password':'text'}}" [formControl]="fControl" [mdAutocomplete]="autocomplete" [value]="value" (keydown)="keydown($event)"/>
+            <input #myinput mdInput [placeholder]="to.placeholder" type="{{to.password?'password':'text'}}" [formControl]="fControl" [mdAutocomplete]="autocomplete" [value]="value" (keydown)="keydown($event)"/>
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete">
             <md-option *ngFor="let item of filteredItems" [value]="item">{{item}}</md-option>
@@ -22,13 +22,14 @@ import { FormControl } from '@angular/forms';
   </div>
   `,
 })
-export class FormlyInputComponent extends Field implements OnInit, OnDestroy {
+export class FormlyInputComponent extends Field implements OnInit, OnDestroy, AfterViewInit {
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
     public fControl: FormControl = new FormControl();
     public items: any[];
     public filteredItems: any[];
-    public value: string;
+    public value: string = null;
+    @ViewChild('myinput') myinput: ElementRef;
 
     constructor(private changeDetectorRef: ChangeDetectorRef) {
         super();
@@ -43,9 +44,7 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy {
                 this.items = x;
             });
         }
-        if (this.to.defaultValue && !this.formControl.value) {
-            this.formControl.setValue(this.to.defaultValue);
-        }
+
         this.fControl.setValue(this.formControl.value);
 
         this.fControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(e => {
@@ -64,6 +63,15 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy {
             this.changeDetectorRef.detectChanges();
             this.formControl.setValue(e);
         });
+        console.log(this.myinput);
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => {
+            if (!this.formControl.value && this.myinput.nativeElement.value) {
+                this.formControl.setValue(this.myinput.nativeElement.value);
+            }
+        }, 600);
     }
 
     filter(val: string): string[] {
