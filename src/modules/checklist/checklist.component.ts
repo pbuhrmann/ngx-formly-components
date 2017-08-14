@@ -11,20 +11,18 @@ import { Subject } from 'rxjs/Subject';
     }
     `],
     template: `
-    <md-checkbox [disabled]="to.disabled" class="example-margin" [(ngModel)]="value" (ngModelChange)="changed($event)">{{to.text || ''}}</md-checkbox>
+    <md-checkbox [disabled]="to.disabled" class="example-margin" [formControl]="formControl">{{to.text || ''}}</md-checkbox>
     `
 })
 export class FormlyChecklistComponent extends Field implements OnInit, OnDestroy {
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
-    public value: any;
 
     constructor() {
         super();
     }
 
     ngOnInit() {
-        this.value = this.formControl.value;
     }
 
     changed(e: any) {

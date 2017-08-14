@@ -32,11 +32,13 @@ export class FormlyTextareaComponent extends Field implements OnInit, OnDestroy 
         }
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(e => {
             let result = e;
-            if (this.to.maxLength && e.length > this.to.maxLength) {
-                result = result.substr(0, this.to.maxLength);
-            }
-            if (this.to.format) {
-                result = this.to.format(e);
+            if (e) {
+                if (this.to.maxLength && e.length > this.to.maxLength) {
+                    result = result.substr(0, this.to.maxLength);
+                }
+                if (this.to.format) {
+                    result = this.to.format(e);
+                }
             }
 
             this.formControl.setValue(result, { emitEvent: false });

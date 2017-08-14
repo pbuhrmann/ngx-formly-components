@@ -3,7 +3,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MdInputModule, MdDatepickerModule, MdButtonModule, MdNativeDateModule, MdTooltipModule } from '@angular/material';
 import { TextMaskModule } from 'angular2-text-mask';
-import { NgxMaterialDatetimeModule } from '../../externals/ngx-material-datetime/ngx-material-datetime.module';
 import { FormlyDatetimeComponent } from './datetime.component';
 
 @NgModule({

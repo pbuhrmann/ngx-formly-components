@@ -11,7 +11,10 @@ import { Subscription } from "rxjs/Subscription";
     `],
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}" style="margin-top: 10px">
-        <ngx-material-select [disabled]="to.disabled" [nonull]="to.nonull" [placeholder]="to.placeholder" [value]="formControl.value" [items]="items" (change)="changed($event)" [multiple]="to.multiple"></ngx-material-select>
+        <md-select [formControl]="formControl" [disabled]="to.disabled" [style.width]="to.nonull?'100%':'calc(100% - 50px)'" style="padding-top: 4px" [placeholder]="to.placeholder" [multiple]="to.multiple">
+            <md-option *ngFor="let item of items" [value]="item.value">{{item.name}}</md-option>
+        </md-select>
+        <button md-icon-button *ngIf="!to.nonull" (click)="clear()"><i class="material-icons md-24">clear</i></button>
     </div>
     `
 })
@@ -52,10 +55,12 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
         }
     }
 
-    changed(e: any) {
-        this.formControl.setValue(e);
+    clear() {
+        if (this.to.nonull) {
+            return;
+        }
+        this.formControl.setValue(null);
     }
-
     ngOnDestroy() {
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();

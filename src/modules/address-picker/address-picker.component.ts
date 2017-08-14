@@ -17,7 +17,7 @@ import { FormlyAddressPickerMapComponent } from './map/map.component';
     template: `
     <div [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
-            <input mdInput [placeholder]="to.placeholder" type="text" [formControl]="fControl" [mdAutocomplete]="autocomplete" [value]="value"/>
+            <input mdInput [placeholder]="to.placeholder" type="text" [formControl]="formControl" [mdAutocomplete]="autocomplete" [value]="value"/>
             <i mdSuffix class="material-icons md-18 open-map" [class.disabled]="to.disabled" (click)="!to.disabled && openMap()" [mdTooltip]="to.tooltip" mdTooltipPosition="below">my_location</i>
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
@@ -29,7 +29,6 @@ import { FormlyAddressPickerMapComponent } from './map/map.component';
 export class FormlyAddressPickerComponent extends Field implements OnInit, OnDestroy {
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
-    public fControl: FormControl = new FormControl();
     public items: any[];
     public value: string;
     private sub: Subscription;
@@ -41,21 +40,16 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
 
     public ngOnInit() {
         if (this.to.disabled) {
-            this.fControl.disable();
+            this.formControl.disable();
         }
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 // source
             });
         }
-        if (this.to.defaultValue && !this.formControl.value) {
-            this.formControl.setValue(this.to.defaultValue);
-        }
-        this.fControl.setValue(this.formControl.value);
 
-        this.fControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(e => {
+        this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(e => {
             if (e && !e.formatted_address) {
-                this.formControl.setValue(e);
                 let address = e.replace(/ /g, '+');
                 this.timeout && clearTimeout(this.timeout);
                 this.sub && this.sub.unsubscribe();
@@ -106,7 +100,6 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
             }
         });
         dialogRef.afterClosed().takeUntil(this.ngUnsubscribe).filter(x => !!x).subscribe(result => {
-            this.fControl.setValue(result);
             this.formControl.setValue(result);
         });
     }

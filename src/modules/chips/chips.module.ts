@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MdAutocompleteModule, MdInputModule, MdChipsModule, MdButtonModule } from '@angular/material';
 import { TextMaskModule } from 'angular2-text-mask';
 import { FormlyChipsComponent } from './chips.component';
-import { NgxMaterialChipsModule } from '../../externals/ngx-material-chips/ngx-material-chips.module';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		NgxMaterialChipsModule
+		MdInputModule,
+    MdAutocompleteModule,
+    MdChipsModule,
+    MdButtonModule
 	],
 	declarations: [FormlyChipsComponent],
 	exports: [FormlyChipsComponent]

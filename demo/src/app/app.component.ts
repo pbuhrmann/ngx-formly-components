@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
       input2: null,
       checklist1: false,
       checklist2: true,
-      textarea: null,
+      textarea: "This is a comment",
       address: {
         formatted_address: 'Cerrito 800, C1010AAP CABA, Argentina',
         lat: -34.5992993,
@@ -58,8 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
       },
     }
 
-    //setTimeout(()=>{ this.form.get('textarea').setValue('123456789')}, 2500);
-    //setTimeout(()=>{ this.form.get('datetime').setValue(null)}, 2000);
+    setTimeout(() => { this.form.reset() }, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -113,9 +112,9 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Subtype',
             nonull: true,
             source: Observable.create(o => {
-              let key = 'typeId';
+              const key = 'typeId';
+              const endpoint = this.subtypesCollection;
               let val = this.model[key];
-              let endpoint = this.subtypesCollection;
               endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
                 o.next(y);
               });
@@ -139,24 +138,24 @@ export class AppComponent implements OnInit, OnDestroy {
             disabled: true,
             nonull: true,
             source: Observable.create(o => {
-              let key = 'subtypeId';
+              const key = 'subtypeId';
+              const endpoint = this.prioritiesCollection;
               let val = this.model[key];
-              let endpoint = this.prioritiesCollection;
               endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => { //submit collection for the first time
                 o.next(y);
               });
               this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => { //subscribe to changes in the form
-                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => { //update collection whenever key's value changes
-                  val = x;
-                  o.next(y);
+                val = x;
+                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => { //update collection whenever key's value changes                  
+                  x && o.next(y);
                 });
               });
             }),
             bind: Observable.create(o => {
-              let key = 'subtypeId';
-              let property = 'priority';
+              const key = 'subtypeId';
+              const property = 'priority';
+              const endpoint = this.subtypesCollection;
               let val = this.model[key];
-              let endpoint = this.subtypesCollection;
               endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(x => {
                 x && o.next(x.filter(y => y.value == val)[0][property]); //submit key's property value 
               });

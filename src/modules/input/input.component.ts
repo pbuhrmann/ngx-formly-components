@@ -51,7 +51,7 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy, Af
             if (this.to.maxLength && e.length > this.to.maxLength) {
                 result = result.substr(0, this.to.maxLength);
             }
-            if (this.to.format) {
+            if (this.to.format && e) {
                 result = this.to.format(e);
             }
             
