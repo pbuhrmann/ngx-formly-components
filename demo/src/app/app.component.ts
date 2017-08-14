@@ -57,6 +57,9 @@ export class AppComponent implements OnInit, OnDestroy {
         lng: -58.3827919
       },
     }
+
+    //setTimeout(()=>{ this.form.get('textarea').setValue('123456789')}, 2500);
+    //setTimeout(()=>{ this.form.get('datetime').setValue(null)}, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -190,7 +193,7 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             label: 'Input',
-            disabled: true,
+            disabled: false,
             source: this.chipsCollection,
             sourceFilter: (x) => {
               let arr = x.filter(x => x == 'Argentina');
@@ -237,7 +240,9 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             label: 'Input',
             placeholder: 'Comments',
-            maxLength: 5
+            maxLength: 30,
+            maxRows: 4,
+            minRows: 4
           }
         },
         {

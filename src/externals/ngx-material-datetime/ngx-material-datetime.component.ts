@@ -18,7 +18,7 @@ import { Subject } from 'rxjs/Subject';
   `],
   template: `
   <md-input-container>
-    <input mdInput [formControl]="formControl"  placeholder="{{placeholder}}" type="text" [(ngModel)]="value" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
+    <input mdInput [formControl]="fControl" placeholder="{{placeholder}}" type="text" [textMask]="{mask: mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
     <i mdSuffix class="fa fa-calendar-check-o today" [class.disabled]="disabled" [mdTooltip]="tooltip" mdTooltipPosition="below" (click)="!disabled && today()"></i>
   </md-input-container>
   `
@@ -27,7 +27,7 @@ export class NgxMaterialDatetimeComponent implements OnInit {
 
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  @Input() value: string = null;
+  @Input() fControl: FormControl = null;
   @Input() disabled: boolean = false;
   @Input() placeholder: string = null;
   @Input() format: string = null;
@@ -36,14 +36,13 @@ export class NgxMaterialDatetimeComponent implements OnInit {
   @Output() changed: EventEmitter<any> = new EventEmitter<any>();
   momentFunc = (moment as any).default ? (moment as any).default : moment;
 
-  public formControl: FormControl = new FormControl();
   public autoCorrectedDatePipe: any;
 
   constructor() { }
 
   ngOnInit() {
-    if(this.disabled){
-      this.formControl.disable();
+    if (this.disabled) {
+      this.fControl.disable();
     }
     if (!this.format) {
       console.error('Format is missing, example: <ngx-material-datetime format="DD-MM-YYYY HH:mm:ss"></ngx-material-datetime>');
@@ -52,13 +51,13 @@ export class NgxMaterialDatetimeComponent implements OnInit {
       console.error('Mask is missing example: <ngx-material-datetime [mask]="[/\d/, /\d/, \' - \', /\d/, /\d/, \' - \', /\d/, /\d/, /\d/, /\d/, \' \', /\d/, /\d/, \':\', /\d/, /\d/]"></ngx-material-datetime>');
     }
     this.autoCorrectedDatePipe = this.createAutoCorrectedDateTimePipe(this.format);
-    this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
+    this.fControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
       this.changed.emit(x);
     });
   }
 
   today() {
-    this.value = this.momentFunc().format(this.format);
+    this.fControl.setValue(this.momentFunc().format(this.format));
   }
 
   createAutoCorrectedDateTimePipe(dateFormat: string) {
