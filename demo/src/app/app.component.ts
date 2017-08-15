@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
       },
     }
 
-    setTimeout(() => { this.form.reset() }, 2000);
+    //setTimeout(() => { this.form.reset() }, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [

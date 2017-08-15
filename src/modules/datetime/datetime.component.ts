@@ -18,7 +18,7 @@ import * as moment from 'moment';
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container>
             <input mdInput [formControl]="formControl" [placeholder]="to.placeholder" type="text" [textMask]="{mask: to.mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
-            <i mdSuffix class="fa fa-calendar-check-o today" [class.disabled]="disabled" [mdTooltip]="to.tooltip || 'Today'" mdTooltipPosition="below" (click)="!to.disabled && today()"></i>
+            <i mdSuffix class="fa fa-calendar-check-o today" [class.disabled]="formControl.disabled" [mdTooltip]="to.tooltip || 'Today'" mdTooltipPosition="below" (click)="!to.disabled && today()"></i>
         </md-input-container>
     </div>
     `
@@ -37,11 +37,10 @@ export class FormlyDatetimeComponent extends Field implements OnInit, OnDestroy 
     }
 
     ngOnInit() {
-        if (this.to.source) {
-            this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
-                this.options = x;
-            });
-        }
+        this.to.disabled && this.formControl.disable();
+        this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
+            this.options = x;
+        });
         if (this.formControl.value) {
             this.value = this.momentFunc(this.formControl.value, this.to.format).format(this.to.format);
         }

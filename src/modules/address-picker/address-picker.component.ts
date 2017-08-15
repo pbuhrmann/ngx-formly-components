@@ -13,12 +13,15 @@ import { FormlyAddressPickerMapComponent } from './map/map.component';
     .open-map {
         cursor: pointer;
     }
+    .disabled {
+        color: #b0b0b0;
+    }
   `],
     template: `
     <div [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
             <input mdInput [placeholder]="to.placeholder" type="text" [formControl]="formControl" [mdAutocomplete]="autocomplete" [value]="value"/>
-            <i mdSuffix class="material-icons md-18 open-map" [class.disabled]="to.disabled" (click)="!to.disabled && openMap()" [mdTooltip]="to.tooltip" mdTooltipPosition="below">my_location</i>
+            <i mdSuffix class="material-icons md-18 open-map" [class.disabled]="to.disabled || formControl.disabled" (click)="!to.disabled && !formControl.disabled && openMap()" [mdTooltip]="to.tooltip" mdTooltipPosition="below">my_location</i>
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
             <md-option *ngFor="let item of items" [value]="item" (click)="clicked(item)">{{item.formatted_address}}</md-option>

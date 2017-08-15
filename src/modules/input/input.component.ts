@@ -35,9 +35,7 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy, Af
     }
 
     public ngOnInit() {
-        if (this.to.disabled) {
-            this.formControl.disable();
-        }
+        this.to.disabled && this.formControl.disable();
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 this.items = x;
@@ -54,7 +52,7 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy, Af
             if (this.to.format && e) {
                 result = this.to.format(e);
             }
-            
+
             this.formControl.setValue(result, { emitEvent: false });
         });
     }

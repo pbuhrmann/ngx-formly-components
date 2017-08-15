@@ -31,6 +31,7 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.to.disabled && this.formControl.disable();
         let initialValue = this.formControl.value;
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {

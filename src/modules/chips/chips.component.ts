@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 70%">
-            <input type="text" [disabled]="to.disabled" mdInput [placeholder]="to.placeholder" [(ngModel)]="value" (ngModelChange)="changed($event)" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
+            <input type="text" [disabled]="formControl.disabled" mdInput [placeholder]="to.placeholder" [(ngModel)]="value" (ngModelChange)="changed($event)" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete">
             <md-option *ngFor="let option of filteredItems" [value]="option" (click)="add(option)">
@@ -41,6 +41,7 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.to.disabled && this.formControl.disable();
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 this.items = x;
@@ -81,7 +82,7 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     }
 
     add() {
-        if (this.to.disabled) {
+        if (this.to.disabled || this.formControl.disabled) {
             return;
         }
         if (this.selectedItems && this.value && this.selectedItems.length < (this.to.maxItems || 99999)) {
@@ -98,7 +99,7 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     }
 
     remove(e) {
-        if (this.to.disabled) {
+        if (this.to.disabled || this.formControl.disabled) {
             return;
         }
         this.selectedItems = this.selectedItems.filter(x => {
