@@ -70,7 +70,8 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 	ngAfterViewInit() {
 		this.map = L.map('ngx-formly-components-map-' + this.mapId, {
 			maxZoom: 18,
-			minZoom: 6
+			minZoom: 6,
+			attributionControl: false
 		}).setView(this.data.mapCenterCoords, 12);
 		L.tileLayer(this.data.tileLayerSource, {
 			attribution: '',
