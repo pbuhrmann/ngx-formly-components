@@ -23,10 +23,9 @@ export class FormlyChecklistComponent extends Field implements OnInit, OnDestroy
     }
 
     ngOnInit() {
-    }
-
-    changed(e: any) {
-        this.formControl.setValue(e);
+        if(!this.formControl.value){
+            this.formControl.setValue(false);
+        }
     }
 
     ngOnDestroy() {
