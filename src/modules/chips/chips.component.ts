@@ -47,7 +47,6 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             });
         }
         this.selectedItems = this.formControl.value || [];
-        this.formControl.setValue(null);
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.filteredItems = this.filter(x);
             this.selectedItems = x || [];
