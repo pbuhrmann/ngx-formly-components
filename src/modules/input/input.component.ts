@@ -22,7 +22,7 @@ import { FormControl } from '@angular/forms';
   </div>
   `,
 })
-export class FormlyInputComponent extends Field implements OnInit, OnDestroy, AfterViewInit {
+export class FormlyInputComponent extends Field implements OnInit, OnDestroy, DoCheck {
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
     public items: any[];
@@ -57,12 +57,10 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy, Af
         });
     }
 
-    ngAfterViewInit() {
-        setTimeout(() => {
-            if (!this.formControl.value && this.myinput.nativeElement.value) {
-                this.formControl.setValue(this.myinput.nativeElement.value);
-            }
-        }, 600);
+    ngDoCheck() {
+        if (!this.formControl.value && this.myinput.nativeElement.value) {
+            this.formControl.setValue(this.myinput.nativeElement.value);
+        }
     }
 
     filter(val: string): string[] {
