@@ -10,19 +10,17 @@ var clone: any = require('clone');
     <div *ngFor="let control of mycontrols; let i = index;">
         <formly-form [model]="model[i]" [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
         </formly-form>
-        <br>
-        <div class="col-xs-12" style="margin-top: 10px">
+        <div class="col-xs-12">
           <button md-raised-button *ngIf="to['canRemove']" color="warn" (click)="remove(i)">
             <i class="material-icons">remove</i>
-            {{to['removeText'] || 'Quitar'}}
+            {{to['removeText'] || 'Remove'}}
           </button>
-          <hr>
         </div>
     </div>
-    <div class="col-xs-12">
-      <button md-raised-button color="primary" *ngIf="to['canAdd'] && (to['maxSections'] ? to['maxSections'] > sectionsNumber : true)" (click)="add()">
+    <div class="col-xs-12" *ngIf="to['canAdd'] && (to['maxSections'] ? to['maxSections'] > sectionsNumber : true)">
+      <button md-raised-button color="primary"  (click)="add()" style="margin-top: 5px">
         <i class="material-icons">add</i>
-        {{to['addText'] || 'Agregar'}}
+        {{to['addText'] || 'Add'}}
       </button>
     </div>
   `,
