@@ -7,7 +7,10 @@ import { Observable } from 'rxjs';
 @Component({
     selector: 'formly-ngx-material-chips',
     styles: [`
-
+        md-chip {
+            outline: none;
+            margin: 1px 0px 0px 0px !important;
+        }
     `],
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
