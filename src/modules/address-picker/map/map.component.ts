@@ -100,7 +100,7 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 
 	setLocation(e: any) {
 		if (e && e.formatted_address) {
-			this.location = new L.CircleMarker([e.lat, e.lng], { radius: 5 });
+			this.location = new L.CircleMarker([e.lat, e.lng], { radius: 6 });
 			this.featureGroup.clearLayers();
 			this.featureGroup.addLayer(this.location);
 			this.map.addLayer(this.location);
