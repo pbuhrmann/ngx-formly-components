@@ -57,6 +57,11 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
     }
 
     changed(e: any) {
+        if (!e) {
+            this.items = [];
+            this.formControl.setValue(null);
+            return;
+        }
         !e.geometry && this.formControl.setValue(e);
         if (e && e.length >= 3) {
             let address = e.replace(/ /g, '+');
