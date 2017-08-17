@@ -95,8 +95,8 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
         }
     }
 
-    displayFn(addressObj: any): string {
-        return addressObj ? addressObj.formatted_address ? addressObj.formatted_address : addressObj : null;
+    displayFn(e: any): string {
+        return e ? e.formatted_address ? e.formatted_address : e : null;
     }
 
     openMap() {

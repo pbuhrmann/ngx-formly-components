@@ -33,6 +33,15 @@ export class AppComponent implements OnInit, OnDestroy {
     { name: 'Normal', value: 2 },
     { name: 'High', value: 3 },
   ]);
+  animalsCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
+    { name: 'Horse', value: 1 },
+    { name: 'Cow', value: 2 },
+    { name: 'Dog', value: 3 },
+    { name: 'Bird', value: 4 },
+    { name: 'Fish', value: 5 },
+    { name: 'Reptile', value: 6 },
+    { name: 'Cat', value: 7 },
+  ]);
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor() {
@@ -47,6 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
       priorityId: 1,
       chips: ['Argentina', 'Brazil', 'France'],
       input1: "ARG",
+      autocomplete: 4,
       input2: null,
       checklist1: false,
       checklist2: true,
@@ -191,7 +201,7 @@ export class AppComponent implements OnInit, OnDestroy {
           type: 'input',
           wrapper: [],
           templateOptions: {
-            label: 'Input',
+            placeholder: 'Input',
             disabled: false,
             source: this.chipsCollection,
             sourceFilter: (x) => {
@@ -202,6 +212,16 @@ export class AppComponent implements OnInit, OnDestroy {
           },
           validators: {
             validation: Validators.compose([Validators.required])
+          }
+        },
+        {
+          className: 'col-sm-3',
+          key: 'autocomplete',
+          type: 'autocomplete',
+          wrapper: [],
+          templateOptions: {
+            placeholder: 'autocomplete',
+            source: this.animalsCollection,
           }
         },
       ],

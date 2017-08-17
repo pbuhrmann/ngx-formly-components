@@ -11,7 +11,7 @@ var clone: any = require('clone');
         <formly-form [model]="model[i]" [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
         </formly-form>
         <div class="col-xs-12">
-          <button md-raised-button *ngIf="to['canRemove']" color="warn" (click)="remove(i)" style="margin-top: 5px">
+          <button md-raised-button *ngIf="to['canRemove']" color="warn" (click)="remove(i)" style="margin-top: 5px; margin-bottom: 5px">
             <i class="material-icons">remove</i>
             {{to['removeText'] || 'Remove'}}
           </button>
