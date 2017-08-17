@@ -25,7 +25,7 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-    public items: any[];
+    public items: any[] = [];
     public filteredItems: any[];
     public value: string;
     private sub: Subscription;
@@ -37,19 +37,22 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
 
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
-        if (this.to.source) {
-            this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
-                if (x) {
-                    this.items = x;
-                    if (this.formControl.value) {
-                        let val = this.items.filter(y => y.value == this.formControl.value)[0];
-                        if (val) {
-                            this.value = val.name || '';
-                        }
+        this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
+            this.filteredItems = [];
+            if (x && x.length > 0) {
+                this.items = x;
+                if (this.formControl.value) {
+                    let val = this.items.filter(y => y.value == this.formControl.value)[0];
+                    this.value = val || null;
+                }
+                else {
+                    if (this.to.nonull) {
+                        this.formControl.setValue(this.items[0].value);
+                        this.value = this.items[0];
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     changed(e: any) {
