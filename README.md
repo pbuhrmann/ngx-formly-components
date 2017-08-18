@@ -1,27 +1,57 @@
-# Installation
+[![GitHub issues](https://img.shields.io/github/issues/penrique/ngx-formly-components.svg)](https://github.com/penrique/ngx-formly-components/issues)
+[![GitHub stars](https://img.shields.io/github/stars/penrique/ngx-formly-components.svg)](https://github.com/penrique/ngx-formly-components/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/penrique/ngx-formly-components/master/LICENSE)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/penrique/ngx-formly-components.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
+## Table of contents
+1. [Getting Started](#getting-started)
+2. [Installation instructions](#installation-instructions)
+3. [Running the demo](#running-the-demo)
+4. [Components](#components)
+5. [Wrappers](#wrappers)
+6. [Demo Code](#demo-code)
+
+# Getting Started
+Ngx-formly-components is an Angular 4+ module which contains a set of ready-to-use, easily configurable components to aid those who seek to create and mantain forms on the fly almost effortlessly.
+It is designed to work along with [@angular/material](https://github.com/angular/material2) and [ng-formly](https://github.com/formly-js/ng-formly), which means you'll get really cool looking JSON configurable forms.
+
+To get started there's a couple of steps required by angular material you'll have to complete before being able to use any components properly:
+
+#### 1. Include a theme 
+Including a theme is required to apply all of the core and theme styles to your application.
+To get started with a prebuilt theme, include one of Angular Material's prebuilt themes globally in your application. If you're using the Angular CLI, you can add this to your styles.css:
+```scss
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 ```
-npm install ngx-formly-components
+If you are not using the Angular CLI, you can include a prebuilt theme via a <link> element in your index.html.
+For more information on theming and instructions on how to create a custom theme, see the [theming guide](https://material.angular.io/guide/theming).
+
+#### 2. Add material icons
+Include this line in your index.html if you don't plan on hosting the icons yourself:
+```html
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+```
+Otherwise you first have to download the icon font:
+```bash
+npm install material-design-icons --save
+```
+Once that's done downloading browse your node_modules folder and copy the iconfont folder from inside the material-design-icons folder to your project's assets folder.
+Afterwards include `assets/material/iconfont/material-icons.css` to your project and you're set.
+
+
+# Installation instructions
+Install ngx-formly-components from [npm](www.npmjs.com/)
+```bash
+npm install ngx-formly-components@latest --save
 ```
 
-# Demo
-
-```
-> npm install
-> ng serve
->>> Open your browser on `http://localhost:4200`
-```
-
-# Usage
-
-`app.module.ts`
-```
+Import `FormlyComponentsModule`
+```ts
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 import { AppComponent } from './app.component';
+
 import { FormlyComponentsModule } from 'ngx-formly-components';
 
 @NgModule({
@@ -29,10 +59,8 @@ import { FormlyComponentsModule } from 'ngx-formly-components';
     AppComponent
   ],
   imports: [
-    CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
-    FormlyComponentsModule.forRoot()
+    FormlyComponentsModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -40,226 +68,98 @@ import { FormlyComponentsModule } from 'ngx-formly-components';
 export class AppModule { }
 ```
 
-`app.component.html`
-```
-<div class="container">
-    <formly-form [model]="model" [fields]="formlyFields" [form]="form">
-    </formly-form>
-    <br>
-    <div class="col-sm-12">
-        <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-        <button type="button" (click)="cancel()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
-    </div>
-    <br> Model:
-    <br>
-    <textarea disabled rows="15" cols="4" style="width: 90%">{{JSON.stringify(model, null, 2)}}</textarea>
-</div>
-```
-
-`app.component.ts`
-```
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from 'ng-formly';
-import { Observable, BehaviorSubject } from 'rxjs';
-import * as moment from 'moment';
-
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent implements OnInit {
-  JSON: any;
-  model: any;
-  form: FormGroup = new FormGroup({});
-  chipsCollection: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
-  selectCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
-    { name: 'ARG', value: 1 },
-    { name: 'BR', value: 2 },
-    { name: 'CH', value: 3 },
-    { name: 'CL', value: 4 },
-    { name: 'NZ', value: 5 }
-  ]);
-
-  constructor() {
-    this.JSON = (<any>window).JSON;
-    this.model = {
-      datetime: moment().format('DD-MM-YYYY HH:mm'),
-      select: 2,
-      chips: "Argentina|Brazil|France",
-      input1: null,
-      input2: null,
-    }
-  }
-
-  ngOnInit() {
-  }
-
-  formlyFields: FormlyFieldConfig[] = [
-    {
-      className: 'row',
-      wrappers: ['section'],
-      templateOptions: {
-        title: 'Demo'
-      },
-      fieldGroup: [
-        {
-          key: 'datetime',
-          type: 'datetime',
-          className: 'col-sm-3',
-          templateOptions: {
-            label: 'Datetime',
-            format: 'DD-MM-YYYY HH:mm',
-            text_today: 'Today',
-            mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
-          },
-          validators: {
-            validation: Validators.compose([(e) => {
-              if (!e.value) {
-                return { datetime: 'invalid' };
-              }
-              let valid = moment(e.value, 'DD-MM-YYYY HH:mm').isSameOrBefore(moment());
-              valid = valid && e.value.indexOf('_') == -1;
-              return valid ? null : { datetime: 'invalid' }
-            }])
-          }
-        },
-        {
-          key: 'select',
-          type: 'select',
-          className: 'col-sm-3',
-          wrapper: [], //<-- in order to hide formly's default label
-          templateOptions: {
-            label: 'Select',
-            source: this.selectCollection,
-            multiple: false,
-          },
-          validators: {
-            validation: Validators.compose([Validators.required])
-          }
-        },
-        {
-          className: 'col-sm-3',
-          key: 'chips',
-          type: 'chips',
-          templateOptions: {
-            label: 'Chips',
-            joinString: '|',
-            source: this.chipsCollection,
-            onlyAutocomplete: true,
-            maxItems: 5,
-            placeholder: "Press enter to add value"
-          },
-          validators: {
-            validation: Validators.compose([Validators.required])
-          }
-        },
-        {
-          className: 'col-sm-3',
-          key: 'input1',
-          type: 'input',
-          wrapper: [],
-          templateOptions: {
-            label: 'Input',
-            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
-          },
-          validators: {
-            validation: Validators.compose([Validators.required])
-          }
-        },
-      ],
-    },
-    {
-      className: 'row',
-      wrappers: ['split'],
-      fieldGroup: [
-        {
-          className: 'col-sm-4',
-          key: 'input2',
-          type: 'input',
-          wrapper: [],
-          templateOptions: {
-            label: 'Input',
-            placeholder: 'E-mail',
-          },
-          validators: {
-            validation: Validators.compose([Validators.email])
-          }
-        },
-        {
-          className: 'col-sm-4',
-          key: 'textarea',
-          type: 'textarea',
-          wrapper: [],
-          templateOptions: {
-            label: 'Input',
-            placeholder: 'Comments',
-            maxLength: 5
-          }
-        },
-      ]
-    }
-  ];
-
-  submit() {
-    console.log(this.model);
-  }
-
-  cancel() {
-
-  }
-
-}
-
-
+# Running the demo
+```bash
+> npm install
+> ng serve
+>>> Open your browser on `http://localhost:4200`
 ```
 
 # Components
-### **Datetime**
-#### Formly type: `'datetime'`
----
-Input | Type | Example
---- | --- | ---
-*mask* | `(string\|RegExp)[]` | `[/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]`
-*format* | `string` | `'DD-MM-YYYY HH:mm'`
-*txt_today* | `string` | `Fecha de Hoy`
----
-### **Select**
-#### Formly type: `'select'`
----
-Input | Type | Example
---- | --- | ---
-*source* | `BehaviorSubject<string[]>` | `new BehaviorSubject<any[]>([{ name: 'ARG', value: 1 },{ name: 'BR', value: 2 }]);`
-*multiple* | `boolean` | `true`
----
-### **Chips**
-#### Formly type: `'chips'`
----
-Input | Type | Example
---- | --- | ---
-*source* | `BehaviorSubject<string[]>` | `new BehaviorSubject<any[]>(['Cheese', 'Apple', 'Pie']);`
-*maxItems* | `BehaviorSubject<string[]>` | `new BehaviorSubject<any[]>([{ name: 'ARG', value: 1 },{ name: 'BR', value: 2 }]);`
-*onlyAutocomplete* | `boolean` | `true`
-*placeholder* | `string` | `Press enter to add value`
----
 ### **Input**
-#### Formly type: `'input'`
 ---
-Input | Type | Example
---- | --- | ---
-*format* | `(val: string) => string` | `(e: string) => e.trim().toUpperCase().replace(/(_\|\W)+/g, '')`
-*placeholder* | `string` | `Only uppercase alphanumeric allowed`
-*maxLength* | `number` | `12`
----
+| Input         | Type                  | Example                                                       |
+|---------------|-----------------------|---------------------------------------------------------------|
+| `placeholder` | string                | 'Username'                                                    |
+| `disabled`    | boolean               | true                                                          |
+| `format`      | (e: string) => string | (e: string) => e.trim().toUpperCase().replace(/(_\|\W)+/g, '')|
+| `source`      | Observable<string[]>  | new Observable(o => {o.next(['A', 'B', 'C'])})                |
+| `keydown`     | (e: any)=>void        | (e)=>{ if(e.key == 'enter'){console.log('Submit!')}}          |
+| `password`    | boolean               | false                                                         |
+| `maxLength`   | number                | 25                                                            |
+
+`@source`: A list which enables autocomplete capabilities
+
 ### **Textarea**
-#### Formly type: `'textarea'`
----
-Input | Type | Example
---- | --- | ---
-*format* | `(val: string) => string` | `(e: string) => e.trim().toUpperCase().replace(/(_\|\W)+/g, '')`
-*placeholder* | `string` | `Only uppercase alphanumeric allowed`
-*maxLength* | `number` | `50`
----
+| Input         | Type                  | Example                                              |
+|---------------|-----------------------|------------------------------------------------------|
+| `placeholder` | string                | 'Comments'                                           |
+| `disabled`    | boolean               | true                                                 |
+| `format`      | (e: string) => string | (e: string) => e.trim().toUpperCase().replace(/(_\   |
+| `keydown`     | (e: any)=>void        | (e)=>{ if(e.key == 'enter'){console.log('Submit!')}} |
+| `maxLength`   | number                | 150                                                  |
+| `minRows`     | number                | 1                                                    |
+| `maxRows`     | number                | 4                                                    |
 
+### **Select**
+---
+| Input         | Type                  | Example                                              |
+|---------------|-----------------------|------------------------------------------------------|
+| `placeholder` | string                | 'Comments'                                           |
+| `disabled`    | boolean               | true                                                 |
+| `format`      | (e: string) => string | (e: string) => e.trim().toUpperCase().replace(/(_    |
+| `keydown`     | (e: any)=>void        | (e)=>{ if(e.key == 'enter'){console.log('Submit!')}} |
+| `maxRows`     | number                | 3                                                    |
+| `minRows`     | number                | 1                                                    |
+| `maxLength`   | number                | 150                                                  |
 
+### **Autocomplete**
+---
+| Input         | Type                                                   | Example                                        |
+|---------------|--------------------------------------------------------|------------------------------------------------|
+| `placeholder` | string                                                 | 'Comments'                                     |
+| `disabled`    | boolean                                                | true                                           |
+| `source`      | Observable<{ name: string, value: string \| number }[]>| new Observable(o=>{ o.next([{ name: 'Horse', value: 1 },{ name: 'Cow', value: 2 },{ name: 'Dog', value: 3 }]) } |
+| `nonull`      | boolean                                                | nonull: true                                   |
+
+### **Checklist**
+| Input      | Type    | Example      |
+|------------|---------|--------------|
+| `text`     | string  | 'I agree'    |
+| `disabled` | boolean | true         |
+
+### **Datetime**
+| Input         | Type                 | Example                                                                                      |
+|---------------|----------------------|----------------------------------------------------------------------------------------------|
+| `placeholder` | string               | 'Deadline'                                                                                   |
+| `disabled`    | boolean              | true                                                                                         |
+| `format`      | string               | 'DD-MM-YYYY HH:mm'                                                                           |
+| `tooltip`     | string               | 'Today'                                                                                      |
+| `mask`        | (string \| RegExp)[] | [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/] |
+
+### **Chips**
+| Input              | Type                 | Example                                     |
+|--------------------|----------------------|---------------------------------------------|
+| `placeholder`      | string               | 'Symptoms'                                  |
+| `disabled`         | boolean              | true                                        |
+| `source`           | Observable<string[]> | new Observable(o=>{o.next(['A', 'B', 'C'])} |
+| `onlyAutocomplete` | boolean              | true                                        |
+| `maxItems`         | number               | 5                                           |
+
+### **Address-Picker**
+> Not yet documented
+### **Repeated-Section**
+> Not yet documented
+### **Blank**
+> Just a blank, can be useful. Might want to check out `app.component.ts`
+
+# Wrappers
+* **Section**
+* **Split**
+* **Card**
+
+# Demo code
+### All available components are being used in the demo code, check out `app.component.ts` for more detailed information on how to use each. 
+
+# Issues
+### Feel free to submit any issues or features you want to see in the future! Happy coding!

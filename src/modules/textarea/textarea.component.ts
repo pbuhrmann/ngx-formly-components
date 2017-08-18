@@ -27,9 +27,6 @@ export class FormlyTextareaComponent extends Field implements OnInit, OnDestroy 
     }
 
     public ngOnInit() {
-        if (this.to.defaultValue && !this.formControl.value) {
-            this.formControl.setValue(this.to.defaultValue);
-        }
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(e => {
             let result = e;
             if (e) {

@@ -30,12 +30,14 @@ import { FormlyAddressPickerModule } from './modules/address-picker/address-pick
 import { FormlyAddressPickerComponent } from './modules/address-picker/address-picker.component';
 import { FormlyAutocompleteModule } from './modules/autocomplete/autocomplete.module';
 import { FormlyAutocompleteComponent } from './modules/autocomplete/autocomplete.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
+		BrowserAnimationsModule,
 		FormlyBootstrapModule,
 		FormlyModule.forRoot({
 			types: [
@@ -74,8 +76,9 @@ import { FormlyAutocompleteComponent } from './modules/autocomplete/autocomplete
 	],
 	exports: [
 		ReactiveFormsModule,
+		BrowserAnimationsModule,
 		FormlyBootstrapModule,
-		FormlyModule
+		FormlyModule		
 	]
 })
 export class FormlyComponentsModule {

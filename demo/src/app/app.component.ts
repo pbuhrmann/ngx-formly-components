@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { name: 'Normal', value: 2 },
     { name: 'High', value: 3 },
   ]);
-  animalsCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
+  animalsCollection: BehaviorSubject<{ name: string, value: string | number }[]> = new BehaviorSubject<{ name: string, value: string | number }[]>([
     { name: 'Horse', value: 1 },
     { name: 'Cow', value: 2 },
     { name: 'Dog', value: 3 },
@@ -88,7 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Datetime',
             tooltip: 'Today',
             format: 'DD-MM-YYYY HH:mm',
-            text_today: 'Today',
             mask: [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/]
           },
           validators: {
@@ -204,10 +203,7 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Input',
             disabled: false,
             source: this.chipsCollection,
-            sourceFilter: (x) => {
-              let arr = x.filter(x => x == 'Argentina');
-              return arr;
-            },
+            sourceFilter: (x) => x.filter(x => x == 'Argentina'),
             format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
           },
           validators: {

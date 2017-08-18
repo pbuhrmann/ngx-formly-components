@@ -28,7 +28,6 @@ export class FormlyDatetimeComponent extends Field implements OnInit, OnDestroy 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
 
     public value: string;
-    public options: any;
     public autoCorrectedDatePipe: any = null;
     private momentFunc = (moment as any).default ? (moment as any).default : moment;
 
@@ -38,16 +37,9 @@ export class FormlyDatetimeComponent extends Field implements OnInit, OnDestroy 
 
     ngOnInit() {
         this.to.disabled && this.formControl.disable();
-        this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            this.options = x;
-        });
         if (this.formControl.value) {
             this.value = this.momentFunc(this.formControl.value, this.to.format).format(this.to.format);
-        }
-
-        /*this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            
-        });*/
+        }        
         this.autoCorrectedDatePipe = this.createAutoCorrectedDateTimePipe(this.to.format);
     }
 

@@ -69,9 +69,9 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy, Do
         }
 
         let items = this.items;
-        if (this.to.sourceFilter) {
+        /*if (this.to.sourceFilter) {
             items = this.to.sourceFilter(this.items);
-        }
+        }*/
 
         return items.filter(option => {
             if (!option) {
