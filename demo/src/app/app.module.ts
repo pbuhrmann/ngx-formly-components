@@ -13,6 +13,7 @@ import { FormlyComponentsModule } from '../../../src/index';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormlyComponentsModule.forRoot(),
   ],
   providers: [],

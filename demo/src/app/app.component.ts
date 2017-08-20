@@ -51,12 +51,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      typeId: 2,
+      typeId: 7,
       subtypeId: 2,
       priorityId: 1,
       chips: ['Argentina', 'Brazil', 'France'],
       input1: "ARG",
-      autocomplete: 4,
+      autocomplete: 14,
       input2: null,
       checklist1: false,
       checklist2: true,
@@ -217,6 +217,7 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             placeholder: 'autocomplete',
+            tooltip: 'right',
             source: this.animalsCollection,
           }
         },

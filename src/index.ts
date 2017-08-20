@@ -37,7 +37,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		BrowserAnimationsModule,
 		FormlyBootstrapModule,
 		FormlyModule.forRoot({
 			types: [
@@ -76,7 +75,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 	],
 	exports: [
 		ReactiveFormsModule,
-		BrowserAnimationsModule,
 		FormlyBootstrapModule,
 		FormlyModule		
 	]

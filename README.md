@@ -115,12 +115,14 @@ export class AppModule { }
 
 ### **Autocomplete**
 ---
-| Input         | Type                                                   | Example                                        |
-|---------------|--------------------------------------------------------|------------------------------------------------|
-| `placeholder` | string                                                 | 'Comments'                                     |
-| `disabled`    | boolean                                                | true                                           |
-| `source`      | Observable<{ name: string, value: string \| number }[]>| new Observable(o=>{ o.next([{ name: 'Horse', value: 1 },{ name: 'Cow', value: 2 },{ name: 'Dog', value: 3 }]) } |
-| `nonull`      | boolean                                                | nonull: true                                   |
+| Input            | Type                                                   | Example                                        |
+|------------------|--------------------------------------------------------|------------------------------------------------|
+| `placeholder`    | string                                                 | 'Comments'                                     |
+| `disabled`       | boolean                                                | true                                           |
+| `source`         | Observable<{ name: string, value: string \| number }[]>| new Observable(o=>{o.next([{ name: 'Horse', value: 1 },{ name: 'Cow', value: 2 }])}|
+| `nonull`         | boolean                                                | true                                           |
+| `tooltip`        | boolean                                                | true                                           |
+| `tooltipPosition`| 'before'\|'after'\|'above'\|'below'\|'left'\|'right'   | 'right'                                        |
 
 ### **Checklist**
 | Input      | Type    | Example      |
