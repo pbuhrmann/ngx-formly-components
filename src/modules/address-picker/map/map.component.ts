@@ -21,8 +21,8 @@ import * as L from 'leaflet';
 		</md-autocomplete>
 		<div id="ngx-formly-components-map-{{mapId}}" style="height: calc(100% - 100px); width: 100%; position: relative"></div>
 		<div style="margin-top: 15px">
-			<button md-button color="primary" [md-dialog-close]="fControl.value">{{data.yes}}</button>
-			<button md-button color="accent" [md-dialog-close]="false">{{data.no}}</button>		
+			<button md-raised-button color="primary" [md-dialog-close]="fControl.value"><i class="material-icons">done</i> {{data.yes}}</button>
+			<button md-button color="primary" [md-dialog-close]="false"><i class="material-icons">cancel</i> {{data.no}}</button>		
 		</div>
 	</div>	
   `,
