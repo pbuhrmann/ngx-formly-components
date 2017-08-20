@@ -16,7 +16,7 @@ import { MdDialog, MdAutocomplete } from '@angular/material';
             <input mdInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl.disabled" [mdAutocomplete]="autocomplete"/>
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
-            <md-option *ngFor="let item of filteredItems" [value]="item" (click)="clicked(item)">{{item.name}}</md-option>
+            <md-option *ngFor="let item of filteredItems" [value]="item" (click)="clicked(item)" [mdTooltip]="to.tooltip && item.name" [mdTooltipPosition]="to.tooltip">{{item.name}}</md-option>
         </md-autocomplete>
     </div>
   `,
@@ -42,8 +42,20 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
             if (x && x.length > 0) {
                 this.items = x;
                 if (this.formControl.value) {
-                    let val = this.items.filter(y => y.value == this.formControl.value)[0];
-                    this.value = val || null;
+                    let val = this.items.filter(y => y.value == this.formControl.value);
+                    if (val && val.length > 0) {
+                        this.value = val[0] || null;
+                    }
+                    else {
+                        if (this.to.nonull) {
+                            this.formControl.setValue(this.items[0].value);
+                            this.value = this.items[0];
+                        }
+                        else {
+                            this.formControl.setValue(null);
+                            this.value = null;
+                        }
+                    }
                 }
                 else {
                     if (this.to.nonull) {
@@ -52,14 +64,16 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
                     }
                 }
             }
+            else {
+                this.value = null;
+                this.formControl.setValue(null);
+            }
         });
     }
 
     changed(e: any) {
         this.filteredItems = this.filter(e);
-        if (!e) {
-            this.formControl.setValue(null);
-        }
+        e ? this.formControl.setValue(e.value) : this.formControl.setValue(null);
     }
 
     filter(val: any): string[] {
