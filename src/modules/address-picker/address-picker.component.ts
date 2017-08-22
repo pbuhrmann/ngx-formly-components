@@ -43,17 +43,21 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
 
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
-        /*if (this.to.source) {
-            this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
-                // source
-            });
-        }*/
+
         if (this.formControl.value && this.formControl.value.formatted_address) {
             this.value = this.formControl.value.formatted_address;
         }
         else {
             this.value = this.formControl.value || null;
         }
+        this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
+            if (x && x.formatted_address) {
+                this.value = x.formatted_address;
+            }
+            else {
+                this.value = x || null;
+            }
+        });
     }
 
     changed(e: any) {

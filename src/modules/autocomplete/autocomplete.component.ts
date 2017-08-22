@@ -69,6 +69,11 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
                 this.formControl.setValue(null);
             }
         });
+        this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
+            if (!x) {
+                this.value = null;
+            }
+        });
     }
 
     changed(e: any) {
