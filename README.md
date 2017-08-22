@@ -1,7 +1,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/penrique/ngx-formly-components.svg)](https://github.com/penrique/ngx-formly-components/issues)
 [![GitHub stars](https://img.shields.io/github/stars/penrique/ngx-formly-components.svg)](https://github.com/penrique/ngx-formly-components/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/penrique/ngx-formly-components/master/LICENSE)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/penrique/ngx-formly-components.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/penrique/ngx-formly-components.svg?style=social)](https://twitter.com/intent/tweet?text=https://github.com/penrique/ngx-formly-components)
 
 ## Table of contents
 1. [Getting Started](#getting-started)
