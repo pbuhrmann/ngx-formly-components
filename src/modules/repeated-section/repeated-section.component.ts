@@ -6,29 +6,26 @@ var clone: any = require('clone');
 
 @Component({
   selector: 'formly-repeated-section',
-  template: `
-    <div *ngFor="let control of mycontrols; let i = index;">
-        <formly-form [model]="model[i]" [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
-        </formly-form>
-        <div class="col-xs-12">
-          <button md-raised-button *ngIf="to['canRemove']" color="warn" (click)="remove(i)" style="margin-top: 5px; margin-bottom: 5px">
-            <i class="material-icons">remove</i>
-            {{to['removeText'] || 'Remove'}}
-          </button>
-        </div>
-    </div>
-    <div class="col-xs-12" *ngIf="to['canAdd'] && (to['maxSections'] ? to['maxSections'] > sectionsNumber : true)">
-      <button md-raised-button color="primary"  (click)="add()" style="margin-top: 5px">
-        <i class="material-icons">add</i>
-        {{to['addText'] || 'Add'}}
-      </button>
-    </div>
-  `,
   styles: [`
     :host {
         width: 100%;
     }
-  `]
+  `],
+  template: `
+    <div *ngFor="let control of mycontrols; let i = index;" style="position: relative">
+        <formly-form [model]="model[i]" [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
+        </formly-form>
+        <div class="removeSectionBtn" [mdTooltip]="to.removeText" mdTooltipPosition="below" *ngIf="to.canRemove" (click)="remove(i)" style="position: absolute;top: 0px; right: 0px; background: #f44336; color: #fff; padding: 0px; height: 20px; cursor: pointer">
+          <i class="material-icons" style="font-size: 20px">close</i>
+        </div>
+    </div>
+    <div class="col-xs-12" *ngIf="to.canAdd && (to.maxSections ? to.maxSections > sectionsNumber : true)">
+      <button md-raised-button color="primary"  (click)="add()" style="margin-top: 5px">
+        <i class="material-icons">add</i>
+        {{to.addText || 'Add'}}
+      </button>
+    </div>
+  `
 })
 export class FormlyRepeatedSectionComponent extends FieldType implements OnInit {
   public _fields = [];
@@ -70,10 +67,16 @@ export class FormlyRepeatedSectionComponent extends FieldType implements OnInit 
   }
 
   public remove(i) {
-    this.sectionsNumber--;
-    (<FormArray>this.formControl).removeAt(i);
-    this.model.splice(i, 1);
-    this._fields.splice(i, 1);
+    let result = true;
+    if (this.to.removeWarning) {
+      result = confirm(this.to.removeWarning);
+    }
+    if (result === true) {
+      this.sectionsNumber--;
+      (<FormArray>this.formControl).removeAt(i);
+      this.model.splice(i, 1);
+      this._fields.splice(i, 1);
+    }
   }
 
   public fields(i) {
