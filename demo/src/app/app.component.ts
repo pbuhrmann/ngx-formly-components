@@ -57,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
       chips: ['Argentina', 'Brazil', 'France'],
       input1: "ARG",
       autocomplete: 14,
+      multiselect: [1, 2, 4],
       input2: null,
       checklist1: false,
       checklist2: true,
@@ -221,6 +222,17 @@ export class AppComponent implements OnInit, OnDestroy {
             source: this.animalsCollection,
           }
         },
+        {
+          className: 'col-sm-3',
+          key: 'multiselect',
+          type: 'select',
+          wrapper: [],
+          templateOptions: {
+            placeholder: 'Multiselect',
+            source: this.animalsCollection,
+            multiple: true
+          }
+        }
       ],
     },
     {
@@ -298,7 +310,7 @@ export class AppComponent implements OnInit, OnDestroy {
       ]
     },
     {
-      className: 'row',
+      className: '',
       type: 'repeated-section',
       key: 'repeated',
       wrappers: ['card'],
