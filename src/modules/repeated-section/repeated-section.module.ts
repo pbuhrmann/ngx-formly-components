@@ -3,7 +3,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormlyRepeatedSectionComponent } from './repeated-section.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule, FormlyModule } from 'ng-formly';
-import { MdButtonModule } from '@angular/material';
+import { MdButtonModule, MdTooltipModule } from '@angular/material';
 
 @NgModule({
 	imports: [
@@ -12,7 +12,8 @@ import { MdButtonModule } from '@angular/material';
 		ReactiveFormsModule,
 		FormlyBootstrapModule,
 		FormlyModule,
-		MdButtonModule
+		MdButtonModule,
+		MdTooltipModule
 	],
 	declarations: [FormlyRepeatedSectionComponent],
 	exports: [

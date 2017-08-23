@@ -47,7 +47,7 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
                         this.value = val[0] || null;
                     }
                     else {
-                        if (this.to.nonull) {
+                        if (this.to.nonull && this.items && this.items.length > 0) {
                             this.formControl.setValue(this.items[0].value);
                             this.value = this.items[0];
                         }
@@ -58,7 +58,7 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
                     }
                 }
                 else {
-                    if (this.to.nonull) {
+                    if (this.to.nonull && this.items && this.items.length > 0) {
                         this.formControl.setValue(this.items[0].value);
                         this.value = this.items[0];
                     }
@@ -70,15 +70,24 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
             }
         });
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            if (!x) {
-                this.value = null;
+            let val = this.items.filter(y => y.value == this.formControl.value);
+            if (val && val.length > 0) {
+                this.value = val[0] || null;
             }
+            else {
+                if (this.to.nonull && this.items && this.items.length > 0) {
+                    this.value = this.items[0];
+                }
+                else {
+                    this.value = null;
+                }
+            }
+            this.to.changed && this.to.changed(x);
         });
     }
 
     changed(e: any) {
         this.filteredItems = this.filter(e);
-        e ? this.formControl.setValue(e.value) : this.formControl.setValue(null);
     }
 
     filter(val: any): string[] {
