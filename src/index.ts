@@ -31,6 +31,8 @@ import { FormlyAddressPickerComponent } from './modules/address-picker/address-p
 import { FormlyAutocompleteModule } from './modules/autocomplete/autocomplete.module';
 import { FormlyAutocompleteComponent } from './modules/autocomplete/autocomplete.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormlyRadioGroupComponent } from './modules/radio-group/radio-group.component';
+import { FormlyRadioGroupModule } from './modules/radio-group/radio-group.module';
 
 @NgModule({
 	imports: [
@@ -49,7 +51,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 				{ name: 'blank', component: FormlyBlankComponent },
 				{ name: 'repeated-section', component: FormlyRepeatedSectionComponent },
 				{ name: 'address-picker', component: FormlyAddressPickerComponent },
-				{ name: 'autocomplete', component: FormlyAutocompleteComponent }
+				{ name: 'autocomplete', component: FormlyAutocompleteComponent },
+				{ name: 'radio-group', component: FormlyRadioGroupComponent }
 			],
 			wrappers: [
 				{ name: 'section', component: FormlySectionWrapperComponent },
@@ -69,7 +72,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		FormlyBlankModule.forRoot(),
 		FormlyRepeatedSectionModule.forRoot(),
 		FormlyAddressPickerModule.forRoot(),
-		FormlyAutocompleteModule.forRoot()
+		FormlyAutocompleteModule.forRoot(),
+		FormlyRadioGroupModule.forRoot()
 	],
 	declarations: [
 	],
