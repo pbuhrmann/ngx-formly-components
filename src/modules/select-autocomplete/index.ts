@@ -1,0 +1,1 @@
+export { FormlySelectAutocompleteModule } from './select-autocomplete.module';
