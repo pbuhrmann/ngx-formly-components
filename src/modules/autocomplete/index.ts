@@ -1,1 +1,1 @@
-export { FormlyAddressPickerModule } from './address-picker.module';
+export { FormlyAutocompleteModule } from './autocomplete.module';
