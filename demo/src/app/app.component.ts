@@ -56,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
       priorityId: 1,
       chips: ['Argentina', 'Brazil', 'France'],
       input1: "ARG",
-      autocomplete: 14,
+      autocomplete: { name: 'Cat', value: 7 },
       multiselect: [1, 2, 4],
       input2: null,
       checklist1: false,
@@ -67,6 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
         lat: -34.5992993,
         lng: -58.3827919
       },
+      radioGroup: 2
     }
 
     //setTimeout(() => { this.form.reset() }, 2000);
@@ -219,7 +220,13 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             placeholder: 'autocomplete',
             tooltip: 'right',
-            source: this.animalsCollection,
+            source: (e) => {
+              return new Observable(o => {
+                let list = this.animalsCollection.value.filter(x => e ? x.name.toLowerCase().indexOf(e.toLowerCase()) >= 0 : true);
+                console.log(list);
+                o.next(list);
+              });
+            },
           }
         },
         {
@@ -292,7 +299,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         },
         {
-          className: 'col-sm-8',
+          className: 'col-sm-6',
           key: 'address',
           type: 'address-picker',
           wrapper: [],
@@ -305,6 +312,16 @@ export class AppComponent implements OnInit, OnDestroy {
             tileLayerSource: '',
             yes: 'Accept',
             no: 'Cancel'
+          }
+        },
+        {
+          className: 'col-sm-2',
+          key: 'radioGroup',
+          type: 'radio-group',
+          wrapper: [],
+          templateOptions: {
+            label: 'Animals',
+            source: this.animalsCollection
           }
         }
       ]
