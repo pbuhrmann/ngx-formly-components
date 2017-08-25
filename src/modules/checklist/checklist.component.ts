@@ -4,14 +4,14 @@ import { Validators, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-    selector: 'formly-ngx-material-checklist',
+    selector: 'ngx-formly-component-checklist',
     styles: [`
     :host /deep/ .mat-checkbox-label {
         font-weight: normal !important;
     }
     `],
     template: `
-    <md-checkbox [disabled]="to.disabled" class="example-margin" [formControl]="formControl">{{to.text || ''}}</md-checkbox>
+    <md-checkbox [disabled]="formControl.disabled" [formControl]="formControl">{{to.text || ''}}</md-checkbox>
     `
 })
 export class FormlyChecklistComponent extends Field implements OnInit, OnDestroy {
@@ -23,6 +23,7 @@ export class FormlyChecklistComponent extends Field implements OnInit, OnDestroy
     }
 
     ngOnInit() {
+        this.to.disabled && this.formControl.disable();
         if (!this.formControl.value) {
             this.formControl.setValue(false);
         }
