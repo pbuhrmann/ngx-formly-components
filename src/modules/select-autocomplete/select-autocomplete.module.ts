@@ -20,7 +20,7 @@ import { FormlySelectAutocompleteComponent } from './select-autocomplete.compone
 export class FormlySelectAutocompleteModule {
 	public static forRoot(): ModuleWithProviders {
 		return {
-			ngModule: FormlyAutocompleteModule, providers: []
+			ngModule: FormlySelectAutocompleteModule, providers: []
 		};
 	}
 }

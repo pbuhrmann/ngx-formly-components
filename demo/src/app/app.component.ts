@@ -53,11 +53,11 @@ export class AppComponent implements OnInit, OnDestroy {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
       typeId: 7,
       subtypeId: 2,
-      priorityId: 1,
+      priority: { name: 'Normal', value: 2 },
       chips: ['Argentina', 'Brazil', 'France'],
       input1: "ARG",
       autocomplete: { name: 'Cat', value: 7 },
-      multiselect: [1, 2, 4],
+      multiselect: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
       input2: null,
       checklist1: false,
       checklist2: true,
@@ -67,10 +67,12 @@ export class AppComponent implements OnInit, OnDestroy {
         lat: -34.5992993,
         lng: -58.3827919
       },
-      radioGroup: 2
+      radioGroup: { name: 'Fish', value: 5 },
+      selectAutocomplete: { name: 'Fish', value: 5 }
     }
 
     //setTimeout(() => { this.form.reset() }, 2000);
+    setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -117,63 +119,25 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-3',
           key: 'subtypeId',
-          type: 'select',
+          type: 'select-autocomplete',
           wrapper: [],
           templateOptions: {
             placeholder: 'Subtype',
             nonull: true,
-            source: Observable.create(o => {
-              const key = 'typeId';
-              const endpoint = this.subtypesCollection;
-              let val = this.model[key];
-              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
-                o.next(y);
-              });
-              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => {
-                val = x;
-                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => {
-                  let res = y.slice(0, x);
-                  o.next(res);
-                });
-              });
-            })
+            source: this.subtypesCollection
           }
         },
         {
           className: 'col-sm-3',
-          key: 'priorityId',
+          key: 'priority',
           type: 'select',
           wrapper: [],
           templateOptions: {
             placeholder: 'Priority',
-            disabled: true,
             nonull: true,
             source: Observable.create(o => {
-              const key = 'subtypeId';
-              const endpoint = this.prioritiesCollection;
-              let val = this.model[key];
-              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => { //submit collection for the first time
+              this.prioritiesCollection.takeUntil(this.ngUnsubscribe).subscribe(y => {
                 o.next(y);
-              });
-              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => { //subscribe to changes in the form
-                val = x;
-                endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(y => { //update collection whenever key's value changes                  
-                  x && o.next(y);
-                });
-              });
-            }),
-            bind: Observable.create(o => {
-              const key = 'subtypeId';
-              const property = 'priority';
-              const endpoint = this.subtypesCollection;
-              let val = this.model[key];
-              endpoint.takeUntil(this.ngUnsubscribe).first().subscribe(x => {
-                x && o.next(x.filter(y => y.value == val)[0][property]); //submit key's property value 
-              });
-              this.form.valueChanges.takeUntil(this.ngUnsubscribe).map(x => x[key]).filter(x => x != val).subscribe(x => { //subscribe to changes in the form
-                val = x;
-                let value = endpoint.getValue().filter(y => y.value == x); //get key's collection and match to value
-                value && value.length > 0 && o.next(value[0][property]); //submit key's property value 
               });
             })
           }
@@ -218,7 +182,7 @@ export class AppComponent implements OnInit, OnDestroy {
           type: 'autocomplete',
           wrapper: [],
           templateOptions: {
-            placeholder: 'autocomplete',
+            placeholder: 'Autocomplete',
             tooltip: 'right',
             source: (e) => {
               return new Observable(o => {
@@ -229,6 +193,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
           }
         },
+
         {
           className: 'col-sm-3',
           key: 'multiselect',
@@ -299,7 +264,11 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         },
         {
-          className: 'col-sm-6',
+          type: 'blank',
+          className: 'col-sm-12'
+        },
+        {
+          className: 'col-sm-4',
           key: 'address',
           type: 'address-picker',
           wrapper: [],
@@ -323,7 +292,18 @@ export class AppComponent implements OnInit, OnDestroy {
             label: 'Animals',
             source: this.animalsCollection
           }
-        }
+        },
+        {
+          className: 'col-sm-3',
+          key: 'selectAutocomplete',
+          type: 'select-autocomplete',
+          wrapper: [],
+          templateOptions: {
+            placeholder: 'Select-Autocomplete',
+            tooltip: 'right',
+            source: this.animalsCollection
+          }
+        },
       ]
     },
     {

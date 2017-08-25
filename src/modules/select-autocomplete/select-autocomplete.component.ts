@@ -43,25 +43,25 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
             if (x && x.length > 0) {
                 this.items = x;
                 if (this.formControl.value) {
-                    this.value = this.formControl.value.name;
-                    let val = this.items.filter(y => y.value == this.formControl.value);
+                    this.value = this.formControl.value;
+                    /*let val = this.items.filter(y => y.value == this.formControl.value);
                     if (val && val.length > 0) {
                         this.value = val[0];
                     }
                     else {
                         if (this.to.nonull && this.items && this.items.length > 0) {
-                            this.formControl.setValue(this.items[0].value);
+                            this.formControl.setValue(this.items[0]);
                             this.value = this.items[0];
                         }
                         else {
                             this.formControl.setValue(null);
                             this.value = null;
                         }
-                    }
+                    }*/
                 }
                 else {
                     if (this.to.nonull && this.items && this.items.length > 0) {
-                        this.formControl.setValue(this.items[0].value);
+                        this.formControl.setValue(this.items[0]);
                         this.value = this.items[0];
                     }
                 }
@@ -72,13 +72,15 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
             }
         });
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            let val = this.items.filter(y => y.value == x);
-            if (val && val.length > 0) {
-                this.value = val[0] || null;
-            }
-            else {
-                if (this.to.nonull && this.items && this.items.length > 0) {
-                    this.value = this.items[0];
+            if (x) {
+                let val = this.items.filter(y => y.value == x.value);
+                if (val && val.length > 0) {
+                    this.value = val[0];
+                }
+                else {
+                    if (this.to.nonull && this.items && this.items.length > 0) {
+                        this.value = this.items[0];
+                    }
                 }
             }
             this.to.changed && this.to.changed(x);
@@ -87,7 +89,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     changed(e: any) {
         this.filteredItems = this.filter(e);
-        e ? this.formControl.setValue(e.value) : this.formControl.setValue(null);
+        e && e.value ? this.formControl.setValue(e) : this.formControl.setValue(null);
     }
 
     filter(val: any): string[] {
@@ -107,7 +109,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     clicked(e: any) {
         if (e) {
-            this.formControl.setValue(e.value);
+            this.formControl.setValue(e);
             this.value = e;
         }
     }

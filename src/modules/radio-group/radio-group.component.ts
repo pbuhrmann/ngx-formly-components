@@ -14,10 +14,7 @@ import { MdDialog, MdAutocomplete } from '@angular/material';
         flex-direction: column;
     }
     .formly-radio-button {
-        margin: 5px;
-    }
-    .formly-selected-value {
-        margin: 15px 0;
+        margin: 0px;
     }
     :host /deep/ label {
         font-weight: normal;
@@ -28,8 +25,8 @@ import { MdDialog, MdAutocomplete } from '@angular/material';
   `],
     template: `
     <div class="formly-radio-group-label">{{to.label}}</div>
-    <md-radio-group class="formly-radio-group" [(ngModel)]="value" (ngModelChange)="changed($event)">
-        <md-radio-button class="formly-radio-button" *ngFor="let item of items" [value]="item">
+    <md-radio-group class="formly-radio-group" [(ngModel)]="value">
+    <md-radio-button class="formly-radio-button" *ngFor="let item of items" [value]="item.value" (click)="changed(item)">
             {{item.name}}
         </md-radio-button>
     </md-radio-group>
@@ -51,17 +48,19 @@ export class FormlyRadioGroupComponent extends Field implements OnInit, OnDestro
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.items = x;
             if (this.items && this.items.length > 0) {
-                let val = this.items.filter(y => y.value == this.formControl.value);
-                if (val && val.length > 0) {
-                    this.value = val[0];
+                if (this.formControl.value) {
+                    let val = this.items.filter(y => y.value == this.formControl.value.value);
+                    if (val && val.length > 0) {
+                        this.value = val[0].value;
+                    }
                 }
             }
         });
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            if (this.items && this.items.length > 0) {
-                let val = this.items.filter(y => y.value == x);
+            if (x && this.items && this.items.length > 0) {
+                let val = this.items.filter(y => y.value == x.value);
                 if (val && val.length > 0) {
-                    this.value = val[0];
+                    this.value = val[0].value;
                 }
                 else {
                     this.value = null;
@@ -71,8 +70,8 @@ export class FormlyRadioGroupComponent extends Field implements OnInit, OnDestro
     }
 
     changed(e: any) {
-        console.log(e);
-        !!e && this.formControl.setValue(e.value);
+        !!e && this.formControl.setValue(e);
+        this.to.changed && this.to.changed(e);
     }
 
     ngOnDestroy() {

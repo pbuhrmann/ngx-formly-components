@@ -12,7 +12,7 @@ import { Subscription } from "rxjs/Subscription";
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}" style="margin-top: 10px">
         <md-select [formControl]="formControl" [disabled]="formControl.disabled" [style.width]="to.nonull?'100%':'calc(100% - 50px)'" style="padding-top: 4px" [placeholder]="to.placeholder" [multiple]="to.multiple">
-            <md-option *ngFor="let item of items" [value]="item.value">{{item.name}}</md-option>
+            <md-option *ngFor="let item of items" [value]="item">{{item.name}}</md-option>
         </md-select>
         <button md-icon-button *ngIf="!to.nonull" (click)="clear()"><i class="material-icons md-24">clear</i></button>
     </div>
@@ -34,31 +34,71 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
                 this.items = x;
                 if (x && x.length > 0) {
                     if (!this.to.multiple) {
-                        let filtered = x.filter(y => y.value == this.formControl.value);
-                        if (filtered && filtered.length > 0) {
-                            this.formControl.setValue(filtered[0].value);
-                        }
-                        else {
-                            if (this.to.nonull) {
-                                this.formControl.setValue(x[0].value);
+                        if (x && this.formControl.value) {
+                            let filtered = x.filter(y => y.value == this.formControl.value.value);
+                            if (filtered && filtered.length > 0) {
+                                this.formControl.setValue(filtered[0]);
                             }
+                        }
+                        if (!this.formControl.value && this.to.nonull && x && x.length > 0) {
+                            this.formControl.setValue(x[0]);
                         }
                     }
                     else {
                         if (this.formControl.value) {
-                            let vals = x.map(y => y.value);
-                            if (vals && vals.length > 0) {
-                                let filtered = this.formControl.value.filter(y => vals.indexOf(y.value) >= 0);
-                                if (filtered && filtered.length > 0) {
-                                    this.formControl.setValue(filtered);
+                            let filtered = [];
+                            for (var i = 0, len1 = this.items.length; i < len1; i++) {
+                                let a = this.items[i];
+                                for (var j = 0, len2 = this.formControl.value.length; j < len2; j++) {
+                                    let b = this.formControl.value[j];
+                                    if (a.value == b.value) {
+                                        filtered.push(a);
+                                        break;
+                                    }
                                 }
+                            }
+                            if (filtered && filtered.length > 0) {
+                                this.formControl.setValue(filtered);
                             }
                         }
                     }
                 }
             });
         }
-        this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
+        let lastVal = this.formControl.value;
+        this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).filter(x=> x != lastVal).subscribe(x => {
+            lastVal = x;
+            if (this.items && this.items.length > 0) {
+                if (!this.to.multiple) {
+                    if (this.items && x) {
+                        let filtered = this.items.filter(y => y.value == x.value);
+                        if (filtered && filtered.length > 0) {
+                            this.formControl.setValue(filtered[0]);
+                        }
+                    }
+                    if (!x && this.to.nonull && this.items && this.items.length > 0) {
+                        this.formControl.setValue(this.items[0]);
+                    }
+                }
+                else {
+                    if (x) {
+                        let filtered = [];
+                        for (var i = 0, len1 = this.items.length; i < len1; i++) {
+                            let a = this.items[i];
+                            for (var j = 0, len2 = x.length; j < len2; j++) {
+                                let b = x.value[j];
+                                if (a.value == b.value) {
+                                    filtered.push(a);
+                                    break;
+                                }
+                            }
+                        }
+                        if (filtered && filtered.length > 0) {
+                            this.formControl.setValue(filtered);
+                        }
+                    }
+                }
+            }
             this.to.changed && this.to.changed(x);
         });
     }
