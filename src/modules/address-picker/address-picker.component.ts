@@ -8,7 +8,7 @@ import { MdDialog, MdAutocomplete } from '@angular/material';
 import { FormlyAddressPickerMapComponent } from './map/map.component';
 
 @Component({
-    selector: 'formly-ngx-address-picker',
+    selector: 'ngx-formly-component-address-picker',
     styles: [`
     .open-map {
         cursor: pointer;
@@ -48,14 +48,14 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
             this.value = this.formControl.value.formatted_address;
         }
         else {
-            this.value = this.formControl.value || null;
+            this.value = this.formControl.value;
         }
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
             if (x && x.formatted_address) {
                 this.value = x.formatted_address;
             }
             else {
-                this.value = x || null;
+                this.value = x;
             }
         });
     }

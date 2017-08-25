@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import * as moment from 'moment';
 
 @Component({
-    selector: 'formly-ngx-material-datetime',
+    selector: 'ngx-formly-component-datetime',
     styles: [`
     .today {
         cursor: pointer;

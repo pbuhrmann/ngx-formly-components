@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { FormControl } from '@angular/forms';
 
 @Component({
-    selector: 'formly-ngx-material-input',
+    selector: 'ngx-formly-component-input',
     styles: [`
     :host /deep/ .ui-inputtext {
         width: 100%;

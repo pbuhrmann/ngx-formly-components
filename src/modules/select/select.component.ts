@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from "rxjs/Subscription";
 
 @Component({
-    selector: 'formly-ngx-material-select',
+    selector: 'ngx-formly-component-select',
     styles: [`
 
     `],

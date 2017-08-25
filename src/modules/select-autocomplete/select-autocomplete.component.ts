@@ -37,33 +37,17 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
+        if (this.formControl.value) {
+            this.value = this.formControl.value;
+        }
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.filteredItems = [];
             this.items = [];
             if (x && x.length > 0) {
                 this.items = x;
-                if (this.formControl.value) {
-                    this.value = this.formControl.value;
-                    /*let val = this.items.filter(y => y.value == this.formControl.value);
-                    if (val && val.length > 0) {
-                        this.value = val[0];
-                    }
-                    else {
-                        if (this.to.nonull && this.items && this.items.length > 0) {
-                            this.formControl.setValue(this.items[0]);
-                            this.value = this.items[0];
-                        }
-                        else {
-                            this.formControl.setValue(null);
-                            this.value = null;
-                        }
-                    }*/
-                }
-                else {
-                    if (this.to.nonull && this.items && this.items.length > 0) {
-                        this.formControl.setValue(this.items[0]);
-                        this.value = this.items[0];
-                    }
+                if (this.to.nonull && !this.formControl.value && this.items && this.items.length > 0) {
+                    this.formControl.setValue(this.items[0]);
+                    this.value = this.items[0];
                 }
             }
             else {

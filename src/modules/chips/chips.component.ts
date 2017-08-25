@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'formly-ngx-material-chips',
+    selector: 'ngx-formly-component-chips',
     styles: [`
         md-chip {
             outline: none;

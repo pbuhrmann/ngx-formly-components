@@ -3,7 +3,7 @@ import { Field } from 'ng-formly';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-    selector: 'formly-ngx-material-textarea',
+    selector: 'ngx-formly-component-textarea',
     styles: [`
     textarea {
         resize: vertical;
