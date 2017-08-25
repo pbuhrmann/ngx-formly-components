@@ -26,7 +26,7 @@ import { MdDialog, MdAutocomplete } from '@angular/material';
     template: `
     <div class="formly-radio-group-label">{{to.label}}</div>
     <md-radio-group class="formly-radio-group" [(ngModel)]="value">
-    <md-radio-button class="formly-radio-button" *ngFor="let item of items" [value]="item.value" (click)="changed(item)">
+        <md-radio-button class="formly-radio-button" *ngFor="let item of items" [value]="item.value" (click)="changed(item)">
             {{item.name}}
         </md-radio-button>
     </md-radio-group>

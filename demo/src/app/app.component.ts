@@ -68,11 +68,13 @@ export class AppComponent implements OnInit, OnDestroy {
         lng: -58.3827919
       },
       radioGroup: { name: 'Fish', value: 5 },
-      selectAutocomplete: { name: 'Fish', value: 5 }
+      selectAutocomplete: { name: 'Fish', value: 5 },
+      checklistGroup: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }, { name: 'Horse', value: 1 }]
     }
 
     //setTimeout(() => { this.form.reset() }, 2000);
-    setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
+    //setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
+    setTimeout(() => { this.form.get('checklistGroup').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -301,6 +303,16 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             placeholder: 'Select-Autocomplete',
             tooltip: 'right',
+            source: this.animalsCollection
+          }
+        },
+        {
+          className: 'col-sm-3',
+          key: 'checklistGroup',
+          type: 'checklist-group',
+          wrapper: [],
+          templateOptions: {
+            label: 'Animals',
             source: this.animalsCollection
           }
         },
