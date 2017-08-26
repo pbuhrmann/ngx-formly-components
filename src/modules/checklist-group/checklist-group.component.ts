@@ -26,7 +26,7 @@ export class FormlyChecklistGroupComponent extends Field implements OnInit, OnDe
     private ngUnsubscribe: Subject<void> = new Subject<void>();
 
     public items: any[];
-    public selectedItems: any[];
+    public selectedItems: any[] = [];
     public checked: { [number: number]: boolean } = {};
     private blocked: boolean = false;
 
@@ -35,10 +35,10 @@ export class FormlyChecklistGroupComponent extends Field implements OnInit, OnDe
     }
 
     ngOnInit() {
-        this.selectedItems = this.formControl.value;
+        this.selectedItems = this.formControl.value || [];
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            this.items = x.slice();
-            if (this.formControl.value) {
+            this.items = x;
+            if (this.formControl.value && x && x.length > 0) {
                 this.checked = {};
                 for (var i = 0; i < this.selectedItems.length; i++) {
                     var a = this.selectedItems[i];

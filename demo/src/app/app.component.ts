@@ -69,21 +69,22 @@ export class AppComponent implements OnInit, OnDestroy {
       },
       radioGroup: { name: 'Fish', value: 5 },
       selectAutocomplete: { name: 'Fish', value: 5 },
-      checklistGroup: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }, { name: 'Horse', value: 1 }]
+      checklistGroup: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]
     }
 
     //setTimeout(() => { this.form.reset() }, 2000);
     //setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
-    setTimeout(() => { this.form.get('checklistGroup').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
+    //setTimeout(() => { this.form.get('checklistGroup').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
     {
-      className: 'row',
-      wrappers: ['card'],
+      className: '',
+      wrappers: ['section'],
       templateOptions: {
         title: 'Components',
-        subtitle: 'Card #1',
+        background: '#3f51b5',
+        color: 'rgba(255, 255, 255, 0.87)',
       },
       fieldGroup: [
         {
@@ -211,10 +212,11 @@ export class AppComponent implements OnInit, OnDestroy {
     },
     {
       className: '',
-      wrappers: ['card'],
+      wrappers: ['section'],
       templateOptions: {
         title: 'More Components',
-        subtitle: 'Card #2'
+        background: '#3f51b5',
+        color: 'rgba(255, 255, 255, 0.87)',
       },
       fieldGroup: [
         {
@@ -244,7 +246,6 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Comments',
             maxLength: 30,
             maxRows: 4,
-            minRows: 4
           }
         },
         {
@@ -322,7 +323,7 @@ export class AppComponent implements OnInit, OnDestroy {
       className: '',
       type: 'repeated-section',
       key: 'repeated',
-      wrappers: ['card'],
+      wrappers: ['section'],
       templateOptions: {
         title: 'Repeated Section',
         addText: 'Add Section',
@@ -332,10 +333,12 @@ export class AppComponent implements OnInit, OnDestroy {
         class: null,
         canAdd: true,
         canRemove: true,
-        // maxSections: 3, Cantidad maxima que se puede agregar, en este caso de adjuntos
+        // maxSections: 3,
+        background: '#3f51b5',
+        color: 'rgba(255, 255, 255, 0.87)',
       },
       fieldArray: {
-        className: 'row',
+        className: '',
         fieldGroup: [
           {
             className: 'col-sm-3',
