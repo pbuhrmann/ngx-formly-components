@@ -15,7 +15,7 @@ var clone: any = require('clone');
     <div *ngFor="let control of mycontrols; let i = index;" style="position: relative; display: table; width: 100%">
         <formly-form [model]="model[i]" [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
         </formly-form>
-        <div class="removeSectionBtn mat-raised-button mat-warn" [mdTooltip]="to.removeText" mdTooltipPosition="below" *ngIf="to.canRemove" (click)="remove(i)" style="position: absolute;top: 0px; right: 15px; background: #f44336; color: #fff; padding: 0px; height: 20px; min-width: 20px; cursor: pointer; line-height: normal;">
+        <div class="removeSectionBtn mat-raised-button mat-warn" [mdTooltip]="to.removeText" mdTooltipPosition="below" *ngIf="to.canRemove" (click)="remove(i)" style="position: absolute;top: -15px; right: 0px; background: #f44336; color: #fff; padding: 0px; height: 20px; min-width: 20px; cursor: pointer; line-height: normal;">
           <i class="material-icons" style="font-size: 20px">close</i>
         </div>
     </div>
