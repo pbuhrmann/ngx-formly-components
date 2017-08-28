@@ -17,14 +17,15 @@ import { Observable } from 'rxjs';
         <md-input-container style="width: 70%">
             <input type="text" [disabled]="formControl.disabled" mdInput [placeholder]="to.placeholder" [(ngModel)]="value" (ngModelChange)="changed($event)" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
         </md-input-container>
-        <md-autocomplete #autocomplete="mdAutocomplete">
+        <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
             <md-option *ngFor="let option of filteredItems" [value]="option" (click)="add(option)">
-                {{ option }}
+                {{ option.name }}
             </md-option>
         </md-autocomplete>
         <button md-icon-button (click)="add()"><i class="material-icons md-24">add</i></button>
         <md-chip-list>
-            <md-chip *ngFor="let item of selectedItems">{{item}}
+            <md-chip *ngFor="let item of selectedItems">
+                {{item.name}}
                 <span (click)="remove(item)" class="fa fa-times" style="cursor: pointer"></span>
             </md-chip>
         </md-chip-list>
@@ -36,7 +37,7 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     private ngUnsubscribe: Subject<void> = new Subject<void>();
     public items: any[];
     public value: string = null;
-    public filteredItems: any[];
+    public filteredItems: any[] = null;
     public selectedItems: any[] = [];
 
     constructor() {
@@ -52,26 +53,25 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
         }
         this.selectedItems = this.formControl.value || [];
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            this.filteredItems = this.filter(x);
             this.selectedItems = x || [];
+            this.to.changed && this.to.changed(x);
         });
+
     }
 
-    filter(val: string): string[] {
+    filter(val: any): string[] {
         if (!this.items) {
             return null;
         }
 
         return this.items.filter(option => {
-            if (!option) {
-                return false;
-            }
             if (!val) {
                 return true;
             }
-            option = option.toString();
-            val = val.toString();
-            return option.toLowerCase().indexOf(val.toLowerCase()) >= 0;
+            if (!option || !this.items || val.name) {
+                return false;
+            }
+            return option.name.toLowerCase().indexOf(val.toLowerCase()) >= 0;
         }).filter(x => {
             if (!this.selectedItems) {
                 return true;
@@ -89,14 +89,12 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             return;
         }
         if (this.selectedItems && this.value && this.selectedItems.length < (this.to.maxItems || 99999)) {
-            if (this.selectedItems.indexOf(this.value) == -1) {
-                if (this.to.onlyAutocomplete && this.items.indexOf(this.value) == -1) {
-                    return;
-                }
-                this.selectedItems.push(this.value);
-                this.filteredItems = this.filter(null);
-                this.formControl.setValue(this.selectedItems);
+            if (this.to.onlyAutocomplete && this.items.indexOf(this.value) == -1) {
+                return;
             }
+            this.selectedItems.push(this.value);
+            this.filteredItems = this.filter(null);
+            this.formControl.setValue(this.selectedItems);
         }
         this.value = null;
     }
@@ -109,6 +107,10 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             return x != e;
         });
         this.formControl.setValue(this.selectedItems);
+    }
+
+    displayFn(e: any): string {
+        return e ? e.name : null;
     }
 
     ngOnDestroy() {
