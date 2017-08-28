@@ -12,7 +12,7 @@ import { Subject } from 'rxjs/Subject';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
-            <textarea [mdAutosizeMaxRows]="to.maxRows" [mdAutosizeMinRows]="to.minRows" [disabled]="to.disabled" mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [formControl]="formControl" (keydown)="keydown($event)"></textarea>
+            <textarea [mdAutosizeMaxRows]="to.maxRows" [mdAutosizeMinRows]="to.minRows" [disabled]="to.disabled" mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [formControl]="formControl" (keydown)="keydown($event)" (keyup)="keyup($event)"></textarea>
         </md-input-container>
     </div>
   `,
@@ -21,6 +21,7 @@ export class FormlyTextareaComponent extends Field implements OnInit, OnDestroy 
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
     public value: string;
+    private isShiftDown: boolean;
 
     constructor(private changeDetectorRef: ChangeDetectorRef) {
         super();
@@ -43,8 +44,17 @@ export class FormlyTextareaComponent extends Field implements OnInit, OnDestroy 
     }
 
     keydown(e: any) {
+        if (e.key == 'Shift') {
+            this.isShiftDown = true;
+        }
         if (this.to.keydown) {
-            this.to.keydown(e);
+            this.to.keydown(e, this.isShiftDown);
+        }
+    }
+
+    keyup(e: any) {        
+        if (e.key == 'Shift') {
+            this.isShiftDown = false;
         }
     }
 
