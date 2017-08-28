@@ -14,7 +14,6 @@ export class AppComponent implements OnInit, OnDestroy {
   JSON: any;
   model: any;
   form: FormGroup = new FormGroup({});
-  chipsCollection: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(['Argentina', 'Brazil', 'Italy', 'France', 'Germany', 'China', 'USA', 'England', 'Japan', 'Portugal', 'Canada', 'Mexico', 'Spain']);
   typesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
     { name: 'Type 1', value: 1 },
     { name: 'Type 2', value: 2 },
@@ -39,8 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
     { name: 'Dog', value: 3 },
     { name: 'Bird', value: 4 },
     { name: 'Fish', value: 5 },
-    { name: 'Reptile', value: 6 },
-    { name: 'Cat', value: 7 },
+    { name: 'Cat', value: 6 },
+    { name: 'Wolf', value: 7 }
   ]);
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -54,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
       typeId: 7,
       subtypeId: 2,
       priority: { name: 'Normal', value: 2 },
-      chips: ['Argentina', 'Brazil', 'France'],
+      chips: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }, { name: 'Bird', value: 4 }],
       input1: "ARG",
       autocomplete: { name: 'Cat', value: 7 },
       multiselect: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
@@ -69,12 +68,14 @@ export class AppComponent implements OnInit, OnDestroy {
       },
       radioGroup: { name: 'Fish', value: 5 },
       selectAutocomplete: { name: 'Fish', value: 5 },
-      checklistGroup: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]
+      checklistGroup: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }],
+      repeated: []
     }
 
     //setTimeout(() => { this.form.reset() }, 2000);
     //setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
     //setTimeout(() => { this.form.get('checklistGroup').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
+    //setTimeout(() => { this.form.get('multiselect').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -137,7 +138,6 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             placeholder: 'Priority',
-            nonull: true,
             source: Observable.create(o => {
               this.prioritiesCollection.takeUntil(this.ngUnsubscribe).subscribe(y => {
                 o.next(y);
@@ -155,9 +155,9 @@ export class AppComponent implements OnInit, OnDestroy {
           type: 'chips',
           templateOptions: {
             placeholder: "Chips",
-            source: this.chipsCollection,
+            source: this.animalsCollection,
             onlyAutocomplete: true,
-            maxItems: 7
+            maxItems: 10
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -171,8 +171,7 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             placeholder: 'Input',
             disabled: false,
-            source: this.chipsCollection,
-            sourceFilter: (x) => x.filter(x => x == 'Argentina'),
+            source: this.animalsCollection,
             format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
           },
           validators: {
@@ -227,7 +226,6 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             label: 'Input',
             placeholder: 'E-mail',
-            //password: true,
             keydown: (e) => {
               console.log(e);
             },
@@ -345,9 +343,10 @@ export class AppComponent implements OnInit, OnDestroy {
             key: 'chips',
             type: 'chips',
             templateOptions: {
-              source: this.chipsCollection,
+              source: this.animalsCollection,
               onlyAutocomplete: true,
-              placeholder: "Press enter to add value"
+              placeholder: "Press enter to add value",
+              maxItems: 10
             }
           },
           {
