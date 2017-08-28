@@ -73,10 +73,12 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
                     if (this.items && x) {
                         let filtered = this.items.filter(y => y.value == x.value);
                         if (filtered && filtered.length > 0) {
+                            lastVal = filtered[0];
                             this.formControl.setValue(filtered[0]);
                         }
                     }
                     if (!x && this.to.nonull && this.items && this.items.length > 0) {
+                        lastVal = this.items[0];
                         this.formControl.setValue(this.items[0]);
                     }
                 }
@@ -86,7 +88,7 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
                         for (var i = 0, len1 = this.items.length; i < len1; i++) {
                             let a = this.items[i];
                             for (var j = 0, len2 = x.length; j < len2; j++) {
-                                let b = x.value[j];
+                                let b = x[j];
                                 if (a.value == b.value) {
                                     filtered.push(a);
                                     break;
@@ -94,6 +96,7 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
                             }
                         }
                         if (filtered && filtered.length > 0) {
+                            lastVal = filtered;
                             this.formControl.setValue(filtered);
                         }
                     }
