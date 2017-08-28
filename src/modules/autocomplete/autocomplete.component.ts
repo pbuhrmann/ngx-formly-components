@@ -27,6 +27,7 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
 
     public items: any[] = [];
     public value: string = null;
+    private lastInput: string = null;
     private sub: Subscription;
     private timeout: any;
 
@@ -40,28 +41,27 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
             this.value = this.formControl.value;
         }
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
+            this.to.changed && this.to.changed(x);
             if (x && x.name) {
                 this.value = x;
-                this.to.changed && this.to.changed(x);
-            }
-            if (!x) {
-                this.items = [];
             }
         });
     }
 
     changed(e: any) {
-        this.to.changed && this.to.changed(e);
         if (e && !e.name) {
             this.formControl.setValue(null);
             if (this.to.source) {
                 this.sub && this.sub.unsubscribe();
                 this.timeout && clearTimeout(this.timeout);
-                this.timeout = setTimeout(() => {
-                    this.sub = this.to.source(e).first().subscribe(x => {
-                        this.items = x;
-                    });
-                }, this.to.debounceTime || 0);
+                if (e != this.lastInput) {
+                    this.timeout = setTimeout(() => {
+                        this.sub = this.to.source(e).first().subscribe(x => {
+                            this.lastInput = e;
+                            this.items = x;
+                        });
+                    }, this.to.debounceTime || 0);
+                }
             }
         }
         else if (e && e.name) {
@@ -69,10 +69,22 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
             this.formControl.setValue(e);
         }
         else if (!e) {
-            this.formControl.setValue(null);
-            this.to.source && this.to.source(null).first().subscribe(x => {
-                this.items = x;
-            });
+            this.timeout && clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                this.formControl.setValue(null);
+                this.items = [];
+                this.lastInput = e;
+            }, this.to.debounceTime || 0);
+            /*if (this.to.source && e != this.lastSearch) {
+                this.sub && this.sub.unsubscribe();
+                this.timeout && clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => {
+                    this.sub = this.to.source(e).first().subscribe(x => {
+                        this.lastSearch = e;
+                        this.items = x;
+                    });
+                }, this.to.debounceTime || 0);
+            }*/
         }
     }
 
