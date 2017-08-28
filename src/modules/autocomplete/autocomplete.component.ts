@@ -54,9 +54,15 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
         this.to.changed && this.to.changed(e);
         if (e && !e.name) {
             this.formControl.setValue(null);
-            this.to.source && this.to.source(e).first().subscribe(x => {
-                this.items = x;
-            });
+            if (this.to.source) {
+                this.sub && this.sub.unsubscribe();
+                this.timeout && clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => {
+                    this.sub = this.to.source(e).first().subscribe(x => {
+                        this.items = x;
+                    });
+                }, this.to.debounceTime || 0);
+            }
         }
         else if (e && e.name) {
             this.value = e;
@@ -67,7 +73,7 @@ export class FormlyAutocompleteComponent extends Field implements OnInit, OnDest
             this.to.source && this.to.source(null).first().subscribe(x => {
                 this.items = x;
             });
-        }        
+        }
     }
 
     clicked(e: any) {
