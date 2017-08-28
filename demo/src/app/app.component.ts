@@ -189,10 +189,10 @@ export class AppComponent implements OnInit, OnDestroy {
             source: (e) => {
               return new Observable(o => {
                 let list = this.animalsCollection.value.filter(x => e ? x.name.toLowerCase().indexOf(e.toLowerCase()) >= 0 : true);
-                console.log(list);
                 o.next(list);
               });
             },
+            debounceTime: 500
           }
         },
 
@@ -244,6 +244,9 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Comments',
             maxLength: 30,
             maxRows: 4,
+            keydown: (e, isShiftDown) => {
+              console.log(e, `Shift: ${isShiftDown}`);
+            }
           }
         },
         {
