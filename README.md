@@ -78,51 +78,64 @@ export class AppModule { }
 # Components
 ### **Input**
 ---
-| Input         | Type                  | Example                                                       |
-|---------------|-----------------------|---------------------------------------------------------------|
-| `placeholder` | string                | 'Username'                                                    |
-| `disabled`    | boolean               | true                                                          |
-| `format`      | (e: string) => string | (e: string) => e.trim().toUpperCase().replace(/(_\|\W)+/g, '')|
-| `source`      | Observable<string[]>  | new Observable(o => {o.next(['A', 'B', 'C'])})                |
-| `keydown`     | (e: any)=>void        | (e)=>{ if(e.key == 'enter'){console.log('Submit!')}}          |
-| `password`    | boolean               | false                                                         |
-| `maxLength`   | number                | 25                                                            |
+| Input         | Type                  |
+|---------------|-----------------------|
+| `placeholder` | string                |
+| `disabled`    | boolean               |
+| `format`      | (e: string) => string |
+| `source`      | Observable<string[]>  |
+| `keydown`     | (e: any)=>void        |
+| `password`    | boolean               |
+| `maxLength`   | number                |
 
 `@source`: A list which enables autocomplete capabilities
 
 ### **Textarea**
-| Input         | Type                  | Example                                              |
-|---------------|-----------------------|------------------------------------------------------|
-| `placeholder` | string                | 'Comments'                                           |
-| `disabled`    | boolean               | true                                                 |
-| `format`      | (e: string) => string | (e: string) => e.trim().toUpperCase().replace(/(_\   |
-| `keydown`     | (e: any)=>void        | (e)=>{ if(e.key == 'enter'){console.log('Submit!')}} |
-| `maxLength`   | number                | 150                                                  |
-| `minRows`     | number                | 1                                                    |
-| `maxRows`     | number                | 4                                                    |
+| Input         | Type                             |
+|---------------|----------------------------------|
+| `placeholder` | string                           |
+| `disabled`    | boolean                          |
+| `format`      | (e: string) => string            |
+| `keydown`     | (e: any, shift: boolean)=>void   |
+| `maxLength`   | number                           |
+| `minRows`     | number                           |
+| `maxRows`     | number                           |
 
 ### **Select**
 ---
-| Input         | Type                  | Example                                              |
-|---------------|-----------------------|------------------------------------------------------|
-| `placeholder` | string                | 'Comments'                                           |
-| `disabled`    | boolean               | true                                                 |
-| `format`      | (e: string) => string | (e: string) => e.trim().toUpperCase().replace(/(_    |
-| `keydown`     | (e: any)=>void        | (e)=>{ if(e.key == 'enter'){console.log('Submit!')}} |
-| `maxRows`     | number                | 3                                                    |
-| `minRows`     | number                | 1                                                    |
-| `maxLength`   | number                | 150                                                  |
+| Input         | Type                  |
+|---------------|-----------------------|
+| `placeholder` | string                |
+| `disabled`    | boolean               |
+| `format`      | (e: string) => string |
+| `nonull`      | boolean               |
+| `maxRows`     | number                |
+| `minRows`     | number                |
+| `maxLength`   | number                |
+| `changed`     | (e: any) => void      |
+
+### **Select-Autocomplete**
+---
+| Input            | Type                                                   
+|------------------|---------------------------------------------------------|
+| `placeholder`    | string                                                  |
+| `disabled`       | boolean                                                 |
+| `source`         | Observable<{ name: string, value: string \| number }[]> |
+| `nonull`         | boolean                                                 |
+| `tooltip`        | 'before'\|'after'\|'above'\|'below'\|'left'\|'right'    |
+| `debounceTime`   | number                                                  |
+| `changed`        | (e: any) => void                                        |
 
 ### **Autocomplete**
 ---
-| Input            | Type                                                   | Example                                        |
-|------------------|--------------------------------------------------------|------------------------------------------------|
-| `placeholder`    | string                                                 | 'Comments'                                     |
-| `disabled`       | boolean                                                | true                                           |
-| `source`         | Observable<{ name: string, value: string \| number }[]>| new Observable(o=>{o.next([{ name: 'Horse', value: 1 },{ name: 'Cow', value: 2 }])}|
-| `nonull`         | boolean                                                | true                                           |
-| `tooltip`        | boolean                                                | true                                           |
-| `tooltipPosition`| 'before'\|'after'\|'above'\|'below'\|'left'\|'right'   | 'right'                                        |
+| Input            | Type                                                                    |
+|------------------|-------------------------------------------------------------------------|
+| `placeholder`    | string                                                                  |
+| `disabled`       | boolean                                                                 |
+| `source`         | (e: string)=>Observable<{ name: string, value: string \|value: 2 }])}   |
+| `tooltip`        | 'before'\|'after'\|'above'\|'below'\|'left'\|'right'                    |
+| `debounceTime`   | number                                                                  |
+| `changed`        | (e: any) => void                                                        |
 
 ### **Checklist**
 | Input      | Type    | Example      |
@@ -131,22 +144,23 @@ export class AppModule { }
 | `disabled` | boolean | true         |
 
 ### **Datetime**
-| Input         | Type                 | Example                                                                                      |
-|---------------|----------------------|----------------------------------------------------------------------------------------------|
-| `placeholder` | string               | 'Deadline'                                                                                   |
-| `disabled`    | boolean              | true                                                                                         |
-| `format`      | string               | 'DD-MM-YYYY HH:mm'                                                                           |
-| `tooltip`     | string               | 'Today'                                                                                      |
-| `mask`        | (string \| RegExp)[] | [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/] |
+| Input         | Type                 |
+|---------------|----------------------|
+| `placeholder` | string               |
+| `disabled`    | boolean              |
+| `format`      | string               |
+| `tooltip`     | string               |
+| `mask`        | (string \| RegExp)[] |
 
 ### **Chips**
-| Input              | Type                 | Example                                     |
-|--------------------|----------------------|---------------------------------------------|
-| `placeholder`      | string               | 'Symptoms'                                  |
-| `disabled`         | boolean              | true                                        |
-| `source`           | Observable<string[]> | new Observable(o=>{o.next(['A', 'B', 'C'])} |
-| `onlyAutocomplete` | boolean              | true                                        |
-| `maxItems`         | number               | 5                                           |
+| Input              | Type                 |
+|--------------------|----------------------|
+| `placeholder`      | string               |
+| `disabled`         | boolean              |
+| `source`           | Observable<string[]> |
+| `onlyAutocomplete` | boolean              |
+| `maxItems`         | number               |
+| `changed`         | (e: any) => void      |
 
 ### **Address-Picker**
 > Not yet documented
