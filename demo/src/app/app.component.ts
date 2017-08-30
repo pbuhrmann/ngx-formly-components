@@ -186,7 +186,7 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             placeholder: 'Autocomplete',
             tooltip: 'right',
-            source: (e) => {
+            source: (e: string) => {
               return new Observable(o => {
                 let list = this.animalsCollection.value.filter(x => e ? x.name.toLowerCase().indexOf(e.toLowerCase()) >= 0 : true);
                 o.next(list);
@@ -315,7 +315,8 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             label: 'Animals',
-            source: this.animalsCollection
+            source: this.animalsCollection,
+            float: true
           }
         },
       ]

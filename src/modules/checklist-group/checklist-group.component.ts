@@ -13,9 +13,13 @@ import { MdCheckboxChange } from "@angular/material";
     .chk-item {
         width: 100%;
     }
+    .chk-item-float {
+        float: left;
+        margin-right: 15px;
+    }
     `],
     template: `
-    <div *ngFor="let item of items" class="chk-item">
+    <div *ngFor="let item of items" [ngClass]="{'chk-item-float': to.float, 'chk-item': !to.float }">
         <md-checkbox [ngModel]="checked[item.value]" (change)="toggle($event, item)">{{item.name}}</md-checkbox>
     </div>
     `,
@@ -54,7 +58,7 @@ export class FormlyChecklistGroupComponent extends Field implements OnInit, OnDe
         });
 
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            this.selectedItems = x;
+            this.selectedItems = x || [];
             this.checked = {};
 
             for (var i = 0; i < this.selectedItems.length; i++) {
