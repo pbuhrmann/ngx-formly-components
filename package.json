@@ -1,7 +1,7 @@
 {
     "name": "ngx-formly-components",
     "author": "https://github.com/penrique",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "license": "MIT",
     "main": "lib/index.js",
     "module": "lib/index.js",
