@@ -99,7 +99,7 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 	}
 
 	setLocation(e: any) {
-		if (e && e.formatted_address) {
+		if (e && e.lat && e.lng) {
 			this.location = new L.CircleMarker([e.lat, e.lng], { radius: 6 });
 			this.featureGroup.clearLayers();
 			this.featureGroup.addLayer(this.location);
@@ -121,8 +121,8 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 		center && this.map.setView([lat, lng], 15);
 	}
 
-	displayFn(addressObj: any): string {
-		return addressObj ? addressObj.formatted_address ? addressObj.formatted_address : addressObj : null;
+	displayFn(e: any): string {
+		return e && e.formatted_address !== undefined ? e.formatted_address : e;
 	}
 
 	ngOnDestroy() {

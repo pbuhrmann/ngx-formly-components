@@ -44,19 +44,9 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
 
-        if (this.formControl.value && this.formControl.value.formatted_address) {
-            this.value = this.formControl.value.formatted_address;
-        }
-        else {
-            this.value = this.formControl.value;
-        }
+        this.value = this.formControl.value;
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            if (x && x.formatted_address) {
-                this.value = x.formatted_address;
-            }
-            else {
-                this.value = x;
-            }
+            this.value = x;
         });
     }
 
@@ -100,7 +90,7 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
     }
 
     displayFn(e: any): string {
-        return e ? e.formatted_address ? e.formatted_address : e : null;
+        return e && e.formatted_address !== undefined ? e.formatted_address : e;
     }
 
     openMap() {
