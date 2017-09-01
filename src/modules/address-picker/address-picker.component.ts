@@ -62,11 +62,11 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
             this.timeout && clearTimeout(this.timeout);
             this.sub && this.sub.unsubscribe();
             this.timeout = setTimeout(() => {
-                this.sub = this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&components=country:${this.to.country}&key=${this.to.api_key}`).subscribe(x => {
+                this.sub = this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&components=${this.to.components}&key=${this.to.api_key}`).subscribe(x => {
                     if (x) {
                         let res = JSON.parse(x.text());
                         if (res && res.results && res.results.length > 0) {
-                            this.items = [res.results[0]];
+                            this.items = res.results;
                         }
                     }
                 });

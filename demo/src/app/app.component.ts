@@ -280,7 +280,7 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Address',
             tooltip: 'Open map',
             api_key: '',
-            country: 'AR', //https://en.wikipedia.org/wiki/ISO_3166-1
+            components: 'country:AR|administrative_area:Buenos Aires', //https://en.wikipedia.org/wiki/ISO_3166-1 && https://developers.google.com/maps/documentation/geocoding/intro#ComponentFiltering
             mapCenterCoords: [-34.561253, -58.400155],
             tileLayerSource: '',
             yes: 'Accept',
