@@ -47,6 +47,7 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
         this.value = this.formControl.value;
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.value = x;
+            this.to.changed && this.to.changed(x);
         });
     }
 
@@ -56,7 +57,7 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
             this.formControl.setValue(null);
             return;
         }
-        !e.geometry && this.formControl.setValue(e);
+        this.formControl.setValue(e);
         if (e && e.length >= 3) {
             let address = e.replace(/ /g, '+');
             this.timeout && clearTimeout(this.timeout);
