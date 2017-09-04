@@ -77,16 +77,7 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
 
     clicked(e: any) {
         if (e) {
-            let lat = e.geometry.location.lat;
-            let lng = e.geometry.location.lng;
-            this.formControl.setValue(
-                {
-                    formatted_address: e.formatted_address,
-                    lat: lat,
-                    lng: lng
-                }
-            );
-            this.value = e.formatted_address;
+            this.formControl.setValue(e);
         }
     }
 
