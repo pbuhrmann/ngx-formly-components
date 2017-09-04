@@ -22,7 +22,6 @@ import { Observable } from 'rxjs';
                 {{ option.name }}
             </md-option>
         </md-autocomplete>
-        <button md-icon-button (click)="add()"><i class="material-icons md-24">add</i></button>
         <md-chip-list>
             <md-chip *ngFor="let item of selectedItems">
                 {{item.name}}
@@ -76,7 +75,7 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             if (!this.selectedItems) {
                 return true;
             }
-            return this.selectedItems.indexOf(x) == -1;
+            return this.selectedItems.map(y => y.name).indexOf(x.name) == -1;
         });
     }
 
