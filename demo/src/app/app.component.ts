@@ -54,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
       subtypeId: 2,
       priority: { name: 'Normal', value: 2 },
       chips: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }, { name: 'Bird', value: 4 }],
-      input1: "ARG",
+      input1: "Something",
       autocomplete: { name: 'Cat', value: 7 },
       multiselect: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
       input2: null,
@@ -171,7 +171,7 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             placeholder: 'Input',
             disabled: false,
-            source: this.animalsCollection,
+            source: this.animalsCollection.map(x => x.map(y => y.name)),
             format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
           },
           validators: {
