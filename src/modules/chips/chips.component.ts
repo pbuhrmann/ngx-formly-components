@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
         </md-autocomplete>
         <md-chip-list>
             <md-chip *ngFor="let item of selectedItems">
-                {{item.name}}
+                {{chipDisplayFn(item)}}
                 <span (click)="remove(item)" class="fa fa-times" style="cursor: pointer"></span>
             </md-chip>
         </md-chip-list>
@@ -55,7 +55,13 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             this.selectedItems = x || [];
             this.to.changed && this.to.changed(x);
         });
+    }
 
+    map(e: any[]) {
+        if (this.to.map) {
+            return this.to.map(e);
+        }
+        return e;
     }
 
     filter(val: any): string[] {
@@ -75,7 +81,13 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             if (!this.selectedItems) {
                 return true;
             }
-            return this.selectedItems.map(y => y.name).indexOf(x.name) == -1;
+            if (this.to.displayFn) {
+                return this.selectedItems.map(y => this.chipDisplayFn(y)).indexOf(x.name) == -1;
+            }
+            else {
+                return this.selectedItems.map(y => y.name).indexOf(x.name) == -1;
+            }
+
         });
     }
 
@@ -91,7 +103,12 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             if (this.to.onlyAutocomplete && this.items.indexOf(this.value) == -1) {
                 return;
             }
-            this.selectedItems.push(this.value);
+            if (this.to.map) {
+                this.selectedItems.push(this.to.map(this.value));
+            }
+            else {
+                this.selectedItems.push(this.value);
+            }
             this.filteredItems = this.filter(null);
             this.formControl.setValue(this.selectedItems);
         }
@@ -106,6 +123,10 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             return x != e;
         });
         this.formControl.setValue(this.selectedItems);
+    }
+
+    chipDisplayFn(e: any) {
+        return this.to.displayFn && this.to.displayFn(e) || e && e.name || null;
     }
 
     displayFn(e: any): string {

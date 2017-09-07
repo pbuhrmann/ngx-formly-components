@@ -41,6 +41,11 @@ export class AppComponent implements OnInit, OnDestroy {
     { name: 'Cat', value: 6 },
     { name: 'Wolf', value: 7 }
   ]);
+  /*animalsCollection2: BehaviorSubject<{ name: string, value: string | number }[]> = new BehaviorSubject<{ name: string, value: string | number }[]>([
+    { data: { name: 'Fish', value: 5 } },
+    { data: { name: 'Cow', value: 2 } },
+    { data: { name: 'Bird', value: 4 } }
+  ]);*/
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor() {
@@ -53,7 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
       typeId: 7,
       subtypeId: 2,
       priority: { name: 'Normal', value: 2 },
-      chips: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }, { name: 'Bird', value: 4 }],
+      chips: [
+        { name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
       input1: "Something",
       autocomplete: { name: 'Cat', value: 7 },
       multiselect: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
@@ -157,7 +163,13 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: "Chips",
             source: this.animalsCollection,
             onlyAutocomplete: true,
-            maxItems: 10
+            maxItems: 10,
+            /*displayFn: (e: any) => {
+              return e && e.data && e.data.name || null;
+            },
+            map: (e: any) => {
+              return { data: e }
+            },*/
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -284,7 +296,13 @@ export class AppComponent implements OnInit, OnDestroy {
             mapCenterCoords: [-34.561253, -58.400155],
             tileLayerSource: '',
             yes: 'Accept',
-            no: 'Cancel'
+            no: 'Cancel',
+            /*displayFn: (e) => {
+              return e && e.formatted_address !== undefined ? e.formatted_address : e;
+            }*/
+            displayFn: (e) => {
+              return this.addressDisplayfn(e);
+            }
           }
         },
         {
@@ -366,6 +384,25 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }
   ];
+
+  addressDisplayfn(e: any) {
+    let street = '';
+    let number = '';
+    console.log('>>', e);
+    if (e && e.address_components && e.address_components.length > 1) {
+      console.log('00',e.address_components[0]);
+      if (e.address_components[0].types[0] == 'street_number') {
+        number = e.address_components[0].long_name;
+      }
+      if (e.address_components[1].types[0] == 'route') {
+        street = e.address_components[1].long_name;
+      }
+    }
+    console.log(street, number);
+    
+
+    return street && number ? `${street} ${number}` : 'unknown';
+  }
 
   submit() {
     console.log(this.model);
