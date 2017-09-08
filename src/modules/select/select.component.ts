@@ -7,7 +7,9 @@ import { Subscription } from "rxjs/Subscription";
 @Component({
     selector: 'ngx-formly-component-select',
     styles: [`
-
+    :host /deep/ .mat-select-trigger {
+        min-width: 20px;
+    }
     `],
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}" style="margin-top: 10px">
