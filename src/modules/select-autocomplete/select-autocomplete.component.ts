@@ -27,9 +27,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     public items: any[] = [];
     public filteredItems: any[];
-    public value: string;
-    private sub: Subscription;
-    private timeout: any;
+    public value: any;
 
     constructor(private http: Http, public dialog: MdDialog) {
         super();
@@ -37,41 +35,26 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
-        if (this.formControl.value) {
-            this.value = this.formControl.value;
-        }
+        this.value = this.formControl.value;
+        this.to.initialized && this.to.initialized(this.formControl.value);
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.filteredItems = [];
-            this.items = [];
-            if (x && x.length > 0) {
-                this.items = x;
-                if (this.to.nonull && !this.formControl.value && this.items && this.items.length > 0) {
-                    this.formControl.setValue(this.items[0]);
-                    this.value = this.items[0];
-                }
-            }
-            else {
-                this.value = null;
-                this.formControl.setValue(null);
-            }
+            this.items = x || [];
+            let filtered = this.formControl.value && this.items.filter(y => y.name == this.formControl.value.name) || [];
+            filtered.length == 0 && this.formControl.setValue(null);
         });
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            if (x) {
-                let val = this.items.filter(y => y.value == x.value);
-                if (val && val.length > 0) {
-                    this.value = val[0];
-                }
-                else {
-                    if (this.to.nonull && this.items && this.items.length > 0) {
-                        this.value = this.items[0];
-                    }
-                }
-            }
+            this.value = x;
             this.to.changed && this.to.changed(x);
         });
     }
 
     changed(e: any) {
+        if (this.formControl.value && this.formControl.value.name && !e.name) {
+            this.formControl.setValue(null);
+            this.filteredItems = this.filter(null);
+            return;
+        }
         this.filteredItems = this.filter(e);
         e && e.value ? this.formControl.setValue(e) : this.formControl.setValue(null);
     }
@@ -84,10 +67,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
             return null;
         }
         return this.items.filter(option => {
-            if (!option) {
-                return false;
-            }
-            return option.name.toLowerCase().indexOf(val.toLowerCase()) >= 0;
+            return option && option.name.toLowerCase().indexOf(val.toLowerCase()) >= 0;
         });
     }
 
