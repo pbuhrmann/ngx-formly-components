@@ -55,11 +55,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      typeId: 7,
-      subtypeId: 2,
+      type: { name: 'Type 1', value: 1 },
+      subtype: {
+        "name": "Cough",
+        "value": 2,
+        "type": 1,
+        "priority": 1
+      },
       priority: { name: 'Normal', value: 2 },
       chips: [
-        { data: {name: 'Cat', value: 7}, asd:123 }, { data: {name: 'Bird', value: 4 }, asd: 123}],
+        { data: { name: 'Cat', value: 7 }, asd: 123 }, { data: { name: 'Bird', value: 4 }, asd: 123 }],
       input1: "Something",
       autocomplete: { name: 'Cat', value: 7 },
       multiselect: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
@@ -67,11 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
       checklist1: false,
       checklist2: true,
       textarea: "This is a comment",
-      address: {
-        formatted_address: 'Cerrito 800, C1010AAP CABA, Argentina',
-        lat: -34.5992993,
-        lng: -58.3827919
-      },
+      address: { address: "Eva Peron 400", lat: 123, lng: 123 },
       radioGroup: { name: 'Fish', value: 5 },
       selectAutocomplete: { name: 'Fish', value: 5 },
       checklistGroup: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }],
@@ -82,6 +83,8 @@ export class AppComponent implements OnInit, OnDestroy {
     //setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
     //setTimeout(() => { this.form.get('checklistGroup').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
     //setTimeout(() => { this.form.get('multiselect').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
+    setTimeout(() => { this.subtypesCollection.next(null) }, 2000);
+    setTimeout(() => { this.subtypesCollection.next([{ name: 'sara', value: 3 }]) }, 6000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -117,7 +120,7 @@ export class AppComponent implements OnInit, OnDestroy {
         },
         {
           className: 'col-sm-3',
-          key: 'typeId',
+          key: 'type',
           type: 'select',
           wrapper: [],
           templateOptions: {
@@ -128,7 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
         },
         {
           className: 'col-sm-3',
-          key: 'subtypeId',
+          key: 'subtype',
           type: 'select-autocomplete',
           wrapper: [],
           templateOptions: {
@@ -292,7 +295,7 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Address',
             tooltip: 'Open map',
             api_key: '',
-            components: 'country:AR|administrative_area:Buenos Aires', //https://en.wikipedia.org/wiki/ISO_3166-1 && https://developers.google.com/maps/documentation/geocoding/intro#ComponentFiltering
+            //components: 'country:AR|administrative_area:Buenos Aires', //https://en.wikipedia.org/wiki/ISO_3166-1 && https://developers.google.com/maps/documentation/geocoding/intro#ComponentFiltering
             mapCenterCoords: [-34.561253, -58.400155],
             tileLayerSource: '',
             yes: 'Accept',
@@ -300,8 +303,15 @@ export class AppComponent implements OnInit, OnDestroy {
             /*displayFn: (e) => {
               return e && e.formatted_address !== undefined ? e.formatted_address : e;
             }*/
+            components: `country:AR|administrative_area:Buenos Aires`,
+            metadata: Observable.create(o => {
+              o.next(`LANUS, MONTE CHINGOLO`);
+            }),
             displayFn: (e) => {
               return this.addressDisplayfn(e);
+            },
+            location: (e) => {
+              console.log(e);
             }
           }
         },
@@ -397,7 +407,9 @@ export class AppComponent implements OnInit, OnDestroy {
         address = e.formatted_address.split(',')[0];
       }
     }
-    return address
+    console.log('add', address);
+
+    return address;
   }
 
   submit() {
