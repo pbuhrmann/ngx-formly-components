@@ -23,9 +23,8 @@ import { Observable } from 'rxjs';
             </md-option>
         </md-autocomplete>
         <md-chip-list>
-            <md-chip *ngFor="let item of selectedItems">
+            <md-chip *ngFor="let item of selectedItems" (click)="remove(item)" style="cursor: pointer">
                 {{chipDisplayFn(item)}}
-                <span (click)="remove(item)" class="fa fa-times" style="cursor: pointer"></span>
             </md-chip>
         </md-chip-list>
     </div>
