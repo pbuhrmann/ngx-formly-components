@@ -23,7 +23,7 @@ import { FormlyAddressPickerMapComponent } from './map/map.component';
             <input mdInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl.disabled" [mdAutocomplete]="autocomplete"/>
             <i mdSuffix class="material-icons md-18 open-map" [class.disabled]="formControl.disabled" (click)="openMap()" [mdTooltip]="to.tooltip" mdTooltipPosition="below">my_location</i>
         </md-input-container>
-        <md-autocomplete #autocomplete="mdAutocomplete">
+        <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn.bind(this)">
             <md-option *ngFor="let item of items" [value]="item" (click)="clicked(item)">{{displayFn(item)}}</md-option>
         </md-autocomplete>
     </div>
@@ -67,7 +67,12 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
                     if (x) {
                         let res = JSON.parse(x.text());
                         if (res && res.results && res.results.length > 0) {
-                            this.items = res.results;
+                            if (this.to.displayFn && res.results && res.results.length > 0) {
+                                this.items = res.results.filter(x => this.to.displayFn(x) != null);
+                            }
+                            else {
+                                this.items = res.results;
+                            }
                         }
                     }
                 });

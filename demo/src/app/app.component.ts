@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
       subtypeId: 2,
       priority: { name: 'Normal', value: 2 },
       chips: [
-        { name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
+        { data: {name: 'Cat', value: 7}, asd:123 }, { data: {name: 'Bird', value: 4 }, asd: 123}],
       input1: "Something",
       autocomplete: { name: 'Cat', value: 7 },
       multiselect: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
@@ -164,12 +164,12 @@ export class AppComponent implements OnInit, OnDestroy {
             source: this.animalsCollection,
             onlyAutocomplete: true,
             maxItems: 10,
-            /*displayFn: (e: any) => {
+            displayFn: (e: any) => {
               return e && e.data && e.data.name || null;
             },
             map: (e: any) => {
               return { data: e }
-            },*/
+            },
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -386,22 +386,18 @@ export class AppComponent implements OnInit, OnDestroy {
   ];
 
   addressDisplayfn(e: any) {
-    let street = '';
-    let number = '';
-    console.log('>>', e);
-    if (e && e.address_components && e.address_components.length > 1) {
-      console.log('00',e.address_components[0]);
-      if (e.address_components[0].types[0] == 'street_number') {
-        number = e.address_components[0].long_name;
+    let address = null;
+    if (e && e.address_components && e.address_components.length > 1 && e.types && e.types.length > 0) {
+      if (e.types[0] == 'street_address') {
+        let number = e.address_components.filter(x => x.types[0] == 'street_number').map(x => x.long_name);
+        let street = e.address_components.filter(x => x.types[0] == 'route').map(x => x.long_name);
+        address = street && number ? `${street} ${number}` : street && !number ? `${street}` : e;
       }
-      if (e.address_components[1].types[0] == 'route') {
-        street = e.address_components[1].long_name;
+      else if (e.types[0] == 'intersection') {
+        address = e.formatted_address.split(',')[0];
       }
     }
-    console.log(street, number);
-    
-
-    return street && number ? `${street} ${number}` : 'unknown';
+    return address
   }
 
   submit() {
