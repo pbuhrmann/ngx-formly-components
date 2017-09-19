@@ -3,6 +3,9 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/penrique/ngx-formly-components/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/penrique/ngx-formly-components.svg?style=social)](https://twitter.com/intent/tweet?text=https://github.com/penrique/ngx-formly-components)
 
+### Notice:
+This is still a work in progress, not to be used in production environments... yet.
+
 ## Table of contents
 1. [Getting Started](#getting-started)
 2. [Installation instructions](#installation-instructions)
