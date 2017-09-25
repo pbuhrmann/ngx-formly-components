@@ -14,7 +14,7 @@ import { FormControl } from '@angular/forms';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
-            <input #myinput mdInput [placeholder]="to.placeholder" type="{{to.password?'password':'text'}}" [formControl]="formControl" [mdAutocomplete]="autocomplete" [value]="value" (keydown)="keydown($event)"/>
+            <input #myinput mdInput [placeholder]="to.placeholder" [maxlength]="to.maxLength" type="{{to.password?'password':'text'}}" [formControl]="formControl" [mdAutocomplete]="autocomplete" [value]="value" (keydown)="keydown($event)"/>
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete">
             <md-option *ngFor="let item of filteredItems" [value]="item">{{item}}</md-option>
