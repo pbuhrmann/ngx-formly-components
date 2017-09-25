@@ -45,33 +45,54 @@ export class FormlyRadioGroupComponent extends Field implements OnInit, OnDestro
 
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
+        this.to.initialized && this.to.initialized(this.formControl.value);
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.items = x;
             if (this.items && this.items.length > 0) {
-                if (this.formControl.value) {
-                    let val = this.items.filter(y => y.value == this.formControl.value.value);
+                if (this.inputMapFn(this.formControl.value)) {
+                    let val = this.items.filter(y => this.inputMapFn(y) == this.inputMapFn(this.formControl.value));
                     if (val && val.length > 0) {
-                        this.value = val[0].value;
+                        this.value = this.inputMapFn(val[0]);
                     }
                 }
             }
         });
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
             if (x && this.items && this.items.length > 0) {
-                let val = this.items.filter(y => y.value == x.value);
+                let val = this.items.filter(y => this.inputMapFn(y) == this.inputMapFn(x));
                 if (val && val.length > 0) {
-                    this.value = val[0].value;
+                    this.value = this.inputMapFn(val[0]);
+                    this.to.changedRaw && this.to.changedRaw(val[0]);
                 }
                 else {
                     this.value = null;
+                    this.to.changedRaw && this.to.changedRaw(null);
                 }
+                this.to.changed && this.to.changed(x);
             }
         });
     }
 
     changed(e: any) {
-        !!e && this.formControl.setValue(e);
-        this.to.changed && this.to.changed(e);
+        //!!e && this.formControl.setValue(e);
+        this.outputMapFn(e);
+    }
+
+    inputMapFn(e: any) {
+        if (this.to.mapFn) {
+            return this.to.mapFn(e);
+        }
+        return e;
+    }
+
+    outputMapFn(e: any) {
+        if (e && this.to.mapFn && this.to.convertOutput !== false) {
+            this.formControl.setValue(this.to.mapFn(e));
+            this.value = e;
+            return;
+        }
+        this.formControl.setValue(e);
+        this.value = e;
     }
 
     ngOnDestroy() {
