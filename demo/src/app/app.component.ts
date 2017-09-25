@@ -25,12 +25,17 @@ export class AppComponent implements OnInit, OnDestroy {
     { name: 'Hypotension', value: 3, type: 1, priority: 2 },
     { name: 'Dizziness', value: 4, type: 2, priority: 2 },
     { name: 'Hypertension', value: 5, type: 2, priority: 3 },
-    { name: 'Chest pain', value: 6, type: 3, priority: 3 }
+    { name: 'Chest pain', value: 6, type: 2, priority: 3 },
+    { name: 'Coughing blood', value: 7, type: 3, priority: 3 },
+    { name: 'Bleeding foot', value: 8, type: 3, priority: 3 },
+    { name: 'Overdose', value: 9, type: 3, priority: 3 },
+    { name: 'Constipation', value: 10, type: 3, priority: 3 },
   ]);
+  subtypesCollection_filtered: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   prioritiesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
-    { name: 'Low', value: 1 },
-    { name: 'Normal', value: 2 },
-    { name: 'High', value: 3 },
+    { name: 'Low', value: 0 },
+    { name: 'Normal', value: 1 },
+    { name: 'High', value: 2 },
   ]);
   animalsCollection: BehaviorSubject<{ name: string, value: string | number }[]> = new BehaviorSubject<{ name: string, value: string | number }[]>([
     { name: 'Horse', value: 1 },
@@ -55,36 +60,34 @@ export class AppComponent implements OnInit, OnDestroy {
     this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      type: { name: 'Type 1', value: 1 },
-      subtype: {
+      type: 2,
+      /*subtype: {
         "name": "Cough",
         "value": 2,
         "type": 1,
         "priority": 1
-      },
-      priority: { name: 'Normal', value: 2 },
-      chips: [
-        { data: { name: 'Cat', value: 7 }, asd: 123 }, { data: { name: 'Bird', value: 4 }, asd: 123 }],
-      input1: "Something",
+      },*/
+      subtype: 3,
+      priority: 0,
+      chips: [{ name: 'Cat', value: 7, active: false }, { name: 'Bird', value: 4, active: true }],
+      input1: "Something something something",
       autocomplete: { name: 'Cat', value: 7 },
-      multiselect: [{ name: 'Cat', value: 7 }, { name: 'Bird', value: 4 }],
       input2: null,
-      checklist1: false,
+      checklist1: null,
       checklist2: true,
       textarea: "This is a comment",
-      address: { address: "Eva Peron 400", lat: 123, lng: 123 },
+      address: "Eva Peron 400",
       radioGroup: { name: 'Fish', value: 5 },
       selectAutocomplete: { name: 'Fish', value: 5 },
-      checklistGroup: [{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }],
+      checklistGroup: [{ name: 'Cow', value: 2 }, { name: 'Fish', value: 5 }],
       repeated: []
     }
 
     //setTimeout(() => { this.form.reset() }, 2000);
     //setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
     //setTimeout(() => { this.form.get('checklistGroup').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
-    //setTimeout(() => { this.form.get('multiselect').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
-    setTimeout(() => { this.subtypesCollection.next(null) }, 2000);
-    setTimeout(() => { this.subtypesCollection.next([{ name: 'sara', value: 3 }]) }, 6000);
+    //setTimeout(() => { this.subtypesCollection.next(null) }, 2000);
+    //setTimeout(() => { this.subtypesCollection.next([{ name: 'sara', value: 3 }]) }, 6000);
   }
 
   formlyFields: FormlyFieldConfig[] = [
@@ -125,8 +128,22 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             placeholder: 'Type',
-            nonull: false,
-            source: this.typesCollection
+            source: this.typesCollection,
+            mapFn: (e) => {
+              return e && e.value ? e.value : e;
+            },
+            initialized: (e) => {
+              if (e) {
+                let list = this.subtypesCollection.value.filter(x => x.type == e);
+                this.subtypesCollection_filtered.next(list);
+              }
+            },
+            changed: (e) => {
+              if (e) {
+                let list = this.subtypesCollection.value.filter(x => x.type == e);
+                this.subtypesCollection_filtered.next(list);
+              }
+            }
           }
         },
         {
@@ -136,8 +153,10 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             placeholder: 'Subtype',
-            nonull: true,
-            source: this.subtypesCollection
+            source: this.subtypesCollection_filtered,
+            mapFn: (e) => {
+              return e && e.value ? e.value : e;
+            }
           }
         },
         {
@@ -147,11 +166,10 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             placeholder: 'Priority',
-            source: Observable.create(o => {
-              this.prioritiesCollection.takeUntil(this.ngUnsubscribe).subscribe(y => {
-                o.next(y);
-              });
-            })
+            source: this.prioritiesCollection,
+            mapFn: (e) => {
+              return e && (e.value || e.value === 0) ? e.value : e;
+            }
           }
         },
         {
@@ -167,12 +185,12 @@ export class AppComponent implements OnInit, OnDestroy {
             source: this.animalsCollection,
             onlyAutocomplete: true,
             maxItems: 10,
-            displayFn: (e: any) => {
-              return e && e.data && e.data.name || null;
+            mapFn: e => {
+              return e && e.value ? e.value : e;
             },
-            map: (e: any) => {
-              return { data: e }
-            },
+            filterFn: e => {
+              return e && e.filter(x => x.active === true);
+            }
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -187,7 +205,8 @@ export class AppComponent implements OnInit, OnDestroy {
             placeholder: 'Input',
             disabled: false,
             source: this.animalsCollection.map(x => x.map(y => y.name)),
-            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, '') // only uppercase alphanumeric allowed
+            format: (e: string) => e.trim().toUpperCase().replace(/(_|\W)+/g, ''), // convert to uppercase alphanumeric
+            maxLength: 10
           },
           validators: {
             validation: Validators.compose([Validators.required])
@@ -207,21 +226,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 o.next(list);
               });
             },
-            debounceTime: 500
+            debounceTime: 10
           }
         },
-
-        {
-          className: 'col-sm-3',
-          key: 'multiselect',
-          type: 'select',
-          wrapper: [],
-          templateOptions: {
-            placeholder: 'Multiselect',
-            source: this.animalsCollection,
-            multiple: true
-          }
-        }
       ],
     },
     {
@@ -271,6 +278,7 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             text: 'Short text',
+            defaultValue: true
           }
         },
         {
@@ -294,21 +302,23 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             placeholder: 'Address',
             tooltip: 'Open map',
-            api_key: '',
+            api_key: 'AIzaSyArmiw8_wiv9nLQTIqhjynQFE6Q5Pzpxyo',
             //components: 'country:AR|administrative_area:Buenos Aires', //https://en.wikipedia.org/wiki/ISO_3166-1 && https://developers.google.com/maps/documentation/geocoding/intro#ComponentFiltering
             mapCenterCoords: [-34.561253, -58.400155],
-            tileLayerSource: '',
+            tileLayerSource: 'http://190.210.64.181/osm/{z}/{x}/{y}.png',
             yes: 'Accept',
             no: 'Cancel',
             /*displayFn: (e) => {
               return e && e.formatted_address !== undefined ? e.formatted_address : e;
             }*/
-            components: `country:AR|administrative_area:Buenos Aires`,
             metadata: Observable.create(o => {
-              o.next(`LANUS, MONTE CHINGOLO`);
+              o.next(`MONTE CHINGOLO, LANUS, BUENOS AIRES, ARGENTINA`);
             }),
             displayFn: (e) => {
               return this.addressDisplayfn(e);
+            },
+            optionDisplayFn: (e) => {
+              return this.addressOptionDisplayfn(e);
             },
             location: (e) => {
               console.log(e);
@@ -322,7 +332,10 @@ export class AppComponent implements OnInit, OnDestroy {
           wrapper: [],
           templateOptions: {
             label: 'Animals',
-            source: this.animalsCollection
+            source: this.animalsCollection,
+            mapFn: (e: any) => {
+              return e && e.value ? e.value : e;
+            },
           }
         },
         {
@@ -344,7 +357,11 @@ export class AppComponent implements OnInit, OnDestroy {
           templateOptions: {
             label: 'Animals',
             source: this.animalsCollection,
-            float: true
+            float: true,
+            mapFn: (e: any) => {
+              return e && e.value ? e.value : e;
+            },
+            order: true
           }
         },
       ]
@@ -407,8 +424,22 @@ export class AppComponent implements OnInit, OnDestroy {
         address = e.formatted_address.split(',')[0];
       }
     }
-    console.log('add', address);
+    return address;
+  }
 
+  addressOptionDisplayfn(e: any) {
+    let address = null;
+    if (e && e.address_components && e.address_components.length > 1 && e.types && e.types.length > 0) {
+      if (e.types[0] == 'street_address') {
+        let number = e.address_components.filter(x => x.types[0] == 'street_number').map(x => x.long_name);
+        let street = e.address_components.filter(x => x.types[0] == 'route').map(x => x.long_name);
+        let locality = e.address_components.filter(x => x.types[0] == 'locality').map(x => x.long_name);
+        address = street && number && locality ? `${street} ${number}, ${locality}` : street && !number ? `${street}` : e;
+      }
+      else if (e.types[0] == 'intersection') {
+        address = e.formatted_address.split(',')[0];
+      }
+    }
     return address;
   }
 
