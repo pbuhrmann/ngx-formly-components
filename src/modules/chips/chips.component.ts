@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
     `],
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
-        <md-input-container style="width: 70%">
+        <md-input-container>
             <input type="text" [disabled]="formControl.disabled" mdInput [placeholder]="to.placeholder" [(ngModel)]="value" (ngModelChange)="changed($event)" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
         </md-input-container>
         <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
@@ -22,7 +22,7 @@ import { Observable } from 'rxjs';
                 {{ option.name }}
             </md-option>
         </md-autocomplete>
-        <md-chip-list>
+        <md-chip-list [tabIndex]="-1">
             <md-chip *ngFor="let item of selectedItems" (click)="remove(item)" style="cursor: pointer">
                 {{chipDisplayFn(item)}}
             </md-chip>
@@ -44,26 +44,34 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.to.disabled && this.formControl.disable();
+        this.selectedItems = this.filter(this.formControl.value) || [];
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 this.items = x;
+                this.filteredItems = this.filterValue(null);
             });
         }
-        this.selectedItems = this.formControl.value || [];
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            this.selectedItems = x || [];
+            this.selectedItems = this.filter(x) || [];
             this.to.changed && this.to.changed(x);
         });
     }
 
-    map(e: any[]) {
-        if (this.to.map) {
-            return this.to.map(e);
+    map(e: any) {
+        if(this.to.mapFn){
+            return this.to.mapFn(e);
         }
         return e;
     }
 
-    filter(val: any): string[] {
+    filter(e: any) {
+        if (this.to.filterFn) {
+            return this.to.filterFn(e);
+        }
+        return e;
+    }
+
+    filterValue(val: any): string[] {
         if (!this.items) {
             return null;
         }
@@ -91,7 +99,7 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
     }
 
     changed(e: any) {
-        this.filteredItems = this.filter(e);
+        this.filteredItems = this.filterValue(e);
     }
 
     add() {
@@ -102,13 +110,13 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
             if (this.to.onlyAutocomplete && this.items.indexOf(this.value) == -1) {
                 return;
             }
-            if (this.to.map) {
-                this.selectedItems.push(this.to.map(this.value));
+            if (this.to.mapFn) {
+                this.selectedItems.push(this.map(this.value));
             }
             else {
                 this.selectedItems.push(this.value);
             }
-            this.filteredItems = this.filter(null);
+            this.filteredItems = this.filterValue(null);
             this.formControl.setValue(this.selectedItems);
         }
         this.value = null;
@@ -121,6 +129,7 @@ export class FormlyChipsComponent extends Field implements OnInit, OnDestroy {
         this.selectedItems = this.selectedItems.filter(x => {
             return x != e;
         });
+        this.filteredItems = this.filterValue(this.value);
         this.formControl.setValue(this.selectedItems);
     }
 
