@@ -52,6 +52,9 @@ export class FormlyRepeatedSectionComponent extends FieldType implements OnInit 
   }
 
   public add() {
+    if (this.formControl.disabled) {
+      return;
+    }
     this.sectionsNumber++;
     if (this.to.class) {
       this.model.push(new this.to.class());
@@ -67,6 +70,9 @@ export class FormlyRepeatedSectionComponent extends FieldType implements OnInit 
   }
 
   public remove(i) {
+    if (this.formControl.disabled) {
+      return;
+    }
     let result = true;
     if (this.to.removeWarning) {
       result = confirm(this.to.removeWarning);
