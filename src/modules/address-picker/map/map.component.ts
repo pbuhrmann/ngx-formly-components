@@ -21,7 +21,7 @@ import * as L from 'leaflet';
 		</md-autocomplete>
 		<div id="ngx-formly-components-map-{{mapId}}" style="height: calc(100% - 100px); width: 100%; position: relative"></div>
 		<div style="margin-top: 15px">
-			<button md-raised-button color="primary" [md-dialog-close]="fControl.value"><i class="material-icons">done</i> {{data.yes}}</button>
+			<button md-raised-button color="primary" [md-dialog-close]="value"><i class="material-icons">done</i> {{data.yes}}</button>
 			<button md-button color="primary" [md-dialog-close]="false"><i class="material-icons">cancel</i> {{data.no}}</button>		
 		</div>
 	</div>
@@ -32,7 +32,6 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 	public map: L.Map;
 
 	private ngUnsubscribe: Subject<void> = new Subject<void>();
-	public fControl: FormControl = new FormControl();
 	public value: any;
 	public items: any[];
 	private sub_geo: Subscription;
@@ -48,7 +47,6 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 
 	public ngOnInit() {
 		this.value = this.data.address;
-		this.fControl.setValue(this.data.address);
 	}
 
 	ngAfterViewInit() {
@@ -78,7 +76,7 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 				});
 			}, 250);
 		});
-		this.setLocation(this.data.address);
+		this.setLocation(this.data.lat, this.data.lng);
 	}
 
 	changed(e: any) {
@@ -87,7 +85,7 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 			this.timeout_geo && clearTimeout(this.timeout_geo);
 			this.sub_geo && this.sub_geo.unsubscribe();
 			this.timeout_geo = setTimeout(() => {
-				this.sub_geo = this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address} ${this.data.metadata}&components=${this.data.components}&key=${this.data.api_key}`).subscribe(x => {
+				this.sub_geo = this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address} ${this.data.metadata}&key=${this.data.api_key}`).subscribe(x => {
 					if (x) {
 						let res = JSON.parse(x.text());
 						if (res && res.results && res.results.length > 0) {
@@ -104,13 +102,13 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 		}
 	}
 
-	setLocation(e: any) {
-		if (e && e.lat && e.lng) {
-			this.location = new L.CircleMarker([e.lat, e.lng], { radius: 6 });
+	setLocation(lat: number, lng: number) {
+		if (lat && lng) {
+			this.location = new L.CircleMarker([lat, lng], { radius: 6 });
 			this.featureGroup.clearLayers();
 			this.featureGroup.addLayer(this.location);
 			this.map.addLayer(this.location);
-			this.map.setView([e.lat, e.lng], 15);
+			this.map.setView([lat, lng], 15);
 		}
 	}
 
@@ -123,24 +121,10 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 				lat: lat,
 				lng: lng
 			}
-			this.fControl.setValue(val);
 			this.value = val;
-			this.setLocation(val);
+			this.setLocation(lat, lng);
 		}
 	}
-
-	/*setValue(e: any, center = true) {
-		let lat = e.geometry.location.lat;
-		let lng = e.geometry.location.lng;
-		let val = {
-			formatted_address: e.formatted_address,
-			lat: lat,
-			lng: lng
-		}
-		this.fControl.setValue(val);
-		this.setLocation(val);
-		center && this.map.setView([lat, lng], 15);
-	}*/
 
 	displayAutocomplete(e: any): string {
 		return e && e.address || null;
