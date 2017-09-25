@@ -35,16 +35,34 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
-        this.value = this.formControl.value;
+        this.to.convertOutput !== false && this.outputMapFn(this.formControl.value);
         this.to.initialized && this.to.initialized(this.formControl.value);
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.filteredItems = [];
             this.items = x || [];
-            let filtered = this.formControl.value && this.items.filter(y => y.name == this.formControl.value.name) || [];
-            filtered.length == 0 && this.formControl.setValue(null);
+            let val: any = this.items.filter(y => this.inputMapFn(y) == this.inputMapFn(this.formControl.value));
+            val = val.length > 0 && val[0] || null;
+            if (val) {
+                this.filteredItems = this.formControl.value && this.items.filter(y => y.name == val.name) || this.items;
+                this.value = val;
+            }
+            else {
+                this.filteredItems = this.items;
+                this.formControl.setValue(null);
+            }
         });
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
-            this.value = x;
+            let val: any = this.items.filter(y => this.inputMapFn(y) == this.inputMapFn(x));
+            val = val.length > 0 && val[0] || null;
+            if (val) {
+                this.filteredItems = this.formControl.value && this.items.filter(y => y.name == val.name) || this.items;
+                this.value = val;
+                this.to.changedRaw && this.to.changedRaw(val);
+            }
+            else {
+                this.value = null;
+                this.to.changedRaw && this.to.changedRaw(null);
+            }
             this.to.changed && this.to.changed(x);
         });
     }
@@ -56,7 +74,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
             return;
         }
         this.filteredItems = this.filter(e);
-        e && e.value ? this.formControl.setValue(e) : this.formControl.setValue(null);
+        e && e.value ? this.outputMapFn(e) : this.formControl.setValue(null);
     }
 
     filter(val: any): string[] {
@@ -73,9 +91,25 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     clicked(e: any) {
         if (e) {
-            this.formControl.setValue(e);
-            this.value = e;
+            this.outputMapFn(e);
         }
+    }
+
+    inputMapFn(e: any) {
+        if (this.to.mapFn) {
+            return this.to.mapFn(e);
+        }
+        return e;
+    }
+
+    outputMapFn(e: any) {
+        if (e && this.to.mapFn && this.to.convertOutput !== false) {
+            this.formControl.setValue(this.to.mapFn(e));
+            this.value = e;
+            return;
+        }
+        this.formControl.setValue(e);
+        this.value = e;
     }
 
     displayFn(e: any): string {
