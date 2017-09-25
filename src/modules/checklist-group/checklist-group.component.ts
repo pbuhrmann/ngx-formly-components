@@ -20,7 +20,7 @@ import { MdCheckboxChange } from "@angular/material";
     `],
     template: `
     <div *ngFor="let item of items" [ngClass]="{'chk-item-float': to.float, 'chk-item': !to.float }">
-        <md-checkbox [ngModel]="checked[item.value]" (change)="toggle($event, item)">{{item.name}}</md-checkbox>
+        <md-checkbox [disabled]="to.disabled || item.disabled === true" [ngModel]="checked[item.value]" (change)="toggle($event, item)">{{item.name}}</md-checkbox>
     </div>
     `,
     encapsulation: ViewEncapsulation.Emulated
@@ -42,19 +42,20 @@ export class FormlyChecklistGroupComponent extends Field implements OnInit, OnDe
         this.selectedItems = this.formControl.value || [];
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.items = x;
-            if (this.formControl.value && x && x.length > 0) {
+            if (this.selectedItems && x && x.length > 0) {
                 this.checked = {};
                 for (var i = 0; i < this.selectedItems.length; i++) {
                     var a = this.selectedItems[i];
                     for (var j = 0; j < this.items.length; j++) {
                         var b = this.items[j];
-                        if (a.value == b.value) {
-                            this.checked[a.value] = true;
+                        if (this.inputMapFn(a) == b.value) {
+                            this.checked[this.inputMapFn(a)] = true;
                             break;
                         }
                     }
                 }
             }
+            this.to.order && (this.items = this.order_CheckedOnTop(this.items));
         });
 
         this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
@@ -65,32 +66,63 @@ export class FormlyChecklistGroupComponent extends Field implements OnInit, OnDe
                 var a = this.selectedItems[i];
                 for (var j = 0; j < this.items.length; j++) {
                     var b = this.items[j];
-                    if (a.value == b.value) {
-                        this.checked[a.value] = true;
+                    if (this.inputMapFn(a) == b.value) {
+                        this.checked[this.inputMapFn(a)] = true;
                         break;
                     }
                 }
             }
+            this.to.order && (this.items = this.order_CheckedOnTop(this.items));
         });
+    }
+
+    order_CheckedOnTop(items: any) {
+        let top = [];
+        let bottom = [];
+        for (var i = 0; i < this.items.length; i++) {
+            var a = this.items[i];
+            if (this.checked[this.inputMapFn(a)]) {
+                top.push(a);
+            }
+            else {
+                bottom.push(a);
+            }
+        }
+        return top.concat(bottom);
     }
 
     toggle(e: MdCheckboxChange, item: any) {
         if (e.checked) {
             this.checked[item.value] = true;
             this.selectedItems.push(item);
-            this.formControl.setValue(this.selectedItems);
+            this.outputMapFn(this.selectedItems);
         }
         else {
             for (var i = 0; i < this.selectedItems.length; i++) {
                 var a = this.selectedItems[i];
-                if (a.value == item.value) {
+                if (this.inputMapFn(a) == item.value) {
                     delete this.checked[item.value];
                     this.selectedItems.splice(i, 1);
-                    this.formControl.setValue(this.selectedItems);
+                    this.outputMapFn(this.selectedItems);
                     return;
                 }
             }
         }
+    }
+
+    inputMapFn(e: any) {
+        if (this.to.mapFn) {
+            return this.to.mapFn(e);
+        }
+        return e;
+    }
+
+    outputMapFn(e: any) {
+        if (this.to.mapFn && e) {
+            this.formControl.setValue(e.map(x => this.to.mapFn(x)));
+            return;
+        }
+        this.formControl.setValue(e);
     }
 
     ngOnDestroy() {
