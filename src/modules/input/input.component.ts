@@ -35,7 +35,7 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy, Do
     }
 
     public ngOnInit() {
-        this.to.disabled && this.formControl.disable();
+        //this.to.disabled && this.formControl.disable();
         if (this.to.source) {
             this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
                 this.items = x;
@@ -46,7 +46,7 @@ export class FormlyInputComponent extends Field implements OnInit, OnDestroy, Do
             this.filteredItems = this.filter(e);
 
             let result = e;
-            if (this.to.maxLength && e.length > this.to.maxLength) {
+            if (e && this.to.maxLength && e.length > this.to.maxLength) {
                 result = result.substr(0, this.to.maxLength);
             }
             if (this.to.format && e) {

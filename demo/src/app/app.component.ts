@@ -1,18 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Validators, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from 'ng-formly';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 import { Subject } from 'rxjs/Subject';
+import * as clone from 'lodash.clonedeep';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   JSON: any;
   model: any;
+  options: any = {};
   form: FormGroup = new FormGroup({});
   typesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
     { name: 'Type 1', value: 1 },
@@ -20,16 +22,16 @@ export class AppComponent implements OnInit, OnDestroy {
     { name: 'Type 3', value: 3 },
   ]);
   subtypesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
-    { name: 'Fever', value: 1, type: 1, priority: 1 },
-    { name: 'Cough', value: 2, type: 1, priority: 1 },
-    { name: 'Hypotension', value: 3, type: 1, priority: 2 },
-    { name: 'Dizziness', value: 4, type: 2, priority: 2 },
-    { name: 'Hypertension', value: 5, type: 2, priority: 3 },
-    { name: 'Chest pain', value: 6, type: 2, priority: 3 },
-    { name: 'Coughing blood', value: 7, type: 3, priority: 3 },
-    { name: 'Bleeding foot', value: 8, type: 3, priority: 3 },
-    { name: 'Overdose', value: 9, type: 3, priority: 3 },
-    { name: 'Constipation', value: 10, type: 3, priority: 3 },
+    { _name: 'Fever', value: 1, type: 1, priority: 1 },
+    { _name: 'Cough', value: 2, type: 1, priority: 1 },
+    { _name: 'Hypotension', value: 3, type: 1, priority: 2 },
+    { _name: 'Dizziness', value: 4, type: 2, priority: 2 },
+    { _name: 'Hypertension', value: 5, type: 2, priority: 3 },
+    { _name: 'Chest pain', value: 6, type: 2, priority: 3 },
+    { _name: 'Coughing blood', value: 7, type: 3, priority: 3 },
+    { _name: 'Bleeding foot', value: 8, type: 3, priority: 3 },
+    { _name: 'Overdose', value: 9, type: 3, priority: 3 },
+    { _name: 'Constipation', value: 10, type: 3, priority: 3 },
   ]);
   subtypesCollection_filtered: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   prioritiesCollection: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([
@@ -60,15 +62,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.JSON = (<any>window).JSON;
     this.model = {
       datetime: moment().format('DD-MM-YYYY HH:mm'),
-      type: 2,
-      /*subtype: {
+      //type: 2,
+      subtype: {
         "name": "Cough",
         "value": 2,
         "type": 1,
         "priority": 1
-      },*/
-      subtype: 3,
-      priority: 0,
+      },
+      //priority: { name: 'High', value: 2 },
       chips: [{ name: 'Cat', value: 7, active: false }, { name: 'Bird', value: 4, active: true }],
       input1: "Something something something",
       autocomplete: { name: 'Cat', value: 7 },
@@ -79,21 +80,60 @@ export class AppComponent implements OnInit, OnDestroy {
       address: "Eva Peron 400",
       radioGroup: { name: 'Fish', value: 5 },
       selectAutocomplete: { name: 'Fish', value: 5 },
-      checklistGroup: [{ name: 'Cow', value: 2 }, { name: 'Fish', value: 5 }],
+      checklistGroup: [/*{ name: 'Cow', value: 2 }, { name: 'Fish', value: 5 }*/],
       repeated: []
     }
 
-    //setTimeout(() => { this.form.reset() }, 2000);
-    //setTimeout(() => { this.form.get('priority').setValue({ name: 'Low', value: 1 })}, 2000);
-    //setTimeout(() => { this.form.get('checklistGroup').setValue([{ name: 'Fish', value: 5 }, { name: 'Cow', value: 2 }]) }, 2000);
-    //setTimeout(() => { this.subtypesCollection.next(null) }, 2000);
-    //setTimeout(() => { this.subtypesCollection.next([{ name: 'sara', value: 3 }]) }, 6000);
+    //setTimeout(() => { this.form.reset() }, 3000);
+    //setTimeout(() => { this.form.disable() }, 3000);
+  }
+
+  ngAfterViewInit() {
+    this.model = {
+      datetime: moment().format('DD-MM-YYYY HH:mm'),
+      //type: 2,
+      subtype: {
+        "name": "Cough",
+        "value": 2,
+        "type": 1,
+        "priority": 1
+      },
+      //priority: { name: 'High', value: 2 },
+      chips: [{ name: 'Cat', value: 7, active: false }, { name: 'Bird', value: 4, active: true }],
+      input1: "Something something something",
+      autocomplete: { name: 'Cat', value: 7 },
+      input2: null,
+      checklist1: null,
+      checklist2: true,
+      textarea: "This is a comment",
+      address: "Eva Peron 400",
+      radioGroup: { name: 'Fish', value: 5 },
+      selectAutocomplete: { name: 'Fish', value: 5 },
+      checklistGroup: [],
+      repeated: [{
+        "chips": [
+          {
+            "name": "Horse",
+            "value": 1
+          }
+        ],
+        "checklist": null,
+        "name": 'Test'
+      }]
+    }
+    this.options.resetModel(this.model);
+    setTimeout(() => {
+      let c = clone(this.model);
+      c.checklistGroup = [{ name: 'Cow', value: 2 }, { name: 'Fish', value: 5 }];
+      this.options.resetModel(c);
+    }, 2000);
+
   }
 
   formlyFields: FormlyFieldConfig[] = [
     {
       className: '',
-      wrappers: ['section'],
+      wrappers: ['x-section'],
       templateOptions: {
         title: 'Components',
         background: '#3f51b5',
@@ -102,7 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
       fieldGroup: [
         {
           key: 'datetime',
-          type: 'datetime',
+          type: 'x-datetime',
           className: 'col-sm-3',
           templateOptions: {
             placeholder: 'Datetime',
@@ -124,7 +164,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-3',
           key: 'type',
-          type: 'select',
+          type: 'x-select',
           wrapper: [],
           templateOptions: {
             placeholder: 'Type',
@@ -133,14 +173,15 @@ export class AppComponent implements OnInit, OnDestroy {
               return e && e.value ? e.value : e;
             },
             initialized: (e) => {
+              console.log(e);
               if (e) {
-                let list = this.subtypesCollection.value.filter(x => x.type == e);
+                let list = this.subtypesCollection.value.filter(x => x.type == e.value);
                 this.subtypesCollection_filtered.next(list);
               }
             },
             changed: (e) => {
               if (e) {
-                let list = this.subtypesCollection.value.filter(x => x.type == e);
+                let list = this.subtypesCollection.value.filter(x => x.type == e.value);
                 this.subtypesCollection_filtered.next(list);
               }
             }
@@ -149,47 +190,48 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-3',
           key: 'subtype',
-          type: 'select-autocomplete',
+          type: 'x-select-autocomplete',
           wrapper: [],
           templateOptions: {
             placeholder: 'Subtype',
             source: this.subtypesCollection_filtered,
-            mapFn: (e) => {
-              return e && e.value ? e.value : e;
-            }
+            mapFn: (e) => e && e.value ? e.value : e,
+            displayFn: (e) => e && e._name ? e._name : null,
+            displayExtraFn: (e) => e && e.priority ? e.priority : null,
+            convertOutput: false
           }
         },
         {
           className: 'col-sm-3',
           key: 'priority',
-          type: 'select',
+          type: 'x-select',
           wrapper: [],
           templateOptions: {
             placeholder: 'Priority',
             source: this.prioritiesCollection,
             mapFn: (e) => {
-              return e && (e.value || e.value === 0) ? e.value : e;
+              return e && e.value != null ? e.value : e;
             }
           }
         },
         {
-          type: 'blank',
+          type: 'x-blank',
           className: 'col-xs-12',
         },
         {
           className: 'col-sm-3',
           key: 'chips',
-          type: 'chips',
+          type: 'x-chips',
           templateOptions: {
             placeholder: "Chips",
             source: this.animalsCollection,
             onlyAutocomplete: true,
             maxItems: 10,
-            mapFn: e => {
+            /*mapFn: e => {
               return e && e.value ? e.value : e;
-            },
+            },*/
             filterFn: e => {
-              return e && e.filter(x => x.active === true);
+              return e && e.filter(x => x.active !== false);
             }
           },
           validators: {
@@ -199,7 +241,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-3',
           key: 'input1',
-          type: 'input',
+          type: 'x-input',
           wrapper: [],
           templateOptions: {
             placeholder: 'Input',
@@ -215,7 +257,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-3',
           key: 'autocomplete',
-          type: 'autocomplete',
+          type: 'x-autocomplete',
           wrapper: [],
           templateOptions: {
             placeholder: 'Autocomplete',
@@ -233,7 +275,7 @@ export class AppComponent implements OnInit, OnDestroy {
     },
     {
       className: '',
-      wrappers: ['section'],
+      wrappers: ['x-section'],
       templateOptions: {
         title: 'More Components',
         background: '#3f51b5',
@@ -243,7 +285,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-4',
           key: 'input2',
-          type: 'input',
+          type: 'x-input',
           wrapper: [],
           templateOptions: {
             label: 'Input',
@@ -259,7 +301,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-4',
           key: 'textarea',
-          type: 'textarea',
+          type: 'x-textarea',
           wrapper: [],
           templateOptions: {
             label: 'Input',
@@ -268,13 +310,13 @@ export class AppComponent implements OnInit, OnDestroy {
             maxRows: 4,
             keydown: (e, isShiftDown) => {
               console.log(e, `Shift: ${isShiftDown}`);
-            }
+            },
           }
         },
         {
           className: 'col-sm-2',
           key: 'checklist1',
-          type: 'checklist',
+          type: 'x-checklist',
           wrapper: [],
           templateOptions: {
             text: 'Short text',
@@ -284,20 +326,20 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-2',
           key: 'checklist2',
-          type: 'checklist',
+          type: 'x-checklist',
           wrapper: [],
           templateOptions: {
             text: 'Some checklist with lots of text',
           }
         },
         {
-          type: 'blank',
+          type: 'x-blank',
           className: 'col-sm-12'
         },
         {
           className: 'col-sm-4',
           key: 'address',
-          type: 'address-picker',
+          type: 'x-address-picker',
           wrapper: [],
           templateOptions: {
             placeholder: 'Address',
@@ -321,14 +363,17 @@ export class AppComponent implements OnInit, OnDestroy {
               return this.addressOptionDisplayfn(e);
             },
             location: (e) => {
-              console.log(e);
+              console.log('location', e);
+            },
+            response: (e) => {
+              console.log('response', e);
             }
           }
         },
         {
           className: 'col-sm-2',
           key: 'radioGroup',
-          type: 'radio-group',
+          type: 'x-radio-group',
           wrapper: [],
           templateOptions: {
             label: 'Animals',
@@ -341,7 +386,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-3',
           key: 'selectAutocomplete',
-          type: 'select-autocomplete',
+          type: 'x-select-autocomplete',
           wrapper: [],
           templateOptions: {
             placeholder: 'Select-Autocomplete',
@@ -352,7 +397,7 @@ export class AppComponent implements OnInit, OnDestroy {
         {
           className: 'col-sm-3',
           key: 'checklistGroup',
-          type: 'checklist-group',
+          type: 'x-checklist-group',
           wrapper: [],
           templateOptions: {
             label: 'Animals',
@@ -368,9 +413,9 @@ export class AppComponent implements OnInit, OnDestroy {
     },
     {
       className: '',
-      type: 'repeated-section',
+      type: 'x-repeated-section',
       key: 'repeated',
-      wrappers: ['section'],
+      wrappers: ['x-section'],
       templateOptions: {
         title: 'Repeated Section',
         addText: 'Add Section',
@@ -380,7 +425,7 @@ export class AppComponent implements OnInit, OnDestroy {
         class: null,
         canAdd: true,
         canRemove: true,
-        // maxSections: 3,
+        // maxx-Sections: 3,
         background: '#3f51b5',
         color: 'rgba(255, 255, 255, 0.87)',
       },
@@ -390,7 +435,7 @@ export class AppComponent implements OnInit, OnDestroy {
           {
             className: 'col-sm-3',
             key: 'chips',
-            type: 'chips',
+            type: 'x-chips',
             templateOptions: {
               source: this.animalsCollection,
               onlyAutocomplete: true,
@@ -401,10 +446,23 @@ export class AppComponent implements OnInit, OnDestroy {
           {
             className: 'col-sm-3',
             key: 'checklist',
-            type: 'checklist',
+            type: 'x-checklist',
             wrapper: [],
             templateOptions: {
               text: "I'm inside a repeated section!",
+            }
+          },
+          {
+            className: 'col-sm-3',
+            key: 'name',
+            type: 'x-input',
+            wrapper: [],
+            templateOptions: {
+              placeholder: 'Name',
+              disabled: false,
+            },
+            validators: {
+              validation: Validators.compose([Validators.required])
             }
           },
         ]
@@ -444,7 +502,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    console.log(this.model);
+    console.log(this.form.getRawValue());
   }
 
   cancel() {

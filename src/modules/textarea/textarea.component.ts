@@ -12,7 +12,7 @@ import { Subject } from 'rxjs/Subject';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container style="width: 100%">
-            <textarea [mdAutosizeMaxRows]="to.maxRows" [mdAutosizeMinRows]="to.minRows" [disabled]="to.disabled" mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [formControl]="formControl" (keydown)="keydown($event)" (keyup)="keyup($event)"></textarea>
+            <textarea [mdAutosizeMaxRows]="to.maxRows" [mdAutosizeMinRows]="to.minRows" mdInput mdTextareaAutosize placeholder="{{to.placeholder}}" [formControl]="formControl" (keydown)="keydown($event)" (keyup)="keyup($event)"></textarea>
         </md-input-container>
     </div>
   `,

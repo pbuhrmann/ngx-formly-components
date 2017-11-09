@@ -46,24 +46,24 @@ import { FormlyChecklistGroupModule } from './modules/checklist-group/checklist-
 		FormlyBootstrapModule,
 		FormlyModule.forRoot({
 			types: [
-				{ name: 'chips', component: FormlyChipsComponent },
-				{ name: 'select', component: FormlySelectComponent },
-				{ name: 'datetime', component: FormlyDatetimeComponent },
-				{ name: 'input', component: FormlyInputComponent },
-				{ name: 'textarea', component: FormlyTextareaComponent },
-				{ name: 'checklist', component: FormlyChecklistComponent },
-				{ name: 'blank', component: FormlyBlankComponent },
-				{ name: 'repeated-section', component: FormlyRepeatedSectionComponent },
-				{ name: 'address-picker', component: FormlyAddressPickerComponent },
-				{ name: 'autocomplete', component: FormlyAutocompleteComponent },
-				{ name: 'select-autocomplete', component: FormlySelectAutocompleteComponent },
-				{ name: 'radio-group', component: FormlyRadioGroupComponent },
-				{ name: 'checklist-group', component: FormlyChecklistGroupComponent }
+				{ name: 'x-chips', component: FormlyChipsComponent },
+				{ name: 'x-select', component: FormlySelectComponent },
+				{ name: 'x-datetime', component: FormlyDatetimeComponent },
+				{ name: 'x-input', component: FormlyInputComponent },
+				{ name: 'x-textarea', component: FormlyTextareaComponent },
+				{ name: 'x-checklist', component: FormlyChecklistComponent },
+				{ name: 'x-blank', component: FormlyBlankComponent },
+				{ name: 'x-repeated-section', component: FormlyRepeatedSectionComponent },
+				{ name: 'x-address-picker', component: FormlyAddressPickerComponent },
+				{ name: 'x-autocomplete', component: FormlyAutocompleteComponent },
+				{ name: 'x-select-autocomplete', component: FormlySelectAutocompleteComponent },
+				{ name: 'x-radio-group', component: FormlyRadioGroupComponent },
+				{ name: 'x-checklist-group', component: FormlyChecklistGroupComponent }
 			],
 			wrappers: [
-				{ name: 'section', component: FormlySectionWrapperComponent },
-				{ name: 'split', component: FormlySplitWrapperComponent },
-				{ name: 'card', component: FormlyCardWrapperComponent }
+				{ name: 'x-section', component: FormlySectionWrapperComponent },
+				{ name: 'x-split', component: FormlySplitWrapperComponent },
+				{ name: 'x-card', component: FormlyCardWrapperComponent }
 			]
 		}),
 		FormlyChipsModule.forRoot(),
@@ -99,3 +99,5 @@ export class FormlyComponentsModule {
 		}
 	}
 }
+
+export * from './modules';

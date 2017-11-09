@@ -88,7 +88,7 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
         this.lat = e.geometry && e.geometry.location && e.geometry.location.lat || null;
         this.lng = e.geometry && e.geometry.location && e.geometry.location.lng || null;
         this.formControl.setValue(this.displayFn(e));
-        this.to.response && this.to.response(e);        
+        this.to.response && this.to.response(e);
         this.to.location && this.to.location({ lat: this.lat, lng: this.lng });
     }
 
@@ -128,10 +128,12 @@ export class FormlyAddressPickerComponent extends Field implements OnInit, OnDes
                 }
             });
             dialogRef.afterClosed().takeUntil(this.ngUnsubscribe).filter(x => !!x).subscribe(e => {
-                this.lat = e.lat;
-                this.lng = e.lng;
-                this.formControl.setValue(e.address);
-                this.to.location && this.to.location({ lat: this.lat, lng: this.lng });
+                this.clicked(e.value);
+                /*this.lat = e && e.value && e.value.lat || null;
+                this.lng = e && e.value && e.value.lng || null;
+                this.formControl.setValue(e && e.value && e.value.address || null);
+                this.to.response && this.to.response(e && e.response || null);
+                this.to.location && this.to.location({ lat: this.lat, lng: this.lng });*/
             });
         }
     }

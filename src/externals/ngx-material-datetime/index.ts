@@ -1,1 +1,0 @@
-export { NgxMaterialDatetimeModule } from './ngx-material-datetime.module';

@@ -1,6 +1,6 @@
 <div class="container">
     <br>
-    <formly-form [model]="model" [fields]="formlyFields" [form]="form">
+    <formly-form [model]="model" [fields]="formlyFields" [options]="options" [form]="form">
     </formly-form>
     <br>
     <div class="col-sm-12">
@@ -16,5 +16,5 @@
     </div>
     <br> Model:
     <br>
-    <textarea disabled rows="15" cols="4" style="width: 90%">{{JSON.stringify(model, null, 2)}}</textarea>
+    <textarea disabled rows="15" cols="4" style="width: 90%">{{JSON.stringify(form && form.getRawValue(), null, 2)}}</textarea>
 </div>

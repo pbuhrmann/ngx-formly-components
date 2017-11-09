@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { FieldType } from 'ng-formly';
 declare var require: any;
-var clone: any = require('clone');
+var clone: any = require('lodash.clonedeep');
 
 @Component({
   selector: 'formly-repeated-section',
@@ -13,14 +13,14 @@ var clone: any = require('clone');
   `],
   template: `
     <div *ngFor="let control of mycontrols; let i = index;" style="position: relative; display: table; width: 100%">
-        <formly-form [model]="model[i]" [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
+        <formly-form [fields]="fields(i)" [options]="newOptions" [form]="this.formControl.at(i)" [ngClass]="field.fieldArray.className">
         </formly-form>
         <div class="removeSectionBtn mat-raised-button mat-warn" [mdTooltip]="to.removeText" mdTooltipPosition="below" *ngIf="to.canRemove" (click)="remove(i)" style="position: absolute;top: -15px; right: 0px; background: #f44336; color: #fff; padding: 0px; height: 20px; min-width: 20px; cursor: pointer; line-height: normal;">
           <i class="material-icons" style="font-size: 20px">close</i>
         </div>
     </div>
     <div class="col-xs-12" *ngIf="to.canAdd && (to.maxSections ? to.maxSections > sectionsNumber : true)">
-      <button md-raised-button color="primary"  (click)="add()" style="margin-top: 5px">
+      <button md-raised-button color="primary" (click)="add()" style="margin-top: 5px">
         <i class="material-icons">add</i>
         {{to.addText || 'Add'}}
       </button>
@@ -33,22 +33,18 @@ export class FormlyRepeatedSectionComponent extends FieldType implements OnInit 
   public mycontrols: any;
 
   get newOptions() {
-    return this.clone(this.options);
+    return clone(this.options);
   }
 
   public ngOnInit() {
     this.mycontrols = (<any>this.formControl).controls;
-    if (this.model) {
-      this.model.map(() => {
-        this.sectionsNumber++;
-        (<FormArray>this.formControl).push(new FormGroup({}));
-        let fieldGroup = clone(this.field.fieldArray.fieldGroup);
-        let length = this._fields.push(fieldGroup);
-        this.field.fieldArray.fieldGroup.forEach((campo, i) => {
-          this._fields[length - 1][i].templateOptions = campo.templateOptions;
-        });
-      });
-    }
+    this.sectionsNumber++;
+    (<FormArray>this.formControl).push(new FormGroup({}));
+    let fieldGroup = clone(this.field.fieldArray.fieldGroup);
+    let length = this._fields.push(fieldGroup);
+    this.field.fieldArray.fieldGroup.forEach((campo, i) => {
+      this._fields[length - 1][i].templateOptions = campo.templateOptions;
+    });
   }
 
   public add() {

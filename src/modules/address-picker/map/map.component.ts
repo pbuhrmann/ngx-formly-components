@@ -5,8 +5,8 @@ import { FormControl } from '@angular/forms';
 import { Http } from "@angular/http";
 import { Subscription } from 'rxjs/Subscription';
 import { MD_DIALOG_DATA } from "@angular/material";
-import * as L from 'leaflet';
-
+//import * as L from 'leaflet';
+declare var L;
 @Component({
 	selector: 'formly-ngx-address-picker-map',
 	styles: [`
@@ -21,7 +21,7 @@ import * as L from 'leaflet';
 		</md-autocomplete>
 		<div id="ngx-formly-components-map-{{mapId}}" style="height: calc(100% - 100px); width: 100%; position: relative"></div>
 		<div style="margin-top: 15px">
-			<button md-raised-button color="primary" [md-dialog-close]="value"><i class="material-icons">done</i> {{data.yes}}</button>
+			<button md-raised-button color="primary" [md-dialog-close]="{value: result, response: response}"><i class="material-icons">done</i> {{data.yes}}</button>
 			<button md-button color="primary" [md-dialog-close]="false"><i class="material-icons">cancel</i> {{data.no}}</button>		
 		</div>
 	</div>
@@ -29,17 +29,19 @@ import * as L from 'leaflet';
 })
 export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
-	public map: L.Map;
+	public map: any;
 
 	private ngUnsubscribe: Subject<void> = new Subject<void>();
 	public value: any;
+	public result: any;
 	public items: any[];
+	public response: any;
 	private sub_geo: Subscription;
 	private timeout_geo: any;
 	private sub_inverse: Subscription;
 	private timeout_inverse: any;
-	private featureGroup: L.FeatureGroup = new L.FeatureGroup();
-	private location: L.Layer = null;
+	private featureGroup = new L.FeatureGroup();
+	private location = null;
 	public mapId = Math.round(Math.random() * 10000000);
 
 	constructor(private http: Http, @Inject(MD_DIALOG_DATA) public data: any) {
@@ -122,6 +124,8 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 				lng: lng
 			}
 			this.value = val;
+			this.result = e;
+			this.response = e;
 			this.setLocation(lat, lng);
 		}
 	}

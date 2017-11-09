@@ -9,15 +9,20 @@ import { MdDialog, MdAutocomplete } from '@angular/material';
 @Component({
     selector: 'formly-ngx-select-autocomplete',
     styles: [`
+    .autocomplete-info {
+        color: grey;
+    }
   `],
     template: `
     <div [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
-        <md-input-container style="width: 100%">
+        <md-form-field style="width: 100%">
             <input mdInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl.disabled" [mdAutocomplete]="autocomplete"/>
-        </md-input-container>
-        <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
-            <md-option *ngFor="let item of filteredItems" [value]="item" (click)="clicked(item)" [mdTooltip]="to.tooltip && item.name" [mdTooltipPosition]="to.tooltip">{{item.name}}</md-option>
-        </md-autocomplete>
+            <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn.bind(this)" (optionSelected)="selected($event)">
+                <md-option *ngFor="let item of filteredItems" [value]="item" [mdTooltip]="to.tooltip && this.displayFn(item)" [mdTooltipPosition]="to.tooltip">
+                {{displayFn(item)}} <small *ngIf="to.displayExtraFn != null" class="autocomplete-info">{{displayExtraFn(item)}}</small>
+                </md-option>
+            </md-autocomplete>
+        </md-form-field>        
     </div>
   `,
 })
@@ -28,6 +33,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
     public items: any[] = [];
     public filteredItems: any[];
     public value: any;
+    private inputTimeout: any;
 
     constructor(private http: Http, public dialog: MdDialog) {
         super();
@@ -35,7 +41,6 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
 
     public ngOnInit() {
         this.to.disabled && this.formControl.disable();
-        this.to.convertOutput !== false && this.outputMapFn(this.formControl.value);
         this.to.initialized && this.to.initialized(this.formControl.value);
         this.to.source && this.to.source.takeUntil(this.ngUnsubscribe).subscribe(x => {
             this.filteredItems = [];
@@ -43,7 +48,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
             let val: any = this.items.filter(y => this.inputMapFn(y) == this.inputMapFn(this.formControl.value));
             val = val.length > 0 && val[0] || null;
             if (val) {
-                this.filteredItems = this.formControl.value && this.items.filter(y => y.name == val.name) || this.items;
+                this.filteredItems = this.formControl.value && this.items.filter(y => this.displayFn(y) == this.displayFn(val)) || this.items;
                 this.value = val;
             }
             else {
@@ -55,7 +60,7 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
             let val: any = this.items.filter(y => this.inputMapFn(y) == this.inputMapFn(x));
             val = val.length > 0 && val[0] || null;
             if (val) {
-                this.filteredItems = this.formControl.value && this.items.filter(y => y.name == val.name) || this.items;
+                this.filteredItems = this.formControl.value && this.items.filter(y => this.displayFn(y) == this.displayFn(val)) || this.items;
                 this.value = val;
                 this.to.changedRaw && this.to.changedRaw(val);
             }
@@ -68,12 +73,15 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
     }
 
     changed(e: any) {
-        if (this.formControl.value && this.formControl.value.name && !e.name) {
+        this.inputTimeout && clearTimeout(this.inputTimeout);
+        if (this.formControl.value && this.displayFn(this.formControl.value) && !this.displayFn(e)) {
             this.formControl.setValue(null);
-            this.filteredItems = this.filter(null);
+            this.filteredItems = this.items;
             return;
         }
-        this.filteredItems = this.filter(e);
+        this.inputTimeout = setTimeout(() => {
+            this.filteredItems = this.filter(e);
+        }, 300);
         e && e.value ? this.outputMapFn(e) : this.formControl.setValue(null);
     }
 
@@ -81,18 +89,32 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
         if (!val) {
             return this.items;
         }
-        if (!this.items || val.name) {
+        if (!this.items || typeof val !== 'string') {
             return null;
         }
         return this.items.filter(option => {
-            return option && option.name.toLowerCase().indexOf(val.toLowerCase()) >= 0;
+            return option && (this.displayFn(option) || '').toLowerCase().indexOf(val.toLowerCase()) >= 0;
         });
     }
 
-    clicked(e: any) {
-        if (e) {
-            this.outputMapFn(e);
+    selected(e: any) {
+        if (e && e.option) {
+            this.outputMapFn(e.option.value);
         }
+    }
+
+    displayFn(e: any): string {
+        if (this.to && this.to.displayFn) {
+            return this.to.displayFn(e);
+        }
+        return e ? e.name : null;
+    }
+
+    displayExtraFn(e: any): string {
+        if (this.to && this.to.displayExtraFn) {
+            return this.to.displayExtraFn(e);
+        }
+        return null;
     }
 
     inputMapFn(e: any) {
@@ -103,17 +125,13 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
     }
 
     outputMapFn(e: any) {
-        if (e && this.to.mapFn && this.to.convertOutput !== false) {
+        if (e && this.to.mapFn) {
             this.formControl.setValue(this.to.mapFn(e));
             this.value = e;
             return;
         }
         this.formControl.setValue(e);
         this.value = e;
-    }
-
-    displayFn(e: any): string {
-        return e ? e.name : null;
     }
 
     ngOnDestroy() {

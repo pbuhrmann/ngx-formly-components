@@ -14,14 +14,14 @@ import { Observable } from 'rxjs';
     `],
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
-        <md-input-container>
+        <md-form-field>
             <input type="text" [disabled]="formControl.disabled" mdInput [placeholder]="to.placeholder" [(ngModel)]="value" (ngModelChange)="changed($event)" [mdAutocomplete]="autocomplete" (keyup.enter)="add()">
-        </md-input-container>
-        <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
-            <md-option *ngFor="let option of filteredItems" [value]="option" (click)="add(option)">
-                {{ option.name }}
-            </md-option>
-        </md-autocomplete>
+            <md-autocomplete #autocomplete="mdAutocomplete" [displayWith]="displayFn">
+                <md-option *ngFor="let option of filteredItems" [value]="option" (click)="add(option)">
+                    {{ option.name }}
+                </md-option>
+            </md-autocomplete>    
+        </md-form-field> 
         <md-chip-list [tabIndex]="-1">
             <md-chip *ngFor="let item of selectedItems" (click)="remove(item)" style="cursor: pointer">
                 {{chipDisplayFn(item)}}
