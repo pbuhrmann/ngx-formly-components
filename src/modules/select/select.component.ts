@@ -92,10 +92,10 @@ export class FormlySelectComponent extends Field implements OnInit, OnDestroy {
     }
 
     outputMapFn(e: any) {
-        if (e && this.to.mapFn) {
+        /*if (e && this.to.mapFn) {
             this.formControl.setValue(this.to.mapFn(e));
             return;
-        }
+        }*/
         this.formControl.setValue(e);
     }
 

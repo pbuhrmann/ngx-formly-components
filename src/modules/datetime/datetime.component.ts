@@ -17,7 +17,7 @@ import * as moment from 'moment';
     template: `
     <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
         <md-input-container>
-            <input mdInput [formControl]="formControl" [placeholder]="to.placeholder" type="text" [textMask]="{mask: to.mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
+            <input mdInput [(ngModel)]="value" (ngModelChange)="onChange($event)" [disabled]="formControl.disabled" [placeholder]="to.placeholder" type="text" [textMask]="{mask: to.mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"/>
             <i mdSuffix class="fa fa-calendar-check-o today" [class.disabled]="formControl.disabled" [mdTooltip]="to.tooltip || 'Today'" mdTooltipPosition="below" (click)="!to.disabled && today()"></i>
         </md-input-container>
     </div>
@@ -38,9 +38,27 @@ export class FormlyDatetimeComponent extends Field implements OnInit, OnDestroy 
     ngOnInit() {
         this.to.disabled && this.formControl.disable();
         if (this.formControl.value) {
-            this.value = this.momentFunc(this.formControl.value, this.to.format).format(this.to.format);
-        }        
+            if (this.formControl.value instanceof Date) {
+                this.value = this.momentFunc(this.formControl.value, this.to.format).format(this.to.format);
+            }
+            else if (typeof this.formControl.value === 'string') {
+                this.value = this.formControl.value;
+            }
+        }
         this.autoCorrectedDatePipe = this.createAutoCorrectedDateTimePipe(this.to.format);
+        this.formControl.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(x => {
+            if (x instanceof Date) {
+                this.value = this.momentFunc(x, this.to.format).format(this.to.format);
+            }
+            else if (typeof x === 'string') {
+                this.value = x;
+            }
+            this.to.changed && this.to.changed(x);
+        });
+    }
+
+    onChange(e: any) {
+        this.formControl.setValue(e);
     }
 
     today() {

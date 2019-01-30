@@ -9,6 +9,10 @@ import { MdDialog, MdAutocomplete } from '@angular/material';
 @Component({
     selector: 'formly-ngx-radio-group',
     styles: [`
+    :host /deep/ .mat-radio-label-content {
+        word-break: break-word;
+        white-space: normal;
+    }
     .formly-radio-group {
         display: inline-flex;
         flex-direction: column;

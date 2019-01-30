@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { Validators, FormGroup } from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { FormlyFieldConfig } from 'ng-formly';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 import { Subject } from 'rxjs/Subject';
 import * as clone from 'lodash.clonedeep';
+import { GeoService } from 'geo-cod-ref';
 
 @Component({
   selector: 'app-root',
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ]);*/
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor() {
+  constructor(private geoService: GeoService) {
   }
 
   ngOnInit() {
@@ -269,6 +270,38 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
               });
             },
             debounceTime: 10
+          }
+        },
+        {
+          className: 'col-sm-12',
+          type: 'x-blank'
+        },
+        {
+          className: 'col-sm-6',
+          key: 'geo-address',
+          type: 'x-search',
+          wrapper: [],
+          templateOptions: {
+            placeholder: 'Search',
+            source: (e: string) => {
+              return this.geoService.georeferenciar({
+                direccion: e
+              })
+            },
+            inputDisplay: (e) => {
+              return e && e.nombre && e.numero && e.localidad && e.partido ? e.nombre + ' ' + e.numero + ', ' + e.localidad + ', ' + e.partido : e;
+            },
+            optionDisplay: (e) => {
+              return e && e.nombre && e.numero && e.localidad && e.partido ? e.nombre + ' ' + e.numero + ', ' + e.localidad + ', ' + e.partido : null;
+            },
+            searchFilter: (e) => {
+              return e && e.nombre && e.numero && e.localidad && e.partido;
+            },
+            setValue: (e) => {
+              return e && e.nombre && e.numero && e.localidad && e.partido ? e.nombre + ' ' + e.numero + ', ' + e.localidad + ', ' + e.partido : e;
+            },
+            tooltip: 'right',
+            debounceTime: 500
           }
         },
       ],

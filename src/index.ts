@@ -37,6 +37,8 @@ import { FormlySelectAutocompleteComponent } from './modules/select-autocomplete
 import { FormlySelectAutocompleteModule } from './modules/select-autocomplete/select-autocomplete.module';
 import { FormlyChecklistGroupComponent } from './modules/checklist-group/checklist-group.component';
 import { FormlyChecklistGroupModule } from './modules/checklist-group/checklist-group.module';
+import { FormlySearchComponent } from './modules/search/search.component';
+import { FormlySearchModule } from './modules/search/search.module';
 
 @NgModule({
 	imports: [
@@ -55,6 +57,7 @@ import { FormlyChecklistGroupModule } from './modules/checklist-group/checklist-
 				{ name: 'x-blank', component: FormlyBlankComponent },
 				{ name: 'x-repeated-section', component: FormlyRepeatedSectionComponent },
 				{ name: 'x-address-picker', component: FormlyAddressPickerComponent },
+				{ name: 'x-search', component: FormlySearchComponent },
 				{ name: 'x-autocomplete', component: FormlyAutocompleteComponent },
 				{ name: 'x-select-autocomplete', component: FormlySelectAutocompleteComponent },
 				{ name: 'x-radio-group', component: FormlyRadioGroupComponent },
@@ -78,6 +81,7 @@ import { FormlyChecklistGroupModule } from './modules/checklist-group/checklist-
 		FormlyBlankModule.forRoot(),
 		FormlyRepeatedSectionModule.forRoot(),
 		FormlyAddressPickerModule.forRoot(),
+		FormlySearchModule.forRoot(),
 		FormlyAutocompleteModule.forRoot(),
 		FormlySelectAutocompleteModule.forRoot(),
 		FormlyRadioGroupModule.forRoot(),

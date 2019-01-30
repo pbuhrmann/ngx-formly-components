@@ -125,11 +125,11 @@ export class FormlySelectAutocompleteComponent extends Field implements OnInit, 
     }
 
     outputMapFn(e: any) {
-        if (e && this.to.mapFn) {
+        /*if (e && this.to.mapFn) {
             this.formControl.setValue(this.to.mapFn(e));
             this.value = e;
             return;
-        }
+        }*/
         this.formControl.setValue(e);
         this.value = e;
     }

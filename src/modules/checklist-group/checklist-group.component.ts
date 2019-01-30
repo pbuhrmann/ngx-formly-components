@@ -9,6 +9,8 @@ import { MdCheckboxChange } from "@angular/material";
     styles: [`
     :host /deep/ .mat-checkbox-label {
         font-weight: normal !important;
+        word-break: break-word;
+        white-space: normal;
     },
     .chk-item {
         width: 100%;

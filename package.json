@@ -1,7 +1,7 @@
 {
     "name": "ngx-formly-components",
     "author": "https://github.com/penrique",
-    "version": "1.0.33",
+    "version": "1.0.40",
     "license": "MIT",
     "main": "lib/index.js",
     "module": "lib/index.js",
@@ -42,7 +42,7 @@
         "lodash.clonedeep": "^4.5.0",
         "material-design-icons": "^3.0.1",
         "moment": "^2.18.1",
-        "ng-formly": "^1.0.0-rc.12",
+        "ng-formly": "^2.0.0",
         "rxjs": "^5.4.3",
         "zone.js": "^0.8.18"
     },

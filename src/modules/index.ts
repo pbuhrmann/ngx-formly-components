@@ -15,6 +15,7 @@ export * from './select/select.module';
 export * from './select-autocomplete/select-autocomplete.module';
 export * from './split-wrapper/split-wrapper.module';
 export * from './textarea/textarea.module';
+export * from './search/search.module';
 
 export * from './address-picker/address-picker.component';
 export * from './autocomplete/autocomplete.component';
@@ -33,3 +34,4 @@ export * from './select/select.component';
 export * from './select-autocomplete/select-autocomplete.component';
 export * from './split-wrapper/split-wrapper.component';
 export * from './textarea/textarea.component';
+export * from './search/search.component';
