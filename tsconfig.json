@@ -1,45 +1,34 @@
 {
-    "compilerOptions": {
-        "removeComments": true,
-        "noImplicitAny": false,
-        "noEmitOnError": true,
-        "strictNullChecks": false,
-        "declarationDir": "./lib/dist/types",
-        "module": "es2015",
-        "target": "es5",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "stripInternal": true,
-        "declaration": true,
-        "sourceMap": true,
-        "inlineSources": true,
-        "skipLibCheck": true,
-        "moduleResolution": "node",
-        "rootDir": "./src",
-        "baseUrl": "./src",
-        "types": [
-            "node"
-        ],
-        "lib": [
-            "dom",
-            "es2015"
-        ],
-        "paths": {
-            "chips": ["./chips"],
-            "datetime-mask": ["./datetime-mask"],
-            "select-async": ["./select-async"]
-        },
-        "suppressImplicitAnyIndexErrors": true
-    },
-    "angularCompilerOptions": {
-        "strictMetadataEmit": true
-    },
-    "files": [
-        "./src/index.ts"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
     ],
-    "exclude": [
-        "node_modules",
-        "**/*-ngfactory.ts",
-        "**/*.spec.ts"
-    ]
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "ngx-formly-components": [
+        "dist/ngx-formly-components"
+      ],
+      "ngx-formly-components/*": [
+        "dist/ngx-formly-components/*"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
 }
