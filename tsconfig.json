@@ -24,6 +24,12 @@
       ],
       "ngx-formly-components/*": [
         "dist/ngx-formly-components/*"
+      ],
+      "geo-codref": [
+        "dist/geo-codref"
+      ],
+      "geo-codref/*": [
+        "dist/geo-codref/*"
       ]
     }
   },

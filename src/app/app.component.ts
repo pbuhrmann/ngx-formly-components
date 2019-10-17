@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AppComponent implements OnInit, OnDestroy {
   JSON: any;
   model: any;
   options: any = {};
@@ -90,47 +90,47 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     //setTimeout(() => { this.form.disable() }, 3000);
   }
 
-  ngAfterViewInit() {
-    this.model = {
-      datetime: moment().format('DD-MM-YYYY HH:mm'),
-      //type: 2,
-      subtype: {
-        "name": "Cough",
-        "value": 2,
-        "type": 1,
-        "priority": 1
-      },
-      //priority: { name: 'High', value: 2 },
-      chips: [{ name: 'Cat', value: 7, active: false }, { name: 'Bird', value: 4, active: true }],
-      input1: "Something something something",
-      autocomplete: { name: 'Cat', value: 7 },
-      input2: null,
-      checklist1: null,
-      checklist2: true,
-      textarea: "This is a comment",
-      address: "Eva Peron 400",
-      radioGroup: { name: 'Fish', value: 5 },
-      selectAutocomplete: { name: 'Fish', value: 5 },
-      checklistGroup: [],
-      repeated: [{
-        "chips": [
-          {
-            "name": "Horse",
-            "value": 1
-          }
-        ],
-        "checklist": null,
-        "name": 'Test'
-      }]
-    }
-    this.options.resetModel(this.model);
-    setTimeout(() => {
-      let c = clone(this.model);
-      c.checklistGroup = [{ name: 'Cow', value: 2 }, { name: 'Fish', value: 5 }];
-      this.options.resetModel(c);
-    }, 2000);
+  // ngAfterViewInit() {
+  //   this.model = {
+  //     datetime: moment().format('DD-MM-YYYY HH:mm'),
+  //     //type: 2,
+  //     subtype: {
+  //       "name": "Cough",
+  //       "value": 2,
+  //       "type": 1,
+  //       "priority": 1
+  //     },
+  //     //priority: { name: 'High', value: 2 },
+  //     chips: [{ name: 'Cat', value: 7, active: false }, { name: 'Bird', value: 4, active: true }],
+  //     input1: "Something something something",
+  //     autocomplete: { name: 'Cat', value: 7 },
+  //     input2: null,
+  //     checklist1: null,
+  //     checklist2: true,
+  //     textarea: "This is a comment",
+  //     address: "Eva Peron 400",
+  //     radioGroup: { name: 'Fish', value: 5 },
+  //     selectAutocomplete: { name: 'Fish', value: 5 },
+  //     checklistGroup: [],
+  //     repeated: [{
+  //       "chips": [
+  //         {
+  //           "name": "Horse",
+  //           "value": 1
+  //         }
+  //       ],
+  //       "checklist": null,
+  //       "name": 'Test'
+  //     }]
+  //   }
+  //   this.options.resetModel(this.model);
+  //   setTimeout(() => {
+  //     let c = clone(this.model);
+  //     c.checklistGroup = [{ name: 'Cow', value: 2 }, { name: 'Fish', value: 5 }];
+  //     this.options.resetModel(c);
+  //   }, 2000);
 
-  }
+  // }
 
   // formlyFields: FormlyFieldConfig[] = [
   //   {

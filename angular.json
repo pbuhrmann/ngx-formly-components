@@ -157,6 +157,41 @@
           }
         }
       }
+    },
+    "geo-codref": {
+      "projectType": "library",
+      "root": "projects/geo-codref",
+      "sourceRoot": "projects/geo-codref/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/geo-codref/tsconfig.lib.json",
+            "project": "projects/geo-codref/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/geo-codref/src/test.ts",
+            "tsConfig": "projects/geo-codref/tsconfig.spec.json",
+            "karmaConfig": "projects/geo-codref/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/geo-codref/tsconfig.lib.json",
+              "projects/geo-codref/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-formly-components-v8"

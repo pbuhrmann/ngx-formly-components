@@ -69,13 +69,6 @@ export class FormlyRepeatedSectionComponent extends FieldArrayType implements On
     }
   }
 
-  private clone(value) {
-    if (!this.isObject(value)) {
-      return value;
-    }
-    return Array.isArray(value) ? value.slice(0) : Object.assign({}, value);
-  }
-
   private isObject(x) {
     return x != null && typeof x === 'object';
   }

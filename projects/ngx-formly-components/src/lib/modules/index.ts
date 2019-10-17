@@ -12,6 +12,7 @@ export * from './radio-group/radio-group.module';
 export * from './repeated-section/repeated-section.module';
 export * from './section-wrapper/section-wrapper.module';
 export * from './select/select.module';
+export * from './search/search.module';
 export * from './select-autocomplete/select-autocomplete.module';
 export * from './split-wrapper/split-wrapper.module';
 export * from './textarea/textarea.module';

@@ -1,0 +1,9 @@
+{
+  "name": "geo-codref",
+  "version": "0.0.3",
+  "peerDependencies": {
+    "@angular/common": "^8.2.9",
+    "@angular/core": "^8.2.9",
+    "@angular/http": "^7.2.15"
+  }
+}
