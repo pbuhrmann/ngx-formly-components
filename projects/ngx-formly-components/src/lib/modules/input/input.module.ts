@@ -10,8 +10,8 @@ import { MatInputModule, MatAutocompleteModule, MatFormFieldModule } from '@angu
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		MatInputModule,
 		MatFormFieldModule,
+		MatInputModule,
 		MatAutocompleteModule
 	],
 	declarations: [FormlyInputComponent],
