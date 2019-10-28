@@ -18,9 +18,8 @@ import * as moment from 'moment';
     `],
     template: `
     <div class="">
-         <mat-form-field>
-        <input 
-            matInput
+        <mat-form-field>
+            <input matInput 
             [placeholder]="to.placeholder"
             [textMask]="{mask: to.mask, keepCharPositions: true, pipe: autoCorrectedDatePipe }"
             [formControl]="formControl">
