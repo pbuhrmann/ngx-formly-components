@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, DoCheck, ChangeDetectorRef, OnDestroy, AfterViewInit, ViewChild, Input, ElementRef, ViewContainerRef } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -14,9 +14,9 @@ import { takeUntil } from 'rxjs/operators';
     }
   `],
     template: `
-    <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+    <div class="" [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field style="width: 100%">
-            <input #myinput matInput [placeholder]="to.placeholder" [maxlength]="to.maxLength" type="{{to.password?'password':'text'}}" [formControl]="formControl" [matAutocomplete]="autocomplete" [value]="value" (keydown)="keydown($event)"/>
+            <input #myinput matInput [placeholder]="to.placeholder" [maxlength]="to.maxLength" type="{{to.password?'password':'text'}}" [formControl]="formControl" [matAutocomplete]="autocomplete" [value]="value" (keydown)="keydown($event)">
         </mat-form-field>
         <mat-autocomplete #autocomplete="matAutocomplete">
             <mat-option *ngFor="let item of filteredItems" [value]="item">{{item}}</mat-option>
@@ -24,13 +24,13 @@ import { takeUntil } from 'rxjs/operators';
   </div>
   `,
 })
-export class FormlyInputComponent extends FieldType implements OnInit, OnDestroy, DoCheck {
+export class FormlyInputComponent extends FieldType implements OnInit, OnDestroy {
 
     private ngUnsubscribe: Subject<void> = new Subject<void>();
     public items: any[];
     public filteredItems: any[];
     public value: string = null;
-    @ViewChild('myinput', { static: true }) myinput: ElementRef;
+    @ViewChild('myinput', { read: ViewContainerRef, static: false }) myinput: ElementRef;
 
     constructor(private changeDetectorRef: ChangeDetectorRef) {
         super();
@@ -57,12 +57,6 @@ export class FormlyInputComponent extends FieldType implements OnInit, OnDestroy
 
             this.formControl.setValue(result, { emitEvent: false });
         });
-    }
-
-    ngDoCheck() {
-        if (!this.formControl.value && this.myinput.nativeElement.value) {
-            this.formControl.setValue(this.myinput.nativeElement.value);
-        }
     }
 
     filter(val: string): string[] {

@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
     }
     `],
     template: `
-    <mat-checkbox [disabled]="formControl.disabled" [(ngModel)]="value" (ngModelChange)="changed($event)">{{to.text || ''}}</mat-checkbox>
+    <mat-checkbox [disabled]="formControl?.disabled" [(ngModel)]="value" (ngModelChange)="changed($event)">{{to.text || ''}}</mat-checkbox>
     `
 })
 export class FormlyChecklistComponent extends FieldType implements OnInit, OnDestroy {

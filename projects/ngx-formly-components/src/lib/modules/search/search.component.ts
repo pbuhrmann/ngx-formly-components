@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Http } from "@angular/http";
 import { MatDialog, MatAutocomplete } from '@angular/material';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, first } from 'rxjs/operators';
 
 @Component({
     selector: 'ngx-formly-component-search',
@@ -14,9 +14,9 @@ import { takeUntil } from 'rxjs/operators';
     }
   `],
     template: `
-    <div [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+    <div [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field style="width: 100%">
-            <input mdInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="onChange($event)" [disabled]="formControl.disabled" [matAutocomplete]="autocomplete"/>
+            <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="onChange($event)" [disabled]="formControl?.disabled" [matAutocomplete]="autocomplete">
         </mat-form-field>
         <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="onSelect($event.option.value)" [displayWith]="to.inputDisplay.bind(this)">
             <mat-option *ngFor="let item of items" [value]="item" [matTooltip]="to.tooltip && optionDisplay(item)" [matTooltipPosition]="to.tooltip">{{optionDisplay(item)}}</mat-option>
@@ -26,7 +26,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FormlySearchComponent extends Field implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
     public value: string;
     public items: any[];
     private timeout: any;
@@ -64,7 +64,7 @@ export class FormlySearchComponent extends Field implements OnInit, OnDestroy {
         this.sub && this.sub.unsubscribe();
 
         this.timeout = setTimeout(() => {
-            this.sub = this.to.source && this.to.source(e).takeUntil(this.ngUnsubscribe).first().subscribe({
+            this.sub = this.to.source && this.to.source(e).pipe(takeUntil(this.ngUnsubscribe), first()).subscribe({
                 next: x => {
                     if (this.to.searchFilter) {
                         this.items = x.filter(y => this.to.searchFilter(y));
@@ -93,7 +93,7 @@ export class FormlySearchComponent extends Field implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 }

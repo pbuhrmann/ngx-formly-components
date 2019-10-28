@@ -20,10 +20,10 @@ import { takeUntil, filter, first } from 'rxjs/operators';
     }
   `],
     template: `
-    <div [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+    <div [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field style="width: 100%">
-            <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl.disabled" [matAutocomplete]="autocomplete"/>
-            <i *ngIf="to.map !== false" mdSuffix class="material-icons mat-18 open-map" [class.disabled]="formControl.disabled" (click)="openMap()" [matTooltip]="to.tooltip" matTooltipPosition="below">my_location</i>
+            <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl?.disabled" [matAutocomplete]="autocomplete"/>
+            <i *ngIf="to.map !== false" mdSuffix class="material-icons mat-18 open-map" [class.disabled]="formControl?.disabled" (click)="openMap()" [matTooltip]="to.tooltip" matTooltipPosition="below">my_location</i>
         </mat-form-field>
         <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="clicked($event.option.value)" [displayWith]="displayAutocomplete.bind(this)">
             <mat-option *ngFor="let item of items" [value]="item" [title]="optionDisplayFn(item)">{{optionDisplayFn(item)}}</mat-option>

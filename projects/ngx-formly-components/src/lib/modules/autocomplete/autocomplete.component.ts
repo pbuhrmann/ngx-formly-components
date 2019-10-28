@@ -12,9 +12,9 @@ import { MatDialog, MatAutocomplete } from '@angular/material';
     styles: [`
   `],
     template: `
-    <div [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+    <div [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field style="width: 100%">
-            <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl.disabled" [matAutocomplete]="autocomplete"/>
+            <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl?.disabled" [matAutocomplete]="autocomplete">
         </mat-form-field>
         <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let item of items" [value]="item" (click)="clicked(item)" [matTooltip]="to.tooltip && item.name" [matTooltipPosition]="to.tooltip">{{item.name}}</mat-option>

@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
     }
   `],
     template: `
-    <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+    <div class="" [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field style="width: 100%">
             <textarea 
                 [matAutosizeMaxRows]="to.maxRows" 

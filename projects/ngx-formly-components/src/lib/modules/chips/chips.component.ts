@@ -14,9 +14,9 @@ import { takeUntil } from 'rxjs/operators';
         }
     `],
     template: `
-    <div class="" [ngStyle]="{color:formControl.errors?'#f44336':'inherit'}">
+    <div class="" [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field>
-            <input type="text" [disabled]="formControl.disabled" matInput [placeholder]="to.placeholder" [(ngModel)]="value" (ngModelChange)="changed($event)" [matAutocomplete]="autocomplete" (keyup.enter)="add()">
+            <input type="text" [disabled]="formControl?.disabled" matInput [placeholder]="to.placeholder" [(ngModel)]="value" (ngModelChange)="changed($event)" [matAutocomplete]="autocomplete" (keyup.enter)="add()">
             <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let option of filteredItems" [value]="option" (click)="add()">
                     {{ option.name }}
