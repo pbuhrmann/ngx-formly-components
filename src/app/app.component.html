@@ -3,9 +3,9 @@
   <formly-form [model]="model" [fields]="formlyFields" [options]="options" [form]="form">
   </formly-form>
   <br>
-  <div class="col-sm-12">
-      <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-      <button type="button" (click)="cancel()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+  <div class="col-sm-12" style="margin-top: 5px;">
+      <button mat-stroked-button type="button" (click)="submit()" class="btn btn-primary" [disabled]="!form.valid"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+      <button mat-stroked-button type="button" (click)="cancel()" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
   </div>
   <div class="row">
       <div class="col-md-3">
