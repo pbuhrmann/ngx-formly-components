@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlySearchComponent } from './modules/search/search.component';
+import { FormlyMaterialModule } from '@ngx-formly/material';
 
 @NgModule({
   imports: [
@@ -55,15 +56,15 @@ import { FormlySearchComponent } from './modules/search/search.component';
 		FormlyAutocompleteModule.forRoot(),
 		FormlySelectAutocompleteModule.forRoot(),
 		FormlyRadioGroupModule.forRoot(),
-		FormlyChecklistGroupModule.forRoot()
+		FormlyChecklistGroupModule.forRoot(),
+		FormlyMaterialModule
 	],
 	declarations: [
 	],
 	exports: [
-		ReactiveFormsModule,
-		FormlyModule
+		FormlyModule,
 	]
 })
 export class NgxFormlyComponentsModule { }
 
-export * from './modules';
+// export * from './modules';
