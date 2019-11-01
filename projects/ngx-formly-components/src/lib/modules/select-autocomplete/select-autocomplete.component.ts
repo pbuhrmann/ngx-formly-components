@@ -130,7 +130,7 @@ export class FormlySelectAutocompleteComponent extends FieldType implements OnIn
     }
 
     outputMapFn(e: any) {
-        if (e && this.to.mapFn) {
+        if (this.to.convertOutput === true && e && this.to.mapFn) {
             this.formControl.setValue(this.to.mapFn(e));
             this.value = e;
             return;
