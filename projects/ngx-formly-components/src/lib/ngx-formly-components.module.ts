@@ -62,7 +62,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 	declarations: [
 	],
 	exports: [
-		FormlyModule,
+		FormlyModule
 	]
 })
 export class NgxFormlyComponentsModule { }
