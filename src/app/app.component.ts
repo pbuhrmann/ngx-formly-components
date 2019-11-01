@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { data: { name: 'Cow', value: 2 } },
     { data: { name: 'Bird', value: 4 } }
   ]);*/
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
   constructor(/*private geoService: GeoService*/) {
   }
@@ -579,8 +579,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.unsubscribe();
   }
 
 }
