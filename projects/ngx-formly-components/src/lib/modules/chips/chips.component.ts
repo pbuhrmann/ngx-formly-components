@@ -33,7 +33,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FormlyChipsComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
     public items: any[];
     public value: string = null;
     public filteredItems: any[] = null;
@@ -143,8 +143,8 @@ export class FormlyChipsComponent extends FieldType implements OnInit, OnDestroy
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 
 }

@@ -29,7 +29,7 @@ import { MatCheckboxChange } from "@angular/material";
 })
 export class FormlyChecklistGroupComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
     public items: any[];
     public selectedItems: any[] = [];
@@ -128,8 +128,8 @@ export class FormlyChecklistGroupComponent extends FieldType implements OnInit, 
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 
 }

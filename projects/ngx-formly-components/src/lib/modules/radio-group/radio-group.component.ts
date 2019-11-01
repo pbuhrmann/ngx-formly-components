@@ -35,7 +35,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FormlyRadioGroupComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
     public items: any[] = [];
     public value: any = null;
@@ -97,7 +97,7 @@ export class FormlyRadioGroupComponent extends FieldType implements OnInit, OnDe
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 }

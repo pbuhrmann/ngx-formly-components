@@ -33,7 +33,7 @@ import { takeUntil, filter, first } from 'rxjs/operators';
 })
 export class FormlyAddressPickerComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
     public items: any[];
     public value: string;
     private sub: Subscription;
@@ -141,7 +141,7 @@ export class FormlyAddressPickerComponent extends FieldType implements OnInit, O
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 }

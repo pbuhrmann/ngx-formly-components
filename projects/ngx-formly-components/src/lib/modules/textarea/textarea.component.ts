@@ -30,7 +30,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FormlyTextareaComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
     public value: string;
     private isShiftDown: boolean;
 
@@ -70,8 +70,8 @@ export class FormlyTextareaComponent extends FieldType implements OnInit, OnDest
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 
 }

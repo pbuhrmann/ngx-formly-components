@@ -24,7 +24,7 @@ import { MatDialog, MatAutocomplete } from '@angular/material';
 })
 export class FormlyAutocompleteComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
     public items: any[] = [];
     public value: string = null;
@@ -101,7 +101,7 @@ export class FormlyAutocompleteComponent extends FieldType implements OnInit, On
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 }

@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FormlyChecklistComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
     public value: boolean;
 
     constructor() {
@@ -43,8 +43,8 @@ export class FormlyChecklistComponent extends FieldType implements OnInit, OnDes
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 
 }

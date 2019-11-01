@@ -32,7 +32,7 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 
 	public map: any;
 
-	private ngUnsubscribe: Subject<void> = new Subject<void>();
+	private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 	public value: any;
 	public result: any;
 	public items: any[];
@@ -140,7 +140,7 @@ export class FormlyAddressPickerMapComponent implements OnInit, AfterViewInit, O
 	}
 
 	ngOnDestroy() {
-		this.ngUnsubscribe.next();
-		this.ngUnsubscribe.complete();
+		this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
 	}
 }

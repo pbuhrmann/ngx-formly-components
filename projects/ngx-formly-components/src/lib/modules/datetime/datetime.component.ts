@@ -29,7 +29,7 @@ import * as moment from 'moment';
 })
 export class FormlyDatetimeComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
     public value: string;
     public autoCorrectedDatePipe: any = null;
@@ -93,8 +93,8 @@ export class FormlyDatetimeComponent extends FieldType implements OnInit, OnDest
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 
 }
