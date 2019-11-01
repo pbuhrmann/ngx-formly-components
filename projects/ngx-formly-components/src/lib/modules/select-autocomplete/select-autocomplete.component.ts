@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { Http } from "@angular/http";
 import { Subscription } from 'rxjs';
 import { MatDialog, MatAutocomplete } from '@angular/material';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'formly-ngx-select-autocomplete',
@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
     template: `
     <div [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field style="width: 100%">
-        <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl?.disabled" [matAutocomplete]="autocomplete">
+            <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="valueInput.next($event)" [disabled]="formControl?.disabled" [matAutocomplete]="autocomplete">
             <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="displayFn.bind(this)" (optionSelected)="selected($event)">
                 <mat-option *ngFor="let item of filteredItems" [value]="item" [matTooltip]="to.tooltip && this.displayFn(item)" [matTooltipPosition]="to.tooltip">
                 {{displayFn(item)}} <small *ngIf="to.displayExtraFn != null" class="autocomplete-info">{{displayExtraFn(item)}}</small>
@@ -34,7 +34,7 @@ export class FormlySelectAutocompleteComponent extends FieldType implements OnIn
     public items: any[] = [];
     public filteredItems: any[];
     public value: any;
-    private inputTimeout: any;
+    public valueInput: Subject<string> = new Subject();
 
     constructor(private http: Http, public dialog: MatDialog) {
         super();
@@ -79,20 +79,16 @@ export class FormlySelectAutocompleteComponent extends FieldType implements OnIn
             }
             this.to.changed && this.to.changed(x);
         });
+
+        this.valueInput.pipe(takeUntil(this.ngUnsubscribe), debounceTime(350), distinctUntilChanged()).subscribe(x => {
+            if (!x) {
+                this.formControl.setValue(null);
+            }
+
+            this.filteredItems = this.filter(x);
+        });
     }
 
-    changed(e: any) {
-        this.inputTimeout && clearTimeout(this.inputTimeout);
-        if (this.formControl.value && this.displayFn(this.formControl.value) && !this.displayFn(e)) {
-            this.formControl.setValue(null);
-            this.filteredItems = this.items;
-            return;
-        }
-        this.inputTimeout = setTimeout(() => {
-            this.filteredItems = this.filter(e);
-        }, 300);
-        e && e.value ? this.outputMapFn(e) : this.formControl.setValue(null);
-    }
 
     filter(val: any): string[] {
         if (!val) {
