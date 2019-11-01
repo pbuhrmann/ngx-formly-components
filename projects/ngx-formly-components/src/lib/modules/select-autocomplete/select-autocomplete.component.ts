@@ -29,7 +29,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FormlySelectAutocompleteComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
     public items: any[] = [];
     public filteredItems: any[];
@@ -70,7 +70,7 @@ export class FormlySelectAutocompleteComponent extends FieldType implements OnIn
                 this.to.changedRaw && this.to.changedRaw(null);
             }
             this.to.changed && this.to.changed(x);
-        });
+        });      
     }
 
     changed(e: any) {
@@ -136,7 +136,7 @@ export class FormlySelectAutocompleteComponent extends FieldType implements OnIn
     }
 
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 }
