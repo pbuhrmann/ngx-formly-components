@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
     }
     `],
     template: `
-    <div class="" [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}" style="margin-top: 10px">
+    <div class="" [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field>
             <mat-select [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl?.disabled" [style.width]="to.nullable?'calc(100% - 50px)':'100%'" style="padding-top: 4px" [placeholder]="to.placeholder" [multiple]="to.multiple">
                 <mat-option *ngFor="let item of items" [value]="item">{{displayFn(item)}}</mat-option>
