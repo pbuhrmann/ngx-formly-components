@@ -25,7 +25,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FormlySelectComponent extends FieldType implements OnInit, OnDestroy {
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
     public items: any;
     public value: any;
 
@@ -109,8 +109,8 @@ export class FormlySelectComponent extends FieldType implements OnInit, OnDestro
         this.formControl.setValue(null);
     }
     ngOnDestroy() {
-        this.ngUnsubscribe.next();
-        this.ngUnsubscribe.complete();
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.unsubscribe();
     }
 
 }
