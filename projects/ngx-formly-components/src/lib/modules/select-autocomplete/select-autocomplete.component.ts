@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
     template: `
     <div [ngStyle]="{color:formControl?.errors?'#f44336':'inherit'}">
         <mat-form-field style="width: 100%">
-            <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl?.disabled" [matAutocomplete]="autocomplete">
+        <input matInput [placeholder]="to.placeholder" type="text" [(ngModel)]="value" (ngModelChange)="changed($event)" [disabled]="formControl?.disabled" [matAutocomplete]="autocomplete">
             <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="displayFn.bind(this)" (optionSelected)="selected($event)">
                 <mat-option *ngFor="let item of filteredItems" [value]="item" [matTooltip]="to.tooltip && this.displayFn(item)" [matTooltipPosition]="to.tooltip">
                 {{displayFn(item)}} <small *ngIf="to.displayExtraFn != null" class="autocomplete-info">{{displayExtraFn(item)}}</small>
@@ -58,8 +58,15 @@ export class FormlySelectAutocompleteComponent extends FieldType implements OnIn
             }
         });
         this.formControl.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(x => {
-            let val: any = this.items.filter(y => this.inputMapFn(y) == this.inputMapFn(x));
-            val = val.length > 0 && val[0] || null;
+            let val: any = null;
+            for (let i = 0; i < this.items.length; i++) {
+                const y = this.items[i];
+                if (this.inputMapFn(y) == this.inputMapFn(x)) {
+                    val = y;
+                    break;
+                }
+            }
+
             if (val) {
                 this.filteredItems = this.formControl.value && this.items.filter(y => this.displayFn(y) == this.displayFn(val)) || this.items;
                 this.value = val;
@@ -67,10 +74,11 @@ export class FormlySelectAutocompleteComponent extends FieldType implements OnIn
             }
             else {
                 this.value = null;
+                this.filteredItems = this.items;
                 this.to.changedRaw && this.to.changedRaw(null);
             }
             this.to.changed && this.to.changed(x);
-        });      
+        });
     }
 
     changed(e: any) {
